@@ -24,13 +24,18 @@ repos:
       - id: sync-with-uv
   - repo: https://github.com/astral-sh/ruff-pre-commit #use ruff to format and lint python
     # Ruff version.
-    rev: v0.15.16
+    rev: v0.15.19
     hooks:
       # Run the linter.
       - id: ruff-check
         args: [--fix]
       # Run the formatter.
       - id: ruff-format
+  - repo: https://github.com/astral-sh/ty-pre-commit # use ty to typecheck
+    # ty version.
+    rev: v0.0.53
+    hooks:
+      - id: ty
   - repo: https://github.com/DavidAnson/markdownlint-cli2 #format and lint markdown
     rev: v0.21.0
     hooks:

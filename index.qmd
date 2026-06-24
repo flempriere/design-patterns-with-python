@@ -11,7 +11,7 @@ format:
     filters:
       - quarto/scripts/strip_ansi.lua
 ---
-
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/flempriere/design-patterns-with-python/main.svg)](https://results.pre-commit.ci/latest/github/flempriere/design-patterns-with-python/main)
 
 This repository contains notes and code examples from the book, [Python Programming with Design Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp/0137579934)
 
@@ -19,7 +19,7 @@ This repository contains notes and code examples from the book, [Python Programm
 
 ### I: Introduction
 
-- [Chapter 1: Introduction to Objects](I-introduction/chapter-1/chapter-1.qmd)
+- [Chapter 1: Introduction to Objects](I-introduction/chapter-01/chapter-01.qmd)
 
 ### II: Creational Patterns
 

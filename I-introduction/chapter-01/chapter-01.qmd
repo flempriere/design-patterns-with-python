@@ -1,0 +1,174 @@
+---
+title: "Chapter 1: Introduction to Objects"
+---
+
+## Notes
+
+ - Object-Oriented Programming is a design paradigm that structures code around classes and their associated object instances
+ - Classes combine state (attributes) and functions on that state (methods)
+ - Pretty much everything in python is an object in the OOP sense
+    - They have methods that operate on them
+- For example, the `list` class has a method `pop` which removes elements from the list
+
+```{python}
+a_list = [5, 20, 15, 6, 123]
+value = a_list.pop()
+print(value)
+```
+
+### Classes
+
+- Python lets you define classes of your own via the `class` keyword
+    - Classes can then be *instantiated* to create new *object instances*
+- All instance methods in python must accept a `self` parameter as the first argument, referencing the object the method is invoked on
+    - This is passed implicitly and does not need to be included in the method call
+```{python}
+class Employee:
+    def __init__(self, first_name, last_name, salary):
+        self.id = -1 # placeholder value
+        self.first_name = first_name
+        self.last_name = last_name
+        self._salary  = salary
+        self.benefits = 1000
+
+    def get_salary(self):
+        return self._salary
+
+alice = Employee("Alice", "A", 10_000)
+bob = Employee("Bob", "B", 8_000)
+
+print(f"alice:", alice)
+print(f"bob.get_salary():", bob.get_salary())
+```
+
+- For example above defines an `Employee` class representing someone employed at a company.
+    - The class contains *public* `id`, `first_name`, `last_name` and `benefits` and a *protected* `_salary` attribute
+    - The class also defines a method `get_salary` to access the protected `_salary` variable
+
+#### The `__init__` Method
+
+- `__init__` is called whenever a new instance of a class is created
+- Each class can only define *one* `__init__` method
+    - This contrasts to other languages which can sometimes allow for multiple constructor signatures
+- `__init__` is used for populating the initial state of an object
+- In the example above, `alice` and `bob` both are populated via the `__init__` method
+
+#### Class Instance Attributes
+
+- Python does not provide true public and private variable encapsulation rules as in many other languages
+- Instead by convention a leading `_` denotes a method or attribute that is not intended to be accessed outside the class it is defined on
+    - In the `Employee` example above we can see `_salary` is protected
+- Protected variables are good when you need to maintain internal constraints or don't want to provide guarantees about the stability of an API
+
+### Collections of Classes
+
+- Often it is useful to define higher-order container classes that are designed to provide simple interfaces to queries over a collection of a given class type
+- For example, rather than using a naked list we might want to group our `Employee` instances up into an `Employees` collection object
+
+```{python}
+class Employees:
+    def __init__(self):
+        self.employee_dict = {} # create an empty dictionary
+        self._next_id = 1
+
+    def add_employee(self, employee):
+
+        employee.id = self._next_id
+        self._next_id += 1
+
+        self.employee_dict[employee.id: employee]
+
+    def list_employees(self):
+        for employee_id in self.employee_dict:
+            employee = self.employee_dict[employee_id]
+            print(f"{employee_id}: {employee.last_name}, {employee.first_name}")
+
+employees = Employees()
+employees.add_employee(alice)
+employees.add_employee(bob)
+
+employees.list_employees()
+print("alice.id:" alice.id)
+```
+
+- The `Employees` collection class automatically handles assigning new id's to `Employee` objects as they are added to the collection via the `add_employee` method
+    - Thus can enforce more structure than a bare list or dictionary
+
+### Inheritance
+
+- Python provides support for standard class inheritance
+- Must use `super()` to invoke methods on the parent
+    - Must commonly used to invoke the parent `__init__` when a child `__init__` is invoked
+- For example, we might define a `TempEmployee`
+    - As an `Employee` but has no benefits and has a contract end-date
+
+```{python}
+from datetime import datetime, timedelta
+
+class TempEmployee(Employee):
+    def __init__(self, first_name, last_name, salary, contract_end_date):
+        super().__init__(first_name, last_name, salary)
+        self.benefits = 0
+        self.end_date = contract_end_date
+
+    def contract_period_left(self):
+        return self.end_date - datetime.now()
+
+charlie = TempEmployee("Charlie", "C", 20_000, datetime.now() + datetime.timedelta(days=10))
+print("Charlie has", charlie.contract_period_left, "until their contract expires")
+```
+
+
+#### Overriding Methods
+
+- Subclasses can override methods and attributes of their parent by redefining the method
+- By default Python method resolution first looks on the most-derived class of an object, then walks up the hierarchy until the method is found
+- For example, we might define an `HourlyWorker` class
+    - Rather than having a salary they have an hourly wage and average hours
+    - Salary is then *estimated* from their wage and hours
+        - Do this by overriding the `get_salary` method
+
+```{python}
+class HourlyWorker(Employee):
+    def __init__(self, first_name, last_name, hourly_rate, average_hours):
+        super().__init__(first_name, last_name, hourly_rate)
+        self.average_hours = average_hours
+
+    def get_salary(self):
+        return average_hours * super().get_salary()
+
+dani = HourlyWorker("Dani", "D", 35, 60)
+print("Dani's estimated salary is:", dani.get_salary())
+```
+
+#### Multiple Inheritance
+
+- Python supports multiple inheritance
+    - This is not universal across OOP languages
+- This sometimes happens when shared functionality is divided between multiple class hierarchies
+    - Sometimes the case when splitting distinct behaviours
+- For example, we might have a different class hierarchy that defines employees roles, e.g. `Speaker`
+    - Then an employee that is also a public speaker might use a `PublicEmployee` class that inherits the finance methods from `Employee` and the job role methods from `Speaker`
+
+```{python}
+class Speaker:
+    def invite_to_talk(self):
+        print("Invited to talk...")
+    def give_talk(self):
+        print("Delivered the talk...")
+
+class PublicEmployee(Employee, Speaker):
+    def __init__(self, first_name, last_name, salary):
+        super().__init__(first_name, last_name, salary)
+
+emily = PublicEmployee("Emily", "E", 10_000)
+
+emily.invite_to_talk()
+emily.give_talk()
+
+print(f"emily got paid ${emily.get_salary()} last month")
+```
+
+## Summary
+
+## Questions
