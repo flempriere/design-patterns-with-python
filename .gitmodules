@@ -1,0 +1,3 @@
+[submodule "jameswcooper"]
+	path = jameswcooper
+	url = git@github.com:jwcnmr/jameswcooper.git

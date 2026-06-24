@@ -1,0 +1,42 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+  post-render: quarto/scripts/restoreMarkdownToHeirarchy.sh
+  #resources:
+
+website:
+  title: "Python Programming with Design Patterns: Notes"
+  page-navigation: true
+  open-graph: true
+  navbar:
+    search: true
+    left:
+      - href: index.qmd
+        text: Home
+  sidebar:
+    style: "docked"
+    collapse-level: 1
+    search: true
+    contents:
+      - section: "I: Introduction"
+        contents:
+          - I-introduction/chapter-1/chapter-1.qmd
+
+format:
+  html:
+    code-fold: false
+    code-links:
+      - repo
+      - binder
+  gfm:
+    filters:
+      - quarto/scripts/strip_ansi.lua
+  ipynb: default
+toc: true
+toc-depth: 6
+format-links: false
+execute:
+  enabled: true
+  error: true
+engine: jupyter

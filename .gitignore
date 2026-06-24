@@ -1,0 +1,25 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# python tooling
+.ruff_cache
+
+# quarto artifacts
+_site
+.quarto
+.quarto_ipynb
+
+#vscode artifacts
+.vscode
+
+/.quarto/
+**/*.quarto_ipynb
+site_libs

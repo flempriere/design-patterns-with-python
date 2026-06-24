@@ -1,0 +1,37 @@
+---
+title: "Python Programming with Design Patterns: Notes"
+
+format:
+  html:
+    toc: true
+    toc-depth: 6
+    code-fold: false
+    code-links: repo
+  gfm:
+    filters:
+      - quarto/scripts/strip_ansi.lua
+---
+
+
+This repository contains notes and code examples from the book, [Python Programming with Design Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp/0137579934)
+
+## Contents
+
+### I: Introduction
+
+- [Chapter 1: Introduction to Objects](I-introduction/chapter-1/chapter-1.qmd)
+
+### II: Creational Patterns
+
+### III: Structural Patterns
+
+### IV: Behavioural Patterns
+
+
+::: {.callout-note}
+This repository will not cover Section V which deals with introducing the Python Language.
+:::
+
+## Attribution
+
+The notes and code in this repository are based on the work of the original author. You can find their original supplied code at the attached submodule, or at the following [github repository](https://github.com/jwcnmr/jameswcooper). The original code is also supplied as a submodule.
