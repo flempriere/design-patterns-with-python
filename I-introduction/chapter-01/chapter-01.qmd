@@ -76,7 +76,7 @@ class Employees:
         employee.id = self._next_id
         self._next_id += 1
 
-        self.employee_dict[employee.id : employee]
+        self.employee_dict[employee.id] = employee
 
     def list_employees(self):
         for employee_id in self.employee_dict:
@@ -118,7 +118,7 @@ class TempEmployee(Employee):
 
 
 charlie = TempEmployee("Charlie", "C", 20_000, datetime.now() + timedelta(days=10))
-print("Charlie has", charlie.contract_period_left, "until their contract expires")
+print("Charlie has", charlie.contract_period_left(), "until their contract expires")
 ```
 
 
@@ -217,7 +217,7 @@ if __name__ == "__main__":
     main()
 ```
 
-- You can find the code above in [rectanges.py](rectangles.py)
+- You can find the code above in [01_rectanges.py](01_rectangles.py)
 - You should see a figure like below
 
   ![A simple canvas with a rectange and square](canvas.png)

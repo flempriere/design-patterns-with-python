@@ -1,0 +1,41 @@
+---
+title: "Chapter 2: Visual Programming in Python"
+---
+
+## Notes
+
+- Tkinter is a GUI library included as part of the Python Standard Library
+- It provides the basic graphical widgets for building graphical user interfaces, e.g.
+  - Windows
+  - Buttons
+  - Radio Buttons
+  - Check boxes
+  - Entry fields
+  - List boxes
+  - Combo boxes
+  - and more...
+- A simple two-button tkinter program can looks like below
+
+```python
+import tkinter as tk
+
+# Set up the window
+root = tk.Tk()
+
+# Write a slogan out to a message box
+def display_slogan():
+    tk.messagebox.showinfo("Our Message", "Tkinter is easy to use")
+
+# create a button to call the message
+slogan = tk.Button(root, text="Hello", command=display_slogan)
+slogan.pack(side=tk.LEFT, padx=10)
+
+# create a quit button
+quit_button = tk.Button(root, text="QUIT", fg="red", command=quit)
+quit_button.pack(side=tk.RIGHT, padx=10)
+```
+
+- The code above can also be found in [01_slogan.py](01_slogan.py)
+
+
+## Summary
