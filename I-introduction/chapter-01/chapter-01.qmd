@@ -270,7 +270,7 @@ d2.method()
 - The standard object-oriented mechanism to provide access to private or protected instance variables is through *getter* and *setter* methods
 
 ```{python}
-class ShowData:
+class ShowData_2:
     def __init__(self):
         self._instvar = 3.53
 
@@ -281,7 +281,7 @@ class ShowData:
         self._instvar = value
 
 
-d1 = ShowData()
+d1 = ShowData_2()
 print("d1.get_instvar():", d1.get_instvar())
 print("calling d1.get_instvar(5)")
 d1.set_instvar(5)
@@ -292,7 +292,7 @@ print("d1.get_instvar():", d1.get_instvar())
     - They let you add the functionality of getters and setters while keeping the attribute-like access pattern
 
 ```{python}
-class ShowData:
+class ShowData_3:
     def __init__(self):
         self._instvar = 3.53
 
@@ -305,7 +305,7 @@ class ShowData:
         self._instval = val
 
 
-d1 = ShowData()
+d1 = ShowData_3()
 print("d1.instvar:", d1.instvar)
 print("calling d1.instvar = 5")
 d1.instvar = 5
