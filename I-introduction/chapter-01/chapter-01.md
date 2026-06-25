@@ -1,6 +1,5 @@
 # Chapter 1: Introduction to Objects
 
-
 - [Notes](#notes)
   - [Classes](#classes)
     - [The `__init__` Method](#the-__init__-method)
@@ -134,19 +133,19 @@ print("alice.id:", alice.id)
     KeyError                                  Traceback (most recent call last)
     Cell In[3], line 20
          16             print(f"{employee_id}: {employee.last_name}, {employee.first_name}")
-         17 
-         18 
+         17
+         18
          19 employees = Employees()
     ---> 20 employees.add_employee(alice)
          21 employees.add_employee(bob)
-         22 
+         22
          23 employees.list_employees()
 
     Cell In[3], line 11, in Employees.add_employee(self, employee)
-          7 
+          7
           8         employee.id = self._next_id
           9         self._next_id += 1
-         10 
+         10
     ---> 11         self.employee_dict[employee.id : employee]
 
     KeyError: slice(1, <__main__.Employee object at 0x7f6a60abb380>, None)
@@ -310,15 +309,15 @@ if __name__ == "__main__":
 
 - Python has four approximate scopes
 
-  1.  Global
+  1. Global
       - Visible everywhere
-  2.  Class scope
+  2. Class scope
       - Variables defined at the class level
       - Shared across all class instances
-  3.  Instance scope
+  3. Instance scope
       - Variables defined on the object instance
       - Accessible via the `self`
-  4.  Local variables within a function
+  4. Local variables within a function
       - Visible within the function
 
 - This is not a formal explanation of Python’s scoping rules, but rather
@@ -430,8 +429,8 @@ print("d1.instvar:", d1.instvar)
   - There are a wide range of tools for type checking that can be
     integrated into development environments
   - Two popular ones are
-    1.  MyPy
-    2.  Ty
+    1. MyPy
+    2. Ty
   - Type hints use the syntax of `variable: type`
 - For example,
 
