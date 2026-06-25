@@ -17,7 +17,7 @@ dev = [
 ]
 
 [tool.ruff]
-extend-exclude = ["jameswcooper"]
+extend-exclude = ["jameswcooper", "*.ipynb"]
 
 [tool.ty.src]
-exclude = ["jameswcooper"]
+exclude = ["jameswcooper", "*.ipynb"]
