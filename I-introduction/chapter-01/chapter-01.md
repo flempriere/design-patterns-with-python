@@ -62,7 +62,7 @@ print(f"alice:", alice)
 print(f"bob.get_salary():", bob.get_salary())
 ```
 
-    alice: <__main__.Employee object at 0x7f6a60abb380>
+    alice: <__main__.Employee object at 0x7f9bece17380>
     bob.get_salary(): 8000
 
 - For example above defines an `Employee` class representing someone
@@ -128,7 +128,7 @@ employees.list_employees()
 print("alice.id:", alice.id)
 ```
 
-    KeyError: slice(1, <__main__.Employee object at 0x7f6a60abb380>, None)
+    KeyError: slice(1, <__main__.Employee object at 0x7f9bece17380>, None)
     ---------------------------------------------------------------------------
     KeyError                                  Traceback (most recent call last)
     Cell In[3], line 20
@@ -148,7 +148,7 @@ print("alice.id:", alice.id)
          10
     ---> 11         self.employee_dict[employee.id : employee]
 
-    KeyError: slice(1, <__main__.Employee object at 0x7f6a60abb380>, None)
+    KeyError: slice(1, <__main__.Employee object at 0x7f9bece17380>, None)
 
 - The `Employees` collection class automatically handles assigning new
   id’s to `Employee` objects as they are added to the collection via the
@@ -182,7 +182,7 @@ charlie = TempEmployee("Charlie", "C", 20_000, datetime.now() + timedelta(days=1
 print("Charlie has", charlie.contract_period_left, "until their contract expires")
 ```
 
-    Charlie has <bound method TempEmployee.contract_period_left of <__main__.TempEmployee object at 0x7f6a60abb4d0>> until their contract expires
+    Charlie has <bound method TempEmployee.contract_period_left of <__main__.TempEmployee object at 0x7f9bece174d0>> until their contract expires
 
 #### Overriding Methods
 
