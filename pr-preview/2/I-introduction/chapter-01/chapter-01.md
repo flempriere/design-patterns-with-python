@@ -63,7 +63,7 @@ print(f"alice:", alice)
 print(f"bob.get_salary():", bob.get_salary())
 ```
 
-    alice: <__main__.Employee object at 0x7fe89445ee40>
+    alice: <__main__.Employee object at 0x7f1318bc3380>
     bob.get_salary(): 8000
 
 - For example above defines an `Employee` class representing someone
@@ -165,7 +165,7 @@ charlie = TempEmployee("Charlie", "C", 20_000, datetime.now() + timedelta(days=1
 print("Charlie has", charlie.contract_period_left(), "until their contract expires")
 ```
 
-    Charlie has 9 days, 23:59:59.999961 until their contract expires
+    Charlie has 9 days, 23:59:59.999953 until their contract expires
 
 #### Overriding Methods
 
@@ -282,11 +282,12 @@ if __name__ == "__main__":
     main()
 ```
 
-- You can find the code above in [01_rectanges.py](01_rectangles.py)
+- You can find the code above in
+  [01_rectanges.py](Examples/01-rectangles.py)
 
 - You should see a figure like below
 
-  ![A simple canvas with a rectange and square](canvas.png)
+  ![A simple canvas with a rectange and square](Examples/canvas.png)
 
 ### Variable Scopes
 
