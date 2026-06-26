@@ -8,6 +8,9 @@ This repository contains notes and code examples from the book, [Python Programm
 
 ### I: Introduction
 
+- [Chapter 1: Introduction to Objects](I-introduction/chapter-01/chapter-01.md)
+- [Chapter 2: Visual Programming in Python](I-introduction/chapter-02/chapter-02.md)
+
 ### II: Creational Patterns
 
 ### III: Structural Patterns

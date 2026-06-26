@@ -217,10 +217,10 @@ if __name__ == "__main__":
     main()
 ```
 
-- You can find the code above in [01_rectanges.py](01_rectangles.py)
+- You can find the code above in [01_rectanges.py](Examples/01-rectangles.py)
 - You should see a figure like below
 
-  ![A simple canvas with a rectange and square](canvas.png)
+  ![A simple canvas with a rectange and square](Examples/canvas.png)
 
 ### Variable Scopes
 

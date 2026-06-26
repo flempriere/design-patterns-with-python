@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 # Set up the window
 root = tk.Tk()
@@ -6,7 +7,7 @@ root = tk.Tk()
 
 # Write a slogan out to a message box
 def display_slogan():
-    tk.messagebox.showinfo("Our Message", "Tkinter is easy to use")  # ty:ignore[possibly-missing-submodule]
+    messagebox.showinfo("Our Message", "Tkinter is easy to use")
 
 
 # create a button to call the message

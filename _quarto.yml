@@ -22,6 +22,7 @@ website:
       - section: "I: Introduction"
         contents:
           - I-introduction/chapter-01/chapter-01.qmd
+          - I-introduction/chapter-02/chapter-02.qmd
 
 format:
   html:
