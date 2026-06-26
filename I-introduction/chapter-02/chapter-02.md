@@ -1,6 +1,5 @@
 # Chapter 2: Visual Programming in Python
 
-
 - [Notes](#notes)
   - [Importing Fewer Names](#importing-fewer-names)
   - [Creating an Object-Oriented
