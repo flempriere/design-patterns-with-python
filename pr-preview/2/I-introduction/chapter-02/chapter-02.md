@@ -345,9 +345,10 @@ root.mainloop()
   ![The dialog opened by `filedialog.askopenfilename`. A menu is shown
   to select files from the specified directory along with an *ok* and
   *cancel* button. A dropdown menu can be used to narrow the choice of
-  file types](Examples/05-file-dialog/05-file-dialog.py)
+  file types](Examples/05-file-dialog/file_dialog.png)
 
-  - The full code is in [05-file-dialog.py]()
+  - The full code is in
+    [05-file-dialog.py](Examples/05-file-dialog/05-file-dialog.py)
 
 ``` python
 import tkinter as tk
