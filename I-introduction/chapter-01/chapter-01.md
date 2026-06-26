@@ -1,6 +1,5 @@
 # Chapter 1: Introduction to Objects
 
-
 - [Notes](#notes)
   - [Classes](#classes)
     - [The `__init__` Method](#the-__init__-method)
@@ -293,15 +292,15 @@ if __name__ == "__main__":
 
 - Python has four approximate scopes
 
-  1.  Global
+  1. Global
       - Visible everywhere
-  2.  Class scope
+  2. Class scope
       - Variables defined at the class level
       - Shared across all class instances
-  3.  Instance scope
+  3. Instance scope
       - Variables defined on the object instance
       - Accessible via the `self`
-  4.  Local variables within a function
+  4. Local variables within a function
       - Visible within the function
 
 - This is not a formal explanation of Python’s scoping rules, but rather
@@ -413,8 +412,8 @@ print("d1.instvar:", d1.instvar)
   - There are a wide range of tools for type checking that can be
     integrated into development environments
   - Two popular ones are
-    1.  MyPy
-    2.  Ty
+    1. MyPy
+    2. Ty
   - Type hints use the syntax of `variable: type`
 - For example,
 
