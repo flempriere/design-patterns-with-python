@@ -1265,7 +1265,11 @@ if __name__ == "__main__":
   ```
 
 - The complete code can be found in
-  [16-menu-class.py](Examples/16-menu-class/16-menu-class.py)
+  [16-menu-class.py](Examples/16-menu-class/16-menu-class.py) and should
+  produce a program like below
+
+  ![Our Menu example, with Menu’s hooked up to functions via a class
+  based interface](Examples/16-menu-class/menu-class.png)
 
 ### Label Frame
 
