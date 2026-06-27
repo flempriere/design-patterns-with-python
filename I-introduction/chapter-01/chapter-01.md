@@ -62,7 +62,7 @@ print(f"alice:", alice)
 print(f"bob.get_salary():", bob.get_salary())
 ```
 
-    alice: <__main__.Employee object at 0x7f7b64cbf380>
+    alice: <__main__.Employee object at 0x7f1b4cf33380>
     bob.get_salary(): 8000
 
 - For example above defines an `Employee` class representing someone
@@ -112,7 +112,7 @@ class Employees:
         employee.id = self._next_id
         self._next_id += 1
 
-        self.employee_dict[employee.id : employee]
+        self.employee_dict[employee.id] = employee
 
     def list_employees(self):
         for employee_id in self.employee_dict:
@@ -128,27 +128,9 @@ employees.list_employees()
 print("alice.id:", alice.id)
 ```
 
-    KeyError: slice(1, <__main__.Employee object at 0x7f7b64cbf380>, None)
-    ---------------------------------------------------------------------------
-    KeyError                                  Traceback (most recent call last)
-    Cell In[3], line 20
-         16             print(f"{employee_id}: {employee.last_name}, {employee.first_name}")
-         17
-         18
-         19 employees = Employees()
-    ---> 20 employees.add_employee(alice)
-         21 employees.add_employee(bob)
-         22
-         23 employees.list_employees()
-
-    Cell In[3], line 11, in Employees.add_employee(self, employee)
-          7
-          8         employee.id = self._next_id
-          9         self._next_id += 1
-         10
-    ---> 11         self.employee_dict[employee.id : employee]
-
-    KeyError: slice(1, <__main__.Employee object at 0x7f7b64cbf380>, None)
+    1: A, Alice
+    2: B, Bob
+    alice.id: 1
 
 - The `Employees` collection class automatically handles assigning new
   id’s to `Employee` objects as they are added to the collection via the
@@ -179,10 +161,10 @@ class TempEmployee(Employee):
 
 
 charlie = TempEmployee("Charlie", "C", 20_000, datetime.now() + timedelta(days=10))
-print("Charlie has", charlie.contract_period_left, "until their contract expires")
+print("Charlie has", charlie.contract_period_left(), "until their contract expires")
 ```
 
-    Charlie has <bound method TempEmployee.contract_period_left of <__main__.TempEmployee object at 0x7f7b64cbf4d0>> until their contract expires
+    Charlie has 9 days, 23:59:59.999957 until their contract expires
 
 #### Overriding Methods
 
@@ -299,11 +281,12 @@ if __name__ == "__main__":
     main()
 ```
 
-- You can find the code above in [rectanges.py](rectangles.py)
+- You can find the code above in
+  [01_rectanges.py](Examples/01-rectangles.py)
 
 - You should see a figure like below
 
-  ![A simple canvas with a rectange and square](canvas.png)
+  ![A simple canvas with a rectange and square](Examples/canvas.png)
 
 ### Variable Scopes
 
