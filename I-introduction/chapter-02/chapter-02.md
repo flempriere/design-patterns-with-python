@@ -16,6 +16,9 @@
   - [Communicating Between Classes](#communicating-between-classes)
   - [Using the Grid Layout](#using-the-grid-layout)
   - [Checkbuttons](#checkbuttons)
+    - [Disabling Check Boxes](#disabling-check-boxes)
+  - [Adding Menus to Windows](#adding-menus-to-windows)
+  - [Label Frame](#label-frame)
 - [Summary](#summary)
 
 ## Notes
@@ -973,7 +976,340 @@ root.mainloop()
 
 - We’ve seen that we can create [Radio Buttons](#radio-buttons) which
   allow for selecting mutually exclusive options from a set
+
 - Checkboxes or Checkbuttons are the equivalent when we want a user to
   be able to select multiple options from a group
 
+- For example, let’s create a widget for selecting pizza toppings
+
+  - The final product should look like,
+
+    ![A simple checkbox list of pizza toppings and a button to order.
+    Once ordered a confirmation dialog is
+    shown](Examples/13-check-buttons/check-buttons.png)
+
+- For checkboxes, since each can be toggled individually, rather than
+  having *one* variable `IntVar` shared among all the radio buttons,
+  each one has their own.
+
+- Our `CheckBox` class is derived from the `tk.CheckButton` class
+
+  ``` python
+    class CheckBox(tk.Checkbutton):
+        def __init__(self, root, text, group):
+            super().__init__(root, text=text, variable=group)
+
+            self.text = text
+            self.group = group
+
+        def get_state(self):
+            return self.group.get()
+  ```
+
+- We’ll also define our `OKButton` class which confirms the order and
+  displays the summary
+
+  - This needs to receive the list of checkboxes which it listens to
+
+  ``` python
+    class OKButton(tk.Button):
+        def __init__(self, root, boxes):
+            super().__init__(root, text="Order", command=self.clicked)
+
+            self.boxes = boxes
+
+        def clicked(self):
+
+            order = "\n".join([f"{box.text} {box.get_state()}" for box in self.boxes])
+            tk.messagebox.showinfo(title="Order Confirmed", message=order)
+  ```
+
+- We can the finally put everything together. We use a simple list
+  construct to generate the buttons we need from the list of available
+  toppings
+
+``` python
+   class PizzaToppingsSelection:
+       def build(self):
+
+           root = tk.Tk()
+
+           names = ["Cheese", "Pepperoni", "Mushrooms", "Sausage", "Peppers", "Pineapple"]
+           boxes = [CheckBox(root, name, tk.IntVar()) for name in names]
+           for idx, box in enumerate(boxes):
+               box.grid(column=0, row=idx, sticky=tk.W)
+
+           OKButton(root, boxes).grid(column=1, row=3, padx=20)
+
+           tk.mainloop()
+```
+
+- The complete program can be found in
+  [13-check-buttons.py](Examples/13-check-buttons/13-check-buttons.py)
+
+#### Disabling Check Boxes
+
+- Sometime’s certain checkboxes want to be disabled
+
+  - E.g. For example there might be incompatible choices
+  - Or some other part of your program defines what checkboxes are
+    allowed
+
+- The can be done by setting the `state` parameter of a checkbox to
+  `tk.DISABLED`
+
+  - To turn the button back on use set the state back to `tk.NORMAL`
+
+- For example, to disable pineapple on pizza in the above example, we
+  can modify the `__init__` of the `CheckBox` class as follows
+
+  ``` python
+    class CheckBox(tk.Checkbutton):
+        def __init__(self, root, text, group):
+            super().__init__(root, text=text, variable=group)
+
+            self.text = text
+            self.group = group
+
+            if self.text.lower() == "pineapple":
+                self.configure(state=tk.DISABLED)
+
+        def get_state(self):
+            return self.group.get()
+  ```
+
+### Adding Menus to Windows
+
+- Consider the following basic menu layout
+
+  ``` python
+    | **File** | **Draw** |
+    |----------|----------|
+    | New      | Circle   |
+    | Open     | Square   |
+    | Exit     |          |
+  ```
+
+- This is straightforward to implement through `tkinter`
+
+- The code below should create a program that looks like,
+
+  ![A simple window with two menus](Examples/15-menus/15-menus.png)
+
+- The code below (see [15-menus.py](Examples/15-menus/15-menus.py))
+  shows how to create the menus
+
+``` python
+import tkinter as tk
+
+
+def build_menu(root):
+
+    root.title("Menu Demo")
+    root.geometry("300x200")
+
+    menu_bar = tk.Menu(root)
+    root.config(menu=menu_bar)
+
+    file_menu = tk.Menu(menu_bar, tearoff=False)
+    menu_bar.add_cascade(label="File", menu=file_menu)
+
+    file_menu.add_command(label="New")
+    file_menu.add_command(label="Open")
+    file_menu.add_separator()
+    file_menu.add_command(label="Exit")
+
+    draw_menu = tk.Menu(menu_bar, tearoff=False)
+    menu_bar.add_cascade(label="Draw", menu=draw_menu)
+    draw_menu.add_command(label="Circle")
+    draw_menu.add_command(label="Square")
+
+
+def main():
+    root = tk.Tk()
+    build_menu(root)
+    tk.mainloop()
+
+
+if __name__ == "__main__":
+    main()
+```
+
+- Here we’ve skipped the implementation of actually wiring up the menu
+  elements to specific commands or functions
+
+  - To avoid polluting the main levels of the program with functions for
+    the menu’s we might want to consider encapsulating them in classes
+    - One structure is each class handles one menu command
+    - This works similar to the structure of the `Button` class
+
+- One structure is,
+
+  1. A `MenuBar` class for holding the menus
+  2. A `TopMenu` that holds the name of a menu
+      - Needs a mechanism to add menu commands
+  3. Create a `MenuCommand` class for each menu item
+      - Start by defining a `MenuCommand` base class
+
+- We can implement these basic classes as below
+
+  ``` python
+    class MenuBar(tk.Menu):
+        def __init__(self, root):
+            super().__init__(root)
+            root.config(menu=self)
+
+
+    class TopMenu:
+        def __init__(self, root, label, menu_bar):
+
+            self.menu_bar = menu_bar
+            self.root = root
+            self.menu = tk.Menu()
+
+            self.menu_bar.add_cascade(label=label, menu=self.menu)
+
+        def add_menu_item(self, menu_item):
+            self.menu.add_command(label=menu_item.get_label(), command=menu_item.command)
+
+        def add_separator(self):
+            self.menu.add_separator()
+
+
+    # Abstract base class for menu's
+    class MenuCommand:
+        def __init__(self, root, label):
+            self.root = root
+            self.label = label
+
+        def get_label(self):
+            return self.label
+
+        def command(self):
+            pass
+  ```
+
+- We then want to implement the specific classes for each menu item
+
+  - Here are our basic `MenuCommand` classes for each of the file menu
+    options
+
+    - `QuitCommand` calls `sys.exit` to close the progam
+    - `NewCommand` wipes the current program’s title
+    - `OpenCommand` set the title to the selected file
+      - After stripping the leading path factors
+
+    ``` python
+        class QuitCommand(MenuCommand):
+            def command(self):
+                sys.exit()
+
+
+        class NewCommand(MenuCommand):
+            def command(self):
+                self.root.title("")
+
+
+        class OpenCommand(MenuCommand):
+            def command(self):
+
+                file_path = tk.filedialog.askopenfilename(title="Select File")
+                if len(file_path.strip()) > 0:
+                    path_components = file_path.split("/")
+                    if len(path_components):
+                        file_name = path_components[-1]
+                        self.root.title(file_name)
+    ```
+
+  - Next we want to add the commands for our `Draw` menu
+
+    ``` python
+        class DrawCircle(MenuCommand):
+            def __init__(self, root, canvas, label):
+                super().__init__(root, label)
+                self.canvas = canvas
+
+            def command(self):
+                self.canvas.create_oval(130, 40, 200, 110, fill="red")
+
+
+        class DrawSquare(MenuCommand):
+            def __init__(self, root, canvas, label):
+                super().__init__(root, label)
+                self.canvas = canvas
+
+            def command(self):
+                self.canvas.create_rectangle(10, 80, 110, 180, fill="blue")
+    ```
+
+- Lastly we update our `build_menu` function to use the new classes
+
+  ``` python
+    def build_menu(root):
+
+    root.title("Menu Demo")
+    root.geometry("300x200")
+    canvas = tk.Canvas(root)
+    canvas.pack()
+
+    menu_bar = MenuBar(root)
+
+    file_menu = TopMenu(root, "File", menu_bar)
+    file_menu.add_menu_item(NewCommand(root, "New"))
+    file_menu.add_menu_item(OpenCommand(root, "Open"))
+    file_menu.add_separator()
+    file_menu.add_menu_item(QuitCommand(root, "Quit"))
+
+    draw_menu = TopMenu(root, "Draw", menu_bar)
+    draw_menu.add_menu_item(DrawCircle(root, canvas, "Circle"))
+    draw_menu.add_menu_item(DrawSquare(root, canvas, "Square"))
+  ```
+
+- The complete code can be found in
+  [16-menu-class.py](Examples/16-menu-class/16-menu-class.py)
+
+### Label Frame
+
+- The last widget we’ll look at in this section is the `LabelFrame`
+
+  - This acts like a `Frame` widget
+    - A container for other widges
+  - But can have a label integrated into the frame
+
+  ![A simple example of a label frame to denote a set of State
+  Data](Examples/17-label-frame/label-frame.png)
+
+- The code to create the label above is given in
+  [17-label-frame.py](Examples/17-label-frame/17-label-frame.py) and
+  replicated below
+
+  ``` python
+    import tkinter as tk
+
+
+    def build_ui():
+        root = tk.Tk()
+        root.geometry("100x150")
+
+        label_frame = tk.LabelFrame(
+            root, text="State Data", borderwidth=7, relief=tk.RAISED
+        )
+        label_frame.pack(pady=5)
+
+        tk.Label(label_frame, text="State").pack()
+        tk.Label(label_frame, text="Abbrev").pack()
+        tk.Label(label_frame, text="Capital").pack()
+        tk.Label(label_frame, text="Founded").pack()
+
+        tk.mainloop()
+
+
+    if __name__ == "__main__":
+        build_ui()
+  ```
+
 ## Summary
+
+- This chapter demonstrates most of the basic widget functionality in
+  tkinter
+- The next chapter will look at techniques for displaying data
