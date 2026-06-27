@@ -206,7 +206,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#file-dialogs" id="toc-file-dialogs" class="nav-link" data-scroll-target="#file-dialogs">File Dialogs</a></li>
   <li><a href="#the-pack-layout-manager" id="toc-the-pack-layout-manager" class="nav-link" data-scroll-target="#the-pack-layout-manager">The Pack Layout Manager</a></li>
   <li><a href="#the-ttk-library" id="toc-the-ttk-library" class="nav-link" data-scroll-target="#the-ttk-library">The <code>ttk</code> Library</a></li>
-  <li><a href="#responding-to-user-input" id="toc-responding-to-user-input" class="nav-link" data-scroll-target="#responding-to-user-input">Responding to User Input</a></li>
+  <li><a href="#responding-to-user-input" id="toc-responding-to-user-input" class="nav-link" data-scroll-target="#responding-to-user-input">Responding to User Input</a>
+  <ul>
+  <li><a href="#adding-two-numbers" id="toc-adding-two-numbers" class="nav-link" data-scroll-target="#adding-two-numbers">Adding Two Numbers</a></li>
+  </ul></li>
+  <li><a href="#applying-colours-in-tkinter" id="toc-applying-colours-in-tkinter" class="nav-link" data-scroll-target="#applying-colours-in-tkinter">Applying Colours in Tkinter</a></li>
+  <li><a href="#radio-buttons" id="toc-radio-buttons" class="nav-link" data-scroll-target="#radio-buttons">Radio Buttons</a>
+  <ul>
+  <li><a href="#using-class-variables" id="toc-using-class-variables" class="nav-link" data-scroll-target="#using-class-variables">Using Class Variables</a></li>
+  </ul></li>
+  <li><a href="#communicating-between-classes" id="toc-communicating-between-classes" class="nav-link" data-scroll-target="#communicating-between-classes">Communicating Between Classes</a></li>
+  <li><a href="#using-the-grid-layout" id="toc-using-the-grid-layout" class="nav-link" data-scroll-target="#using-the-grid-layout">Using the Grid Layout</a></li>
+  <li><a href="#checkbuttons" id="toc-checkbuttons" class="nav-link" data-scroll-target="#checkbuttons">Checkbuttons</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
@@ -421,7 +432,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><code>showerror</code> styles the message as an error</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Examples/03-messagebox/error_box.png" class="img-fluid figure-img"></p>
+<p><img src="Examples/03-messagebox/error-box.png" class="img-fluid figure-img"></p>
 <figcaption>An error box, on Ubuntu this contains a red cross symbol</figcaption>
 </figure>
 </div></li>
@@ -469,35 +480,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><code>askquestion</code> for asking a question</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Examples/04-questioning-messagebox/question_box.png" class="img-fluid figure-img"></p>
+<p><img src="Examples/04-questioning-messagebox/question-box.png" class="img-fluid figure-img"></p>
 <figcaption>The <code>askquestion</code> dialog looks shows a question mark with <em>yes</em> and <em>no</em> buttons</figcaption>
 </figure>
 </div></li>
 <li><p><code>askyesno</code> for asking a yes or no question</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Examples/04-questioning-messagebox/yes_no_box.png" class="img-fluid figure-img"></p>
+<p><img src="Examples/04-questioning-messagebox/yes-no-box.png" class="img-fluid figure-img"></p>
 <figcaption>The <code>askyesno</code> dialog looks identical to the <code>askquestion</code> dialog on Ubuntu</figcaption>
 </figure>
 </div></li>
 <li><p><code>askyesnocancel</code> for asking a yes or no question with the option to cancel</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Examples/04-questioning-messagebox/yes_no_cancel_box.png" class="img-fluid figure-img"></p>
+<p><img src="Examples/04-questioning-messagebox/yes-no-cancel-box.png" class="img-fluid figure-img"></p>
 <figcaption>The <code>askyesnocancel</code> dialog looks like the <code>askyesno</code> but has an additional <em>cancel</em> button</figcaption>
 </figure>
 </div></li>
 <li><p><code>askokcancel</code> for asking for approval</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Examples/04-questioning-messagebox/ok_box.png" class="img-fluid figure-img"></p>
+<p><img src="Examples/04-questioning-messagebox/ok-box.png" class="img-fluid figure-img"></p>
 <figcaption>The <code>askokcancel</code> shows a question mark with <em>ok</em> and <em>cancel</em> buttons</figcaption>
 </figure>
 </div></li>
 <li><p><code>askretrycancel</code> for asking to retry an operation</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Examples/04-questioning-messagebox/retry_box.png" class="img-fluid figure-img"></p>
+<p><img src="Examples/04-questioning-messagebox/retry-box.png" class="img-fluid figure-img"></p>
 <figcaption>The <code>askretrycancel</code> looks like <code>askokcancel</code> but has a warning exclamation mark rather than a question mark</figcaption>
 </figure>
 </div></li>
@@ -561,7 +572,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Below is an example of a file dialog</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Examples/05-file-dialog/file_dialog.png" class="img-fluid figure-img"></p>
+<p><img src="Examples/05-file-dialog/file-dialog.png" class="img-fluid figure-img"></p>
 <figcaption>The dialog opened by <code>filedialog.askopenfilename</code>. A menu is shown to select files from the specified directory along with an <em>ok</em> and <em>cancel</em> button. A dropdown menu can be used to narrow the choice of file types</figcaption>
 </figure>
 </div>
@@ -649,7 +660,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Below is a simple example showing how to put together a simple dialog using multiple components laid out with <code>pack</code></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Examples/06-pack/packed_layout.png" class="img-fluid figure-img"></p>
+<p><img src="Examples/06-pack/packed-layout.png" class="img-fluid figure-img"></p>
 <figcaption>A simple two-row example using the packed layout. Each row consists of a <code>tk.Label</code> left-aligned on the left, and a <code>tk.Entry</code> on the right stretched to fill the remaining space</figcaption>
 </figure>
 </div></li>
@@ -752,7 +763,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>The resulting window looks like</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Examples/07-ttk-button/ttk_button.png" class="img-fluid figure-img"></p>
+<p><img src="Examples/07-ttk-button/ttk-button.png" class="img-fluid figure-img"></p>
 <figcaption>The basic two-button widget updated to use the <code>ttk</code> buttons</figcaption>
 </figure>
 </div></li>
@@ -760,6 +771,467 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="responding-to-user-input" class="level3">
 <h3 class="anchored" data-anchor-id="responding-to-user-input">Responding to User Input</h3>
+<ul>
+<li>Python command-line programs can often read input via the <code>input</code> function
+<ul>
+<li>Return’s user supplied strings</li>
+</ul></li>
+<li>When using graphical-user interfaces, it is often important to have widget’s that provide similar functionality
+<ul>
+<li>The basic version of this in tkinter is the <code>Entry</code> widget</li>
+<li>Provides a simple one-line text entry</li>
+</ul></li>
+<li>Here is a simple greeter program to demonstrate <code>Entry</code>, it accepts a name from the user and greets them</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tkinter <span class="im">as</span> tk</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Greeter:</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> build(<span class="va">self</span>):</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        root <span class="op">=</span> tk.Tk()</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        tk.Label(</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>            root,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span><span class="st">"What is your name?"</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>            justify<span class="op">=</span>tk.LEFT,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>            fg<span class="op">=</span><span class="st">"blue"</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>            pady<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>            padx<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        ).pack()</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># set up the Entry widget</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.name_entry <span class="op">=</span> tk.Entry(root)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.name_entry.pack()</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># associate button to read the entry</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ok_button <span class="op">=</span> tk.Button(root, text<span class="op">=</span><span class="st">"Ok"</span>, command<span class="op">=</span><span class="va">self</span>.get_name)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ok_button.pack()</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># set up greater output</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.greet_label <span class="op">=</span> tk.Label(root, text<span class="op">=</span><span class="st">""</span>, fg<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.greet_label.pack()</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>        tk.mainloop()</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_name(<span class="va">self</span>):</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>        new_name <span class="op">=</span> <span class="va">self</span>.name_entry.get()</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.greet_label.configure(text<span class="op">=</span><span class="st">"Hi "</span> <span class="op">+</span> new_name <span class="op">+</span> <span class="st">"!"</span>)</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    greeter <span class="op">=</span> Greeter()</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    greeter.build()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p>The code can be found in the python script <a href="08-entry.py">08-entry.py</a>. It should produce a widget like below</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/08-entry/greeter.png" class="img-fluid figure-img"></p>
+<figcaption>A simple program. A label requests a name, and provides an entry box. When the <code>OK</code> button is clicked a label appears greeting the provided name</figcaption>
+</figure>
+</div></li>
+</ul>
+<section id="adding-two-numbers" class="level4">
+<h4 class="anchored" data-anchor-id="adding-two-numbers">Adding Two Numbers</h4>
+<ul>
+<li>Often when taking user input, we want to convert it from a <code>str</code> to some other format
+<ul>
+<li>A common example is a number</li>
+<li>As with command-line interfaces, graphical user interfaces should generally handle invalid input gracefully too
+<ul>
+<li>A common use-case for the <code>messagebox</code> widget</li>
+</ul></li>
+</ul></li>
+<li>For example, here we request two numbers from the user, validate them and add them together
+<ul>
+<li><p>The program should look like below</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/09-adder/adder.png" class="img-fluid figure-img"></p>
+<figcaption>A simple program for adding two numbers</figcaption>
+</figure>
+</div></li>
+<li><p>In the case of an error the program will instead look like below</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/09-adder/adder-error.png" class="img-fluid figure-img"></p>
+<figcaption>The adder program in case of an error</figcaption>
+</figure>
+</div></li>
+</ul></li>
+<li>The code implementation below can be found in <a href="Examples/09-adder/09-adder.py">09-adder.py</a></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tkinter <span class="im">as</span> tk</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tkinter.messagebox</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NumberEntry(tk.Frame):</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, master, label):</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(master)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> tk.Label(<span class="va">self</span>, text<span class="op">=</span>label, width<span class="op">=</span><span class="dv">3</span>, fg<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        label.pack(side<span class="op">=</span>tk.LEFT, padx<span class="op">=</span><span class="dv">5</span>, pady<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.entry <span class="op">=</span> tk.Entry(<span class="va">self</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.entry.pack(fill<span class="op">=</span>tk.X, padx<span class="op">=</span><span class="dv">5</span>, pady<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get(<span class="va">self</span>):</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.entry.get()</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Adder:</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> build(<span class="va">self</span>):</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        root <span class="op">=</span> tk.Tk()</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        tk.Label(</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>            root,</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span><span class="st">"Enter numbers to add"</span>,</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>            justify<span class="op">=</span>tk.LEFT,</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>            fg<span class="op">=</span><span class="st">"blue"</span>,</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>            pady<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>            padx<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>        ).pack()</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create each row of numbers</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.x_row <span class="op">=</span> NumberEntry(root, <span class="st">"x = "</span>)</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.x_row.pack()</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.y_row <span class="op">=</span> NumberEntry(root, <span class="st">"y = "</span>)</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.y_row.pack()</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># associate button to read the entry</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ok_button <span class="op">=</span> tk.Button(root, text<span class="op">=</span><span class="st">"Ok"</span>, command<span class="op">=</span><span class="va">self</span>.add_numbers)</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ok_button.pack()</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># set up output</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.sum_label <span class="op">=</span> tk.Label(root, text<span class="op">=</span><span class="st">""</span>, fg<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.sum_label.pack()</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>        tk.mainloop()</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_numbers(<span class="va">self</span>):</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> <span class="bu">float</span>(<span class="va">self</span>.x_row.get())</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>            y <span class="op">=</span> <span class="bu">float</span>(<span class="va">self</span>.y_row.get())</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.sum_label.configure(text<span class="op">=</span><span class="st">"Sum = "</span> <span class="op">+</span> <span class="bu">str</span>(x <span class="op">+</span> y))</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">ValueError</span>:</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>            tk.messagebox.showerror(<span class="st">"Conversion Error"</span>, <span class="st">"Not a number"</span>)</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>    adder <span class="op">=</span> Adder()</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>    adder.build()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>One fun implementation of the code above is that we define a lightweight <code>NumberEntry</code> widget
+<ul>
+<li>This centralises the creation of the row’s for getting a number from the user</li>
+<li>Mean’s we can reuse it for both rows</li>
+<li>This is a nice case of <em>Don’t Repeat Yourself</em></li>
+</ul></li>
+<li>We use a <code>try</code>, <code>except</code> block to catch the error and show the error by calling a <code>tk.messagebox.showerror</code></li>
+</ul>
+</section>
+</section>
+<section id="applying-colours-in-tkinter" class="level3">
+<h3 class="anchored" data-anchor-id="applying-colours-in-tkinter">Applying Colours in Tkinter</h3>
+<ul>
+<li><p>Tkinter provides pre-defined named colour strings</p>
+<ol type="1">
+<li><code>"white"</code></li>
+<li><code>"black"</code></li>
+<li><code>"red"</code></li>
+<li><code>"green"</code></li>
+<li><code>"blue"</code></li>
+<li><code>"cyan"</code></li>
+<li><code>"yellow"</code></li>
+<li><code>"magenta"</code></li>
+</ol></li>
+<li><p>Alternatively colours can be specified as hexadecimal values</p>
+<ul>
+<li><p>Can be</p>
+<ol type="1">
+<li><code>#RGB</code></li>
+<li><code>#RRGGBB</code></li>
+<li>12-bit strings</li>
+<li>16-bit strings</li>
+</ol></li>
+</ul></li>
+<li><p>For example,</p>
+<ul>
+<li><code>"red"</code> = <code>#f00</code></li>
+<li>Purple = <code>#c0f</code></li>
+</ul></li>
+<li><p>Each digit is hexadecimal, i.e.&nbsp;<code>0</code> to <code>F</code></p></li>
+<li><p>For example, recall the QUIT button we defined using the <code>ttk</code> set was coloured via,</p></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ttk.Style().configure(<span class="st">"W.TButton"</span>, foreground<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>quit_button <span class="op">=</span> ttk.Button(root, text<span class="op">=</span><span class="st">"QUIT"</span>, command<span class="op">=</span>quit, style<span class="op">=</span><span class="st">"W.TButton"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>quit_button.pack(side<span class="op">=</span>tk.RIGHT, padx<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="radio-buttons" class="level3">
+<h3 class="anchored" data-anchor-id="radio-buttons">Radio Buttons</h3>
+<ul>
+<li>Radio buttons are named after old analog car radio buttons
+<ul>
+<li>Selecting one would deselect all other buttons</li>
+</ul></li>
+<li>Radio buttons are now a common widget style for mutually exclusive choices
+<ul>
+<li>Radio buttons are created <em>individually</em></li>
+<li>Assigned to a <em>group</em>
+<ul>
+<li>This group is of type <code>IntVar</code></li>
+<li><code>IntVar</code> is a special tk wrapper around an integer</li>
+<li>Automatically updates in response to state changes that it is listening to</li>
+<li>Here the state changes are the index corresponding to which radio button is selected</li>
+</ul></li>
+<li>Only one radio button in each group can be selected</li>
+</ul></li>
+<li>Radio buttons can either show up as individual circles next to a label or traditional style buttons
+<ul>
+<li>Controlled via the <code>indicatoron</code> parameter</li>
+<li>If using individual circles the selected circle has black dot (default)</li>
+<li>If using traditional style buttons, the selected button is depressed (<code>indicatoron = False</code>)</li>
+</ul></li>
+<li>Radio buttons also accept a <code>command</code> parameter like the normal button
+<ul>
+<li>This corresponds to the callback to be called when the button is selected</li>
+</ul></li>
+<li>Here we have a simple program which uses radio buttons to set the state of a traffic light
+<ul>
+<li>The full implementation is in <a href="Examples/10-radio-buttons/10-radio-buttons.py">10-radio-buttons.py</a></li>
+</ul></li>
+<li>Our rewrite avoids the derived class implementation of the original code example
+<ul>
+<li>Instead we use a simple functional closure approach</li>
+<li>I think this is a cleaner architecture</li>
+</ul></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tkinter <span class="im">as</span> tk</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TrafficLightModeSelection:</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> build(<span class="va">self</span>):</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        root <span class="op">=</span> tk.Tk()</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># set up the heading label</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        tk.Label(</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>            root, text<span class="op">=</span><span class="st">"Choose your favourite colour:"</span>, justify<span class="op">=</span>tk.LEFT, padx<span class="op">=</span><span class="dv">20</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        ).pack()</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># label to be updated</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        current_light_colour <span class="op">=</span> tk.Label(root, text<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># set up the radio buttons</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        traffic_light_choice <span class="op">=</span> tk.IntVar()</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        colours <span class="op">=</span> [<span class="st">"red"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>]</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># closure function to be called</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> update_light_colour():</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>            colour_idx <span class="op">=</span> traffic_light_choice.get()</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>            colour <span class="op">=</span> colours[colour_idx]</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>            current_light_colour.configure(</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>                fg<span class="op">=</span>colour,</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>                text<span class="op">=</span><span class="ss">f"The light is </span><span class="sc">{</span>colour<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>        buttons <span class="op">=</span> [</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>            tk.Radiobutton(</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>                root,</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>                text<span class="op">=</span>colour,</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>                padx<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>                command<span class="op">=</span>update_light_colour,</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>                variable<span class="op">=</span>traffic_light_choice,</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>                value<span class="op">=</span>i,</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> i, colour <span class="kw">in</span> <span class="bu">enumerate</span>(colours)</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># set up the layout</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> button <span class="kw">in</span> buttons:</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>            button.pack()</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>        current_light_colour.pack()</span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>        tk.mainloop()</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>    traffic_light_controller <span class="op">=</span> TrafficLightModeSelection()</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>    traffic_light_controller.build()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p>The program above should look like the following when run</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/10-radio-buttons/traffic-lights.png" class="img-fluid figure-img"></p>
+<figcaption>A simple radio button group consisting of the traffic light states, <em>green</em>, <em>yellow</em> and <em>red</em>. A label is automatically updated when the choice is changed</figcaption>
+</figure>
+</div></li>
+<li><p>If we instead use <code>indicatoron = False</code></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/10-radio-buttons/traffic-lights-depressed.png" class="img-fluid figure-img"></p>
+<figcaption>In this version of the application, the radio butttons are displayed as normal buttons, with the selected button depressed</figcaption>
+</figure>
+</div></li>
+</ul>
+<section id="using-class-variables" class="level4">
+<h4 class="anchored" data-anchor-id="using-class-variables">Using Class Variables</h4>
+<ul>
+<li>Here we have three button’s all referencing the <em>same</em> variable to track their group</li>
+<li>A potential design is to derive a class from <code>RadioButton</code> for this specific group and store this group variable as a class variable
+<ul>
+<li>This keeps all the information about the specific radio button group together in the one place</li>
+<li>Here the class definition</li>
+</ul></li>
+<li>Since it is defined at the class-level one variable instance is shared between all class instances</li>
+<li>The new program <a href="Examples/11-radio-buttons-with-class-variable/11-radio-buttons-with-class-variable.py">11-radio-buttons-with-class-variable.py</a> is styled much more like the original implementation
+<ul>
+<li>However rather than use a <code>main</code> function to define everything we’ve used the <code>build</code> method paradigm used in previous examples</li>
+</ul></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tkinter <span class="im">as</span> tk</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Literal</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ColourButton(tk.Radiobutton):</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># define the group variable</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We have to wait until we create a root window before we can set it</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    group: tk.IntVar <span class="op">|</span> Literal[<span class="st">""</span>] <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, master, colour, index, colour_label):</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>            master,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span>colour,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>            padx<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>            command<span class="op">=</span><span class="va">self</span>.clicked,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>            variable<span class="op">=</span>ColourButton.group,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>            value<span class="op">=</span>index,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pack(anchor<span class="op">=</span>tk.W)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.colour <span class="op">=</span> colour</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.colour_label <span class="op">=</span> colour_label</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.index <span class="op">=</span> index</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> clicked(<span class="va">self</span>):</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.colour_label.configure(fg<span class="op">=</span><span class="va">self</span>.colour, text<span class="op">=</span><span class="ss">f"The light is </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>colour<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TrafficLightModeSelection:</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> build(<span class="va">self</span>):</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>        root <span class="op">=</span> tk.Tk()</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># set up the heading label</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>        tk.Label(</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>            root, text<span class="op">=</span><span class="st">"Choose your favourite colour:"</span>, justify<span class="op">=</span>tk.LEFT, padx<span class="op">=</span><span class="dv">20</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>        ).pack()</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>        <span class="co"># set up the output label</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>        colour_label <span class="op">=</span> tk.Label(root, text<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># set up radio buttons</span></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>        ColourButton.group <span class="op">=</span> tk.IntVar()</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>        colours <span class="op">=</span> [<span class="st">"red"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>]</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> idx, colour <span class="kw">in</span> <span class="bu">enumerate</span>(colours):</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>            ColourButton(root, colour, idx, colour_label<span class="op">=</span>colour_label)</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>        colour_label.pack()</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>        root.mainloop()</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>    traffic_light_selection <span class="op">=</span> TrafficLightModeSelection()</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>    traffic_light_selection.build()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Classes and Class Variables</strong></p>
+<p>The class-based design and the use of class variables is a game of trade-offs. Here we see it helps centralise all the information for our traffic light choice group in one location. However, the caveat is that now <em>any</em> instance of a <code>ColourButton</code> <em>must</em> be associated with the same group. A natural future case might be that we want to reuse the <code>ColourButton</code> in a different context. At this point the group variable would have to be moved back out of the class scope.</p>
+<p>This is a <em>design decision</em>. There is no right answer. It depends on your code. In general though I prefer fewer, reusable classes and a functional approach.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="communicating-between-classes" class="level3">
+<h3 class="anchored" data-anchor-id="communicating-between-classes">Communicating Between Classes</h3>
+<ul>
+<li>Creating individual self-contained widgets is pretty straightforward</li>
+<li>How do we manage communicating betwen widgets that are not self-contained?
+<ul>
+<li>For example, how does a different part of the program respond to a choice from our <code>ColourButton</code>?</li>
+</ul></li>
+<li>The correct way to set-up communications in a program is an open discussion
+<ul>
+<li>One common pattern here that will be discussed later is the Mediator Pattern</li>
+</ul></li>
+</ul>
+</section>
+<section id="using-the-grid-layout" class="level3">
+<h3 class="anchored" data-anchor-id="using-the-grid-layout">Using the Grid Layout</h3>
+<ul>
+<li>The grid layout manager is the more modern and preferred layout manager over pack</li>
+<li>Allows widgets to be arranged by placing them at select rows and columns
+<ul>
+<li>No limit on what are valid row and column numbers (as long as they are non-negative)</li>
+<li>Layout determined once set</li>
+<li>Don’t need to declare the number of rows or columns upfront</li>
+</ul></li>
+<li>For example, we can replicate our <a href="#the-pack-layout-manager">pack</a> layout example but with a grid</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tkinter <span class="im">as</span> tk</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> tk.Tk()</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>root.title(<span class="st">"grid"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Add widgets to the first row</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>label_1 <span class="op">=</span> tk.Label(root, text<span class="op">=</span><span class="st">"Name"</span>, sticky<span class="op">=</span>tk.W)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>label_1.grid(row<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span><span class="dv">0</span>, padx<span class="op">=</span><span class="dv">5</span>, pady<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>entry_1 <span class="op">=</span> tk.Entry(root)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>entry_1.grid(row<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add widgets to the second row</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>label_2 <span class="op">=</span> tk.Label(root, text<span class="op">=</span><span class="st">"Address"</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>label_2.grid(row<span class="op">=</span><span class="dv">1</span>, column<span class="op">=</span><span class="dv">0</span>, padx<span class="op">=</span><span class="dv">5</span>, pady<span class="op">=</span><span class="dv">5</span>, sticky<span class="op">=</span>tk.W)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>entry_2 <span class="op">=</span> tk.Entry(root)</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>entry_2.grid(row<span class="op">=</span><span class="dv">1</span>, column<span class="op">=</span><span class="dv">1</span>, padx<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>root.mainloop()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>We can see this implementation is much simpler than <code>pack</code> where we had to introduced <code>Frame</code> objects for each row and ensure the pack ordering and parameters were correct for every object</li>
+<li>By default widgets are aligned to the center of the grid
+<ul>
+<li>This can look odd especially for layered text labels since they won’t b aligned</li>
+</ul></li>
+<li><code>grid</code> provides the <code>sticky</code> parameter which can be used to <em>stick</em> a widget to a given side of the grid cell
+<ul>
+<li>The sticky values are
+<ol type="1">
+<li><code>tk.N</code></li>
+<li><code>tk.E</code></li>
+<li><code>tk.S</code></li>
+<li><code>tk.W</code></li>
+<li>Combinations of the above like <code>tk.N + tk.E</code></li>
+</ol></li>
+</ul></li>
+</ul>
+</section>
+<section id="checkbuttons" class="level3">
+<h3 class="anchored" data-anchor-id="checkbuttons">Checkbuttons</h3>
+<ul>
+<li>We’ve seen that we can create <a href="#radio-buttons">Radio Buttons</a> which allow for selecting mutually exclusive options from a set</li>
+<li>Checkboxes or Checkbuttons are the equivalent when we want a user to be able to select multiple options from a group</li>
+</ul>
 </section>
 </section>
 <section id="summary" class="level2">
