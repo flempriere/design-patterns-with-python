@@ -217,7 +217,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#communicating-between-classes" id="toc-communicating-between-classes" class="nav-link" data-scroll-target="#communicating-between-classes">Communicating Between Classes</a></li>
   <li><a href="#using-the-grid-layout" id="toc-using-the-grid-layout" class="nav-link" data-scroll-target="#using-the-grid-layout">Using the Grid Layout</a></li>
-  <li><a href="#checkbuttons" id="toc-checkbuttons" class="nav-link" data-scroll-target="#checkbuttons">Checkbuttons</a></li>
+  <li><a href="#checkbuttons" id="toc-checkbuttons" class="nav-link" data-scroll-target="#checkbuttons">Checkbuttons</a>
+  <ul>
+  <li><a href="#disabling-check-boxes" id="toc-disabling-check-boxes" class="nav-link" data-scroll-target="#disabling-check-boxes">Disabling Check Boxes</a></li>
+  </ul></li>
+  <li><a href="#adding-menus-to-windows" id="toc-adding-menus-to-windows" class="nav-link" data-scroll-target="#adding-menus-to-windows">Adding Menus to Windows</a></li>
+  <li><a href="#label-frame" id="toc-label-frame" class="nav-link" data-scroll-target="#label-frame">Label Frame</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
@@ -1229,13 +1234,315 @@ Note
 <section id="checkbuttons" class="level3">
 <h3 class="anchored" data-anchor-id="checkbuttons">Checkbuttons</h3>
 <ul>
-<li>We’ve seen that we can create <a href="#radio-buttons">Radio Buttons</a> which allow for selecting mutually exclusive options from a set</li>
-<li>Checkboxes or Checkbuttons are the equivalent when we want a user to be able to select multiple options from a group</li>
+<li><p>We’ve seen that we can create <a href="#radio-buttons">Radio Buttons</a> which allow for selecting mutually exclusive options from a set</p></li>
+<li><p>Checkboxes or Checkbuttons are the equivalent when we want a user to be able to select multiple options from a group</p></li>
+<li><p>For example, let’s create a widget for selecting pizza toppings</p>
+<ul>
+<li><p>The final product should look like,</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/13-check-buttons/check-buttons.png" class="img-fluid figure-img"></p>
+<figcaption>A simple checkbox list of pizza toppings and a button to order. Once ordered a confirmation dialog is shown</figcaption>
+</figure>
+</div></li>
+</ul></li>
+<li><p>For checkboxes, since each can be toggled individually, rather than having <em>one</em> variable <code>IntVar</code> shared among all the radio buttons, each one has their own.</p></li>
+<li><p>Our <code>CheckBox</code> class is derived from the <code>tk.CheckButton</code> class</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> CheckBox(tk.Checkbutton):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, text, group):</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>          <span class="bu">super</span>().<span class="fu">__init__</span>(root, text<span class="op">=</span>text, variable<span class="op">=</span>group)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.text <span class="op">=</span> text</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.group <span class="op">=</span> group</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> get_state(<span class="va">self</span>):</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> <span class="va">self</span>.group.get()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>We’ll also define our <code>OKButton</code> class which confirms the order and displays the summary</p>
+<ul>
+<li>This needs to receive the list of checkboxes which it listens to</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> OKButton(tk.Button):</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, boxes):</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>          <span class="bu">super</span>().<span class="fu">__init__</span>(root, text<span class="op">=</span><span class="st">"Order"</span>, command<span class="op">=</span><span class="va">self</span>.clicked)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.boxes <span class="op">=</span> boxes</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> clicked(<span class="va">self</span>):</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>          order <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join([<span class="ss">f"</span><span class="sc">{</span>box<span class="sc">.</span>text<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>box<span class="sc">.</span>get_state()<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> box <span class="kw">in</span> <span class="va">self</span>.boxes])</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>          tk.messagebox.showinfo(title<span class="op">=</span><span class="st">"Order Confirmed"</span>, message<span class="op">=</span>order)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>We can the finally put everything together. We use a simple list construct to generate the buttons we need from the list of available toppings</p></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>   <span class="kw">class</span> PizzaToppingsSelection:</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>       <span class="kw">def</span> build(<span class="va">self</span>):</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>           root <span class="op">=</span> tk.Tk()</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>           names <span class="op">=</span> [<span class="st">"Cheese"</span>, <span class="st">"Pepperoni"</span>, <span class="st">"Mushrooms"</span>, <span class="st">"Sausage"</span>, <span class="st">"Peppers"</span>, <span class="st">"Pineapple"</span>]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>           boxes <span class="op">=</span> [CheckBox(root, name, tk.IntVar()) <span class="cf">for</span> name <span class="kw">in</span> names]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>           <span class="cf">for</span> idx, box <span class="kw">in</span> <span class="bu">enumerate</span>(boxes):</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>               box.grid(column<span class="op">=</span><span class="dv">0</span>, row<span class="op">=</span>idx, sticky<span class="op">=</span>tk.W)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>           OKButton(root, boxes).grid(column<span class="op">=</span><span class="dv">1</span>, row<span class="op">=</span><span class="dv">3</span>, padx<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>           tk.mainloop()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The complete program can be found in <a href="Examples/13-check-buttons/13-check-buttons.py">13-check-buttons.py</a></li>
+</ul>
+<section id="disabling-check-boxes" class="level4">
+<h4 class="anchored" data-anchor-id="disabling-check-boxes">Disabling Check Boxes</h4>
+<ul>
+<li><p>Sometime’s certain checkboxes want to be disabled</p>
+<ul>
+<li>E.g. For example there might be incompatible choices</li>
+<li>Or some other part of your program defines what checkboxes are allowed</li>
+</ul></li>
+<li><p>The can be done by setting the <code>state</code> parameter of a checkbox to <code>tk.DISABLED</code></p>
+<ul>
+<li>To turn the button back on use set the state back to <code>tk.NORMAL</code></li>
+</ul></li>
+<li><p>For example, to disable pineapple on pizza in the above example, we can modify the <code>__init__</code> of the <code>CheckBox</code> class as follows</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> CheckBox(tk.Checkbutton):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, text, group):</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>          <span class="bu">super</span>().<span class="fu">__init__</span>(root, text<span class="op">=</span>text, variable<span class="op">=</span>group)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.text <span class="op">=</span> text</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.group <span class="op">=</span> group</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> <span class="va">self</span>.text.lower() <span class="op">==</span> <span class="st">"pineapple"</span>:</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>              <span class="va">self</span>.configure(state<span class="op">=</span>tk.DISABLED)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> get_state(<span class="va">self</span>):</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> <span class="va">self</span>.group.get()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul>
+</section>
+</section>
+<section id="adding-menus-to-windows" class="level3">
+<h3 class="anchored" data-anchor-id="adding-menus-to-windows">Adding Menus to Windows</h3>
+<ul>
+<li><p>Consider the following basic menu layout</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> <span class="op">**</span>File<span class="op">**</span> <span class="op">|</span> <span class="op">**</span>Draw<span class="op">**</span> <span class="op">|</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">|----------|----------|</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> New      <span class="op">|</span> Circle   <span class="op">|</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> Open     <span class="op">|</span> Square   <span class="op">|</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> Exit     <span class="op">|</span>          <span class="op">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>This is straightforward to implement through <code>tkinter</code></p></li>
+<li><p>The code below should create a program that looks like,</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/15-menus/15-menus.png" class="img-fluid figure-img"></p>
+<figcaption>A simple window with two menus</figcaption>
+</figure>
+</div></li>
+<li><p>The code below (see <a href="Examples/15-menus/15-menus.py">15-menus.py</a>) shows how to create the menus</p></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tkinter <span class="im">as</span> tk</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build_menu(root):</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    root.title(<span class="st">"Menu Demo"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    root.geometry(<span class="st">"300x200"</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    menu_bar <span class="op">=</span> tk.Menu(root)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    root.config(menu<span class="op">=</span>menu_bar)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    file_menu <span class="op">=</span> tk.Menu(menu_bar, tearoff<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    menu_bar.add_cascade(label<span class="op">=</span><span class="st">"File"</span>, menu<span class="op">=</span>file_menu)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    file_menu.add_command(label<span class="op">=</span><span class="st">"New"</span>)</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    file_menu.add_command(label<span class="op">=</span><span class="st">"Open"</span>)</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    file_menu.add_separator()</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    file_menu.add_command(label<span class="op">=</span><span class="st">"Exit"</span>)</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    draw_menu <span class="op">=</span> tk.Menu(menu_bar, tearoff<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    menu_bar.add_cascade(label<span class="op">=</span><span class="st">"Draw"</span>, menu<span class="op">=</span>draw_menu)</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    draw_menu.add_command(label<span class="op">=</span><span class="st">"Circle"</span>)</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    draw_menu.add_command(label<span class="op">=</span><span class="st">"Square"</span>)</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> main():</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    root <span class="op">=</span> tk.Tk()</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    build_menu(root)</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    tk.mainloop()</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>    main()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p>Here we’ve skipped the implementation of actually wiring up the menu elements to specific commands or functions</p>
+<ul>
+<li>To avoid polluting the main levels of the program with functions for the menu’s we might want to consider encapsulating them in classes
+<ul>
+<li>One structure is each class handles one menu command</li>
+<li>This works similar to the structure of the <code>Button</code> class</li>
+</ul></li>
+</ul></li>
+<li><p>One structure is,</p>
+<ol type="1">
+<li>A <code>MenuBar</code> class for holding the menus</li>
+<li>A <code>TopMenu</code> that holds the name of a menu
+<ul>
+<li>Needs a mechanism to add menu commands</li>
+</ul></li>
+<li>Create a <code>MenuCommand</code> class for each menu item
+<ul>
+<li>Start by defining a <code>MenuCommand</code> base class</li>
+</ul></li>
+</ol></li>
+<li><p>We can implement these basic classes as below</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> MenuBar(tk.Menu):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root):</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>          <span class="bu">super</span>().<span class="fu">__init__</span>(root)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>          root.config(menu<span class="op">=</span><span class="va">self</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> TopMenu:</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, label, menu_bar):</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.menu_bar <span class="op">=</span> menu_bar</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.root <span class="op">=</span> root</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.menu <span class="op">=</span> tk.Menu()</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.menu_bar.add_cascade(label<span class="op">=</span>label, menu<span class="op">=</span><span class="va">self</span>.menu)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> add_menu_item(<span class="va">self</span>, menu_item):</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.menu.add_command(label<span class="op">=</span>menu_item.get_label(), command<span class="op">=</span>menu_item.command)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> add_separator(<span class="va">self</span>):</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.menu.add_separator()</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Abstract base class for menu's</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> MenuCommand:</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, label):</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.root <span class="op">=</span> root</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.label <span class="op">=</span> label</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> get_label(<span class="va">self</span>):</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> <span class="va">self</span>.label</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> command(<span class="va">self</span>):</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>          <span class="cf">pass</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>We then want to implement the specific classes for each menu item</p>
+<ul>
+<li><p>Here are our basic <code>MenuCommand</code> classes for each of the file menu options</p>
+<ul>
+<li><code>QuitCommand</code> calls <code>sys.exit</code> to close the progam</li>
+<li><code>NewCommand</code> wipes the current program’s title</li>
+<li><code>OpenCommand</code> set the title to the selected file
+<ul>
+<li>After stripping the leading path factors</li>
+</ul></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> QuitCommand(MenuCommand):</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> command(<span class="va">self</span>):</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>            sys.exit()</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> NewCommand(MenuCommand):</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> command(<span class="va">self</span>):</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.root.title(<span class="st">""</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> OpenCommand(MenuCommand):</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> command(<span class="va">self</span>):</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>            file_path <span class="op">=</span> tk.filedialog.askopenfilename(title<span class="op">=</span><span class="st">"Select File"</span>)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(file_path.strip()) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>                path_components <span class="op">=</span> file_path.split(<span class="st">"/"</span>)</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="bu">len</span>(path_components):</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>                    file_name <span class="op">=</span> path_components[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.root.title(file_name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Next we want to add the commands for our <code>Draw</code> menu</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> DrawCircle(MenuCommand):</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, canvas, label):</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>            <span class="bu">super</span>().<span class="fu">__init__</span>(root, label)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.canvas <span class="op">=</span> canvas</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> command(<span class="va">self</span>):</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.canvas.create_oval(<span class="dv">130</span>, <span class="dv">40</span>, <span class="dv">200</span>, <span class="dv">110</span>, fill<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">class</span> DrawSquare(MenuCommand):</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, canvas, label):</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>            <span class="bu">super</span>().<span class="fu">__init__</span>(root, label)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.canvas <span class="op">=</span> canvas</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> command(<span class="va">self</span>):</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.canvas.create_rectangle(<span class="dv">10</span>, <span class="dv">80</span>, <span class="dv">110</span>, <span class="dv">180</span>, fill<span class="op">=</span><span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul></li>
+<li><p>Lastly we update our <code>build_menu</code> function to use the new classes</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> build_menu(root):</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  root.title(<span class="st">"Menu Demo"</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  root.geometry(<span class="st">"300x200"</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  canvas <span class="op">=</span> tk.Canvas(root)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  canvas.pack()</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  menu_bar <span class="op">=</span> MenuBar(root)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  file_menu <span class="op">=</span> TopMenu(root, <span class="st">"File"</span>, menu_bar)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  file_menu.add_menu_item(NewCommand(root, <span class="st">"New"</span>))</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  file_menu.add_menu_item(OpenCommand(root, <span class="st">"Open"</span>))</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  file_menu.add_separator()</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  file_menu.add_menu_item(QuitCommand(root, <span class="st">"Quit"</span>))</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  draw_menu <span class="op">=</span> TopMenu(root, <span class="st">"Draw"</span>, menu_bar)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  draw_menu.add_menu_item(DrawCircle(root, canvas, <span class="st">"Circle"</span>))</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  draw_menu.add_menu_item(DrawSquare(root, canvas, <span class="st">"Square"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>The complete code can be found in <a href="Examples/16-menu-class/16-menu-class.py">16-menu-class.py</a></p></li>
+</ul>
+</section>
+<section id="label-frame" class="level3">
+<h3 class="anchored" data-anchor-id="label-frame">Label Frame</h3>
+<ul>
+<li><p>The last widget we’ll look at in this section is the <code>LabelFrame</code></p>
+<ul>
+<li>This acts like a <code>Frame</code> widget
+<ul>
+<li>A container for other widges</li>
+</ul></li>
+<li>But can have a label integrated into the frame</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/17-label-frame/label-frame.png" class="img-fluid figure-img"></p>
+<figcaption>A simple example of a label frame to denote a set of State Data</figcaption>
+</figure>
+</div></li>
+<li><p>The code to create the label above is given in <a href="Examples/17-label-frame/17-label-frame.py">17-label-frame.py</a> and replicated below</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> tkinter <span class="im">as</span> tk</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> build_ui():</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>      root <span class="op">=</span> tk.Tk()</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>      root.geometry(<span class="st">"100x150"</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>      label_frame <span class="op">=</span> tk.LabelFrame(</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>          root, text<span class="op">=</span><span class="st">"State Data"</span>, borderwidth<span class="op">=</span><span class="dv">7</span>, relief<span class="op">=</span>tk.RAISED</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>      label_frame.pack(pady<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>      tk.Label(label_frame, text<span class="op">=</span><span class="st">"State"</span>).pack()</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>      tk.Label(label_frame, text<span class="op">=</span><span class="st">"Abbrev"</span>).pack()</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>      tk.Label(label_frame, text<span class="op">=</span><span class="st">"Capital"</span>).pack()</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>      tk.Label(label_frame, text<span class="op">=</span><span class="st">"Founded"</span>).pack()</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>      tk.mainloop()</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>      build_ui()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul>
 </section>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ul>
+<li>This chapter demonstrates most of the basic widget functionality in tkinter</li>
+<li>The next chapter will look at techniques for displaying data</li>
+</ul>
 
 
 </section>
