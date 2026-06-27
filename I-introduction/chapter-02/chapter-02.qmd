@@ -1064,7 +1064,9 @@ if __name__ == "__main__":
     draw_menu.add_menu_item(DrawSquare(root, canvas, "Square"))
   ```
 
-- The complete code can be found in [16-menu-class.py](Examples/16-menu-class/16-menu-class.py)
+- The complete code can be found in [16-menu-class.py](Examples/16-menu-class/16-menu-class.py) and should produce a program like below
+
+  ![Our Menu example, with Menu's hooked up to functions via a class based interface](Examples/16-menu-class/menu-class.png)
 
 ### Label Frame
 
