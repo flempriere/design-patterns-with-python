@@ -1083,13 +1083,11 @@ root.mainloop()
 
 - Consider the following basic menu layout
 
-  ``` python
-    | **File** | **Draw** |
-    |----------|----------|
-    | New      | Circle   |
-    | Open     | Square   |
-    | Exit     |          |
-  ```
+  | **File** | **Draw** |
+  |----------|----------|
+  | New      | Circle   |
+  | Open     | Square   |
+  | Exit     |          |
 
 - This is straightforward to implement through `tkinter`
 
