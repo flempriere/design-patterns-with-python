@@ -1,6 +1,5 @@
 # Chapter 3: Visual Programming of Tables of Data
 
-
 - [Notes](#notes)
   - [Creating a Listbox](#creating-a-listbox)
     - [Adding a Scroll Bar](#adding-a-scroll-bar)
@@ -136,8 +135,8 @@ print("\n".join([str(state) for state in states._states]))
     Cell In[2], line 18
          14         header, *rows = generate_csv(states_file)
          15         self._states = [State(*row) for row in rows]
-         16 
-         17 
+         16
+         17
     ---> 18 states = StatesList("Examples/sample_data.csv")
          19 print("\n".join([str(state) for state in states._states]))
 
@@ -319,13 +318,14 @@ self.listbox.config(yscrollcommand=scrollbar.set)
       self.entry.focus_set()  # makes this the focus of the window
       self.entry.bind("<Key>", self.key_press)
     ```
+
   - Now again just have to define the bound function
     - Here we want,
-      1.  *to clear* the entry box so only most recent letter is shown
-      2.  Clear the existing `Listbox` selection
-      3.  Set the new selection
-      4.  Ensure the new selection is visible on the widget
-      5.  Update the displayed data
+      1. *to clear* the entry box so only most recent letter is shown
+      2. Clear the existing `Listbox` selection
+      3. Set the new selection
+      4. Ensure the new selection is visible on the widget
+      5. Update the displayed data
 
     ``` python
       def key_press(self, event):
@@ -436,8 +436,8 @@ self.listbox.config(yscrollcommand=scrollbar.set)
 
   - Leftmost column is always named `"#0"`
     - Can contain,
-      1.  Labels for the rows
-      2.  Data
+      1. Labels for the rows
+      2. Data
 
 - Row’s can be constructed as children of other rows
 
