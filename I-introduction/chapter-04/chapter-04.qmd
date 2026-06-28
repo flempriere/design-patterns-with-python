@@ -152,6 +152,11 @@ flowchart LR
   - Often times procedural, functional or other programming techniques outside of OOP can be an alternative way to solve a design problem than a pure OOP approach
   - However the goal here is to discuss and demonstrate design patterns
 
-
-
 ## Summary
+
+- Design patterns are resuable code templates that identify common problems with software design and propose potential solutions
+- They are distinct from Architectural patterns which examine the systems-level structure of a program
+- Design patterns do not replace or resolve basic OOP design principles and one should still
+  1. Strive to code to an interface over an implementation
+  2. Prefer object composition over inheritance
+- When coding in a multi-paradigm language like Python it's always worth considering if a design pattern and OOP is the correct approach or if a different paradigm-based approach can solve the problem in a cleaner mechanism
