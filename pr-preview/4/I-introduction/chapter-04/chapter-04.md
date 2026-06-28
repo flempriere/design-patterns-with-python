@@ -50,12 +50,12 @@ config:
 flowchart LR
     user(("User"))
     model["Model"]
-    view["View]
-    controller["Controller"]
+    view["View"]
+    control["Controller"]
 
     model --|Updates|--> view
     view --|Sees|--> user
-    user --|Uses|--> controller
+    user --|Uses|--> control
     controller --|Manipulates|--> model
 ```
 
