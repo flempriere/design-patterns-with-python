@@ -1,0 +1,14 @@
+---
+title: "Chapter 5: The Factory Pattern"
+---
+
+## Notes
+
+- The Simple Factory is a very common technique for object creation
+- A simple factory returns an instance of one of several possible classes depending on the input data
+  - Normally all the possible classes are related through an inheritance hierarchy
+- Allows for returning different objects that provide the same *interface* but different *implementation* in response to different inputs
+- The *Simple Factory* is a more basic version of the general *Factory Pattern* which we'll look at soon
+
+
+## Summary
