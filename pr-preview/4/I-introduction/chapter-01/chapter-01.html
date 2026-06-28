@@ -267,7 +267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li>For example, the <code>list</code> class has a method <code>pop</code> which removes elements from the list</li>
 </ul>
-<div id="8c767a1c" class="cell" data-execution_count="1">
+<div id="e9ae1f2a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a_list <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">6</span>, <span class="dv">123</span>]</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>value <span class="op">=</span> a_list.pop()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -287,7 +287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>This is passed implicitly and does not need to be included in the method call</li>
 </ul></li>
 </ul>
-<div id="ed68e094" class="cell" data-execution_count="2">
+<div id="9e1e8992" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Employee:</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, first_name, last_name, salary):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">id</span> <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="co"># placeholder value</span></span>
@@ -305,7 +305,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"alice:"</span>, alice)</span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"bob.get_salary():"</span>, bob.get_salary())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>alice: &lt;__main__.Employee object at 0x7fb07858fe00&gt;
+<pre><code>alice: &lt;__main__.Employee object at 0x7f961c4e3cb0&gt;
 bob.get_salary(): 8000</code></pre>
 </div>
 </div>
@@ -346,7 +346,7 @@ bob.get_salary(): 8000</code></pre>
 <li>Often it is useful to define higher-order container classes that are designed to provide simple interfaces to queries over a collection of a given class type</li>
 <li>For example, rather than using a naked list we might want to group our <code>Employee</code> instances up into an <code>Employees</code> collection object</li>
 </ul>
-<div id="bb7ad287" class="cell" data-execution_count="3">
+<div id="13af5518" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Employees:</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.employee_dict <span class="op">=</span> {}  <span class="co"># create an empty dictionary</span></span>
@@ -397,7 +397,7 @@ alice.id: 1</code></pre>
 <li>As an <code>Employee</code> but has no benefits and has a contract end-date</li>
 </ul></li>
 </ul>
-<div id="82aa3cde" class="cell" data-execution_count="4">
+<div id="7bcfc786" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime, timedelta</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -414,7 +414,7 @@ alice.id: 1</code></pre>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>charlie <span class="op">=</span> TempEmployee(<span class="st">"Charlie"</span>, <span class="st">"C"</span>, <span class="dv">20_000</span>, datetime.now() <span class="op">+</span> timedelta(days<span class="op">=</span><span class="dv">10</span>))</span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Charlie has"</span>, charlie.contract_period_left(), <span class="st">"until their contract expires"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Charlie has 9 days, 23:59:59.999952 until their contract expires</code></pre>
+<pre><code>Charlie has 9 days, 23:59:59.999963 until their contract expires</code></pre>
 </div>
 </div>
 <section id="overriding-methods" class="level4">
@@ -431,7 +431,7 @@ alice.id: 1</code></pre>
 </ul></li>
 </ul></li>
 </ul>
-<div id="b36cf8ff" class="cell" data-execution_count="5">
+<div id="c5d45cac" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> HourlyWorker(Employee):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, first_name, last_name, hourly_rate, average_hours):</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(first_name, last_name, hourly_rate)</span>
@@ -464,7 +464,7 @@ alice.id: 1</code></pre>
 <li>Then an employee that is also a public speaker might use a <code>PublicEmployee</code> class that inherits the finance methods from <code>Employee</code> and the job role methods from <code>Speaker</code></li>
 </ul></li>
 </ul>
-<div id="504b6fd1" class="cell" data-execution_count="6">
+<div id="ceba6728" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Speaker:</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> invite_to_talk(<span class="va">self</span>):</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Invited to talk..."</span>)</span>
@@ -579,7 +579,7 @@ Important
 <li><p>This is not a formal explanation of Python’s scoping rules, but rather a hueristic to keep in mind</p></li>
 <li><p>For example, consider the scope of the variables shown below,</p></li>
 </ul>
-<div id="b3bf80fc" class="cell" data-execution_count="7">
+<div id="40e679c1" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>global_variable <span class="op">=</span> <span class="st">"Hello, World!"</span>  <span class="co"># a global variable</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -618,7 +618,7 @@ Global variable: Hello, World!</code></pre>
 <ul>
 <li>The standard object-oriented mechanism to provide access to private or protected instance variables is through <em>getter</em> and <em>setter</em> methods</li>
 </ul>
-<div id="7811c0aa" class="cell" data-execution_count="8">
+<div id="d57b7887" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ShowData_2:</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._instvar <span class="op">=</span> <span class="fl">3.53</span></span>
@@ -647,7 +647,7 @@ d1.get_instvar(): 5</code></pre>
 <li>They let you add the functionality of getters and setters while keeping the attribute-like access pattern</li>
 </ul></li>
 </ul>
-<div id="8e9afacf" class="cell" data-execution_count="9">
+<div id="aa8092ae" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ShowData_3:</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._instvar <span class="op">=</span> <span class="fl">3.53</span></span>
@@ -698,7 +698,7 @@ d1.instvar: 3.53</code></pre>
 </ul></li>
 <li>For example,</li>
 </ul>
-<div id="4772745f" class="cell" data-execution_count="10">
+<div id="41271c9b" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Summer:</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_nums(<span class="va">self</span>, x: <span class="bu">float</span>, y: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"add_nums(float, float) called"</span>)</span>
