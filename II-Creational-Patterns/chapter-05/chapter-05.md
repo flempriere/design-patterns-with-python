@@ -1,6 +1,5 @@
 # Chapter 5: The Factory Pattern
 
-
 - [Notes](#notes)
 - [Summary](#summary)
 
