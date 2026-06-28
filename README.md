@@ -14,7 +14,9 @@ This repository contains notes and code examples from the book, [Python Programm
 - [Chapter 3: Visual Programming of Tables of Data](I-introduction/chapter-03/chapter-03.md)
 - [Chapter 4: What are Design Patterns?](I-introduction/chapter-04/chapter-04.md)
 
-### II: Creational Patterns
+### [II: Creational Patterns](II-Creational-Patterns/ii-creational-patterns.md)
+
+- [Chapter 5: The Factory Pattern](II-Creational-Patterns/chapter-05/chapter-05.md)
 
 ### III: Structural Patterns
 
