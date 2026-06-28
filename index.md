@@ -8,7 +8,9 @@
   - [IV: Behavioural Patterns](#iv-behavioural-patterns)
 - [Attribution](#attribution)
 
-[![](https://results.pre-commit.ci/badge/github/flempriere/design-patterns-with-python/main.svg)](https://results.pre-commit.ci/latest/github/flempriere/design-patterns-with-python/main)
+[![pre-commit.ci
+status](https://results.pre-commit.ci/badge/github/flempriere/design-patterns-with-python/main.svg)](https://results.pre-commit.ci/latest/github/flempriere/design-patterns-with-python/main)
+[![pages-build-deployment](https://github.com/flempriere/design-patterns-with-python/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/flempriere/design-patterns-with-python/actions/workflows/pages/pages-build-deployment)
 
 This repository contains notes and code examples from the book, [Python
 Programming with Design
@@ -24,6 +26,8 @@ Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp
   Python](I-introduction/chapter-02/chapter-02.qmd)
 - [Chapter 3: Visual Programming of Tables of
   Data](I-introduction/chapter-03/chapter-03.qmd)
+- [Chapter 4: What are Design
+  Patterns?](I-introduction/chapter-04/chapter-04.qmd)
 
 ### II: Creational Patterns
 
