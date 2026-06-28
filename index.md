@@ -22,6 +22,8 @@ Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp
   Objects](I-introduction/chapter-01/chapter-01.qmd)
 - [Chapter 2: Visual Programming in
   Python](I-introduction/chapter-02/chapter-02.qmd)
+- [Chapter 3: Visual Programming of Tables of
+  Data](I-introduction/chapter-03/chapter-03.qmd)
 
 ### II: Creational Patterns
 
