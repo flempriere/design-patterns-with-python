@@ -1,6 +1,5 @@
 # Chapter 4: What are Design Patterns?
 
-
 - [Notes](#notes)
   - [Defining Design Patterns](#defining-design-patterns)
   - [The Learning Process](#the-learning-process)
@@ -34,11 +33,11 @@
   - Divides the problem of structuring an user interface into three
     stages
 
-    1.  *(Data) Model*
+    1. *(Data) Model*
         - Computational core of the program
-    2.  *View*
+    2. *View*
         - Presentation of the user interface
-    3.  *Controller*
+    3. *Controller*
         - Mediates interactions between the view and the model
 
 ``` mermaid
@@ -101,13 +100,13 @@ flowchart LR
 - Design patterns are generally talked about in the context of three
   different types
 
-  1.  *Creational Patterns*
+  1. *Creational Patterns*
       - Handle creating objects other than via direct instantiation
       - Provide flexibility in how and when objects are created
-  2.  *Structural Patterns*
+  2. *Structural Patterns*
       - Describe how to compose groups of objects into larger objects or
         collections
-  3.  *Behavioural Patterns*
+  3. *Behavioural Patterns*
       - Define communication between objects
       - Control flow of logic and data in a complex system
 
@@ -115,13 +114,13 @@ flowchart LR
 
 - Typically learning follows a rough three-step process
 
-  1.  Acceptance
+  1. Acceptance
       - Develop an awareness of *design patterns* and the problems they
         solve
-  2.  Recognition
+  2. Recognition
       - Recognise design patterns and where they can be applied to solve
         problems in your code
-  3.  Internalisation
+  3. Internalisation
       - Develop sufficient understanding and experience with patterns to
         be able to instinctively use appropriate patterns when creating
         new systems
@@ -148,12 +147,12 @@ flowchart LR
 - A number of common OOP mechanisms are used to achieve these, with two
   prominent ones being
 
-  1.  *Encapsulation*
+  1. *Encapsulation*
       - Hiding internals and implementation specifics of a class from
         other classes
       - Harder in Python due to the lack of support for true private
         variables
-  2.  *Inheritance*
+  2. *Inheritance*
       - Enables reuse and defining common interfaces through
         sub-classing and polymorphic behaviour
       - Typically the root of an inheritance tree is an abstract class
@@ -164,7 +163,7 @@ flowchart LR
 - Two good principles to follow when designing OOP code regardless of
   design patterns are
 
-  1.  **Design to an interface not and implementation**
+  1. **Design to an interface not and implementation**
 
       - Define the top of an inheritance hierarchy with an abstract or
         base class
@@ -187,13 +186,14 @@ flowchart LR
              def command(self):
                  pass
         ```
+
       - Python also provides more formal mechanisms for abstract classes
         via the [`abc` built-in
         module](https://docs.python.org/3/library/abc.html)
       - A concrete sub-class of `DButton` defines it’s own `command` to
         override the abstract method
 
-  2.  **Prefer object composition over inheritance**
+  2. **Prefer object composition over inheritance**
 
       - Object composition is the process of creating objects such that
         they contain other objects
@@ -226,8 +226,8 @@ flowchart LR
   systems-level structure of a program
 - Design patterns do not replace or resolve basic OOP design principles
   and one should still
-  1.  Strive to code to an interface over an implementation
-  2.  Prefer object composition over inheritance
+  1. Strive to code to an interface over an implementation
+  2. Prefer object composition over inheritance
 - When coding in a multi-paradigm language like Python it’s always worth
   considering if a design pattern and OOP is the correct approach or if
   a different paradigm-based approach can solve the problem in a cleaner
