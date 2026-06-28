@@ -34,10 +34,10 @@ flowchart LR
     view["View"]
     control["Controller"]
 
-    model --|Updates|--> view
-    view --|Sees|--> user
-    user --|Uses|--> control
-    controller --|Manipulates|--> model
+    model --Updates--> view
+    view --Sees--> user
+    user --Uses--> control
+    control --Manipulates--> model
 ```
 
 - Each component of the MVC architecture becomes it's own system to be designed
