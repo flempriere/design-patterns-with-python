@@ -18,13 +18,13 @@
 - Throughout the chapter we’ll use the following data table for US
   states
 
-| State      | Abbrev | Capital     | Founded |
-|------------|--------|-------------|---------|
-| Alabama    | AL     | Montgomery  | 1819    |
-| Alaska     | AK     | Juneau      | 1960    |
-| Arizona    | AZ     | Phoenix     | 1912    |
-| Arkansas   | AR     | Little Rock | 1836    |
-| California | CA     | Sacramento  | 1850    |
+| State      | Abbrev | Capital     | Founded | Capital Population |
+|------------|--------|-------------|---------|--------------------|
+| Alabama    | AL     | Montgomery  | 1819    | 198218             |
+| Alaska     | AK     | Juneau      | 1960    | 31275              |
+| Arizona    | AZ     | Phoenix     | 1912    | 1660272            |
+| Arkansas   | AR     | Little Rock | 1836    | 193524             |
+| California | CA     | Sacramento  | 1850    | 508524             |
 
 - We start by reading this data from a [csv
   file](Examples/sample_data.csv)
@@ -46,9 +46,11 @@ def generate_csv(file_path):
 
 csv_data = generate_csv("Examples/sample_data.csv")
 header, *rows = csv_data
+print(header)
 print("\n".join([str(row) for row in rows]))
 ```
 
+    ('State', ' Abbrev', ' Capital', ' Founded', ' Capital Population')
     ('Alabama', 'AL', 'Montgomery', '1819', ' 198218')
     ('Alaska', 'AK', 'Juneau', '1960', ' 31275')
     ('Arizona', 'AZ', 'Phoenix', '1912', ' 1660272')
@@ -118,6 +120,7 @@ class State:
     abbrev: str
     capital: str
     founded: str
+    population: str
 
 
 class StatesList:
@@ -130,23 +133,56 @@ states = StatesList("Examples/sample_data.csv")
 print("\n".join([str(state) for state in states._states]))
 ```
 
-    TypeError: State.__init__() takes 5 positional arguments but 6 were given
-    ---------------------------------------------------------------------------
-    TypeError                                 Traceback (most recent call last)
-    Cell In[2], line 18
-         14         header, *rows = generate_csv(states_file)
-         15         self._states = [State(*row) for row in rows]
-         16 
-         17 
-    ---> 18 states = StatesList("Examples/sample_data.csv")
-         19 print("\n".join([str(state) for state in states._states]))
-
-    Cell In[2], line 15, in StatesList.__init__(self, states_file)
-         13     def __init__(self, states_file):
-         14         header, *rows = generate_csv(states_file)
-    ---> 15         self._states = [State(*row) for row in rows]
-
-    TypeError: State.__init__() takes 5 positional arguments but 6 were given
+    State(name='Alabama', abbrev='AL', capital='Montgomery', founded='1819', population=' 198218')
+    State(name='Alaska', abbrev='AK', capital='Juneau', founded='1960', population=' 31275')
+    State(name='Arizona', abbrev='AZ', capital='Phoenix', founded='1912', population=' 1660272')
+    State(name='Arkansas', abbrev='AR', capital='Little Rock', founded='1836', population=' 193524')
+    State(name='California', abbrev='CA', capital='Sacramento', founded='1850', population=' 508524')
+    State(name='Colorado', abbrev='CO', capital='Denver', founded='1876', population=' 716492')
+    State(name='Connecticut', abbrev='CT', capital='Hartford', founded='1788', population=' 124775')
+    State(name='Delaware', abbrev='DE', capital='Dover', founded='1787', population=' 36047')
+    State(name='Florida', abbrev='FL', capital='Tallahassee', founded='1845', population=' 181376')
+    State(name='Georgia', abbrev='GA', capital='Atlanta', founded='1788', population=' 498044')
+    State(name='Hawaii', abbrev='HI', capital='Honolulu', founded='1959', population=' 359870')
+    State(name='Idaho', abbrev='ID', capital='Boise', founded='1890', population=' 205671')
+    State(name='Illinois', abbrev='IL', capital='Springfield', founded='1818', population=' 116250')
+    State(name='Indiana', abbrev='IN', capital='Indianapolis', founded='1816', population=' 867125')
+    State(name='Iowa', abbrev='IA', capital='Des Moines', founded='1846', population=' 203433')
+    State(name='Kansas', abbrev='KS', capital='Topeka', founded='1861', population=' 127473')
+    State(name='Kentucky', abbrev='KY', capital='Frankfort', founded='1792', population=' 25527')
+    State(name='Louisiana', abbrev='LA', capital='Baton Rouge', founded='1812', population=' 225374')
+    State(name='Maine', abbrev='ME', capital='Augusta', founded='1820', population=' 19136')
+    State(name='Maryland', abbrev='MD', capital='Annapolis', founded='1788', population=' 38394')
+    State(name='Massachusetts', abbrev='MA', capital='Boston', founded='1788', population=' 694483')
+    State(name='Michigan', abbrev='MI', capital='Lansing', founded='1837', population=' 114297')
+    State(name='Minnesota', abbrev='MN', capital='Saint Paul', founded='1858', population=' 285068')
+    State(name='Mississippi', abbrev='MS', capital='Jackson', founded='1817', population=' 173514')
+    State(name='Missouri', abbrev='MO', capital='Jefferson City', founded='1821', population=' 43079')
+    State(name='Montana', abbrev='MT', capital='Helena', founded='1889', population=' 28190')
+    State(name='Nebraska', abbrev='NE', capital='Lincoln', founded='1867', population=' 258379')
+    State(name='Nevada', abbrev='NV', capital='Carson City', founded='1864', population=' 55274')
+    State(name='New Hampshire', abbrev='NH', capital='Concord', founded='1788', population=' 42695')
+    State(name='New Jersey', abbrev='NJ', capital='Trenton', founded='1787', population=' 84913')
+    State(name='New Mexico', abbrev='NM', capital='Santa Fe', founded='1912', population=' 75764')
+    State(name='New York', abbrev='NY', capital='Albany', founded='1788', population=' 97856')
+    State(name='North Carolina', abbrev='NC', capital='Raleigh', founded='1789', population=' 403892')
+    State(name='North Dakota', abbrev='ND', capital='Bismarck', founded='1889', population=' 61272')
+    State(name='Ohio', abbrev='OH', capital='Columbus', founded='1803', population=' 892553')
+    State(name='Oklahoma', abbrev='OK', capital='Oklahoma City', founded='1907', population=' 649021')
+    State(name='Oregon', abbrev='OR', capital='Salem', founded='1859', population=' 154637')
+    State(name='Pennsylvania', abbrev='PA', capital='Harrisburg', founded='1787', population=' 49528')
+    State(name='Rhode Island', abbrev='RI', capital='Providence', founded='1790', population=' 178042')
+    State(name='South Carolina', abbrev='SC', capital='Columbia', founded='1788', population=' 129272')
+    State(name='South Dakota', abbrev='SD', capital='Pierre', founded='1889', population=' 13646')
+    State(name='Tennessee', abbrev='TN', capital='Nashville', founded='1796', population=' 691243')
+    State(name='Texas', abbrev='TX', capital='Austin', founded='1845', population=' 964254')
+    State(name='Utah', abbrev='UT', capital='Salt Lake City', founded='1896', population=' 186440')
+    State(name='Vermont', abbrev='VT', capital='Montpelier', founded='1791', population=' 7855')
+    State(name='Virginia', abbrev='VA', capital='Richmond', founded='1788', population=' 204214')
+    State(name='Washington', abbrev='WA', capital='Olympia', founded='1889', population=' 46478')
+    State(name='West Virginia', abbrev='WV', capital='Charleston', founded='1863', population=' 51400')
+    State(name='Wisconsin', abbrev='WI', capital='Madison', founded='1848', population=' 233209')
+    State(name='Wyoming', abbrev='WY', capital='Cheyenne', founded='1890', population=' 59466')
 
 - Now that we’ve got our data loaded we can start to look at how we
   might display it

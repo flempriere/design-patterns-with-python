@@ -257,6 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <th>Abbrev</th>
 <th>Capital</th>
 <th>Founded</th>
+<th>Capital Population</th>
 </tr>
 </thead>
 <tbody>
@@ -265,30 +266,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>AL</td>
 <td>Montgomery</td>
 <td>1819</td>
+<td>198218</td>
 </tr>
 <tr class="even">
 <td>Alaska</td>
 <td>AK</td>
 <td>Juneau</td>
 <td>1960</td>
+<td>31275</td>
 </tr>
 <tr class="odd">
 <td>Arizona</td>
 <td>AZ</td>
 <td>Phoenix</td>
 <td>1912</td>
+<td>1660272</td>
 </tr>
 <tr class="even">
 <td>Arkansas</td>
 <td>AR</td>
 <td>Little Rock</td>
 <td>1836</td>
+<td>193524</td>
 </tr>
 <tr class="odd">
 <td>California</td>
 <td>CA</td>
 <td>Sacramento</td>
 <td>1850</td>
+<td>508524</td>
 </tr>
 </tbody>
 </table>
@@ -299,7 +305,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>This returns the header tuple and the data rows as two separate objects</li>
 </ul></li>
 </ul>
-<div id="29a00f79" class="cell" data-execution_count="1">
+<div id="6163c8e9" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -312,9 +318,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>csv_data <span class="op">=</span> generate_csv(<span class="st">"Examples/sample_data.csv"</span>)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>header, <span class="op">*</span>rows <span class="op">=</span> csv_data</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join([<span class="bu">str</span>(row) <span class="cf">for</span> row <span class="kw">in</span> rows]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(header)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join([<span class="bu">str</span>(row) <span class="cf">for</span> row <span class="kw">in</span> rows]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>('Alabama', 'AL', 'Montgomery', '1819', ' 198218')
+<pre><code>('State', ' Abbrev', ' Capital', ' Founded', ' Capital Population')
+('Alabama', 'AL', 'Montgomery', '1819', ' 198218')
 ('Alaska', 'AK', 'Juneau', '1960', ' 31275')
 ('Arizona', 'AZ', 'Phoenix', '1912', ' 1660272')
 ('Arkansas', 'AR', 'Little Rock', '1836', ' 193524')
@@ -376,7 +384,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul></li>
 </ul>
-<div id="ad5a13ae" class="cell" data-execution_count="2">
+<div id="00bbc6c4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dataclasses</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -386,35 +394,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    abbrev: <span class="bu">str</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    capital: <span class="bu">str</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    founded: <span class="bu">str</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    population: <span class="bu">str</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StatesList:</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, states_file):</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        header, <span class="op">*</span>rows <span class="op">=</span> generate_csv(states_file)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._states <span class="op">=</span> [State(<span class="op">*</span>row) <span class="cf">for</span> row <span class="kw">in</span> rows]</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StatesList:</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, states_file):</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        header, <span class="op">*</span>rows <span class="op">=</span> generate_csv(states_file)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._states <span class="op">=</span> [State(<span class="op">*</span>row) <span class="cf">for</span> row <span class="kw">in</span> rows]</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> StatesList(<span class="st">"Examples/sample_data.csv"</span>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join([<span class="bu">str</span>(state) <span class="cf">for</span> state <span class="kw">in</span> states._states]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[2]</span><span class="ansi-green-fg">, line 18</span>
-<span class="ansi-green-fg">     14</span>         header, *rows = generate_csv(states_file)
-<span class="ansi-green-fg">     15</span>         self._states = [State(*row) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> row <span style="font-weight:bold;color:rgb(0,135,0)">in</span> rows]
-<span class="ansi-green-fg">     16</span> 
-<span class="ansi-green-fg">     17</span> 
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">18</span> states = StatesList(<span class="ansi-yellow-fg">"Examples/sample_data.csv"</span>)
-<span class="ansi-green-fg">     19</span> print(<span class="ansi-yellow-fg">"\n"</span>.join([str(state) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> state <span style="font-weight:bold;color:rgb(0,135,0)">in</span> states._states]))
-
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[2]</span><span class="ansi-green-fg">, line 15</span>, in <span class="ansi-cyan-fg">StatesList.__init__</span><span class="ansi-blue-fg">(self, states_file)</span>
-<span class="ansi-green-fg">     13</span>     <span style="font-weight:bold;color:rgb(0,135,0)">def</span> __init__(self, states_file):
-<span class="ansi-green-fg">     14</span>         header, *rows = generate_csv(states_file)
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">15</span>         self._states = [State(*row) <span style="font-weight:bold;color:rgb(0,135,0)">for</span> row <span style="font-weight:bold;color:rgb(0,135,0)">in</span> rows]
-
-<span class="ansi-red-fg">TypeError</span>: State.__init__() takes 5 positional arguments but 6 were given</pre>
-</div>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> StatesList(<span class="st">"Examples/sample_data.csv"</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join([<span class="bu">str</span>(state) <span class="cf">for</span> state <span class="kw">in</span> states._states]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>State(name='Alabama', abbrev='AL', capital='Montgomery', founded='1819', population=' 198218')
+State(name='Alaska', abbrev='AK', capital='Juneau', founded='1960', population=' 31275')
+State(name='Arizona', abbrev='AZ', capital='Phoenix', founded='1912', population=' 1660272')
+State(name='Arkansas', abbrev='AR', capital='Little Rock', founded='1836', population=' 193524')
+State(name='California', abbrev='CA', capital='Sacramento', founded='1850', population=' 508524')
+State(name='Colorado', abbrev='CO', capital='Denver', founded='1876', population=' 716492')
+State(name='Connecticut', abbrev='CT', capital='Hartford', founded='1788', population=' 124775')
+State(name='Delaware', abbrev='DE', capital='Dover', founded='1787', population=' 36047')
+State(name='Florida', abbrev='FL', capital='Tallahassee', founded='1845', population=' 181376')
+State(name='Georgia', abbrev='GA', capital='Atlanta', founded='1788', population=' 498044')
+State(name='Hawaii', abbrev='HI', capital='Honolulu', founded='1959', population=' 359870')
+State(name='Idaho', abbrev='ID', capital='Boise', founded='1890', population=' 205671')
+State(name='Illinois', abbrev='IL', capital='Springfield', founded='1818', population=' 116250')
+State(name='Indiana', abbrev='IN', capital='Indianapolis', founded='1816', population=' 867125')
+State(name='Iowa', abbrev='IA', capital='Des Moines', founded='1846', population=' 203433')
+State(name='Kansas', abbrev='KS', capital='Topeka', founded='1861', population=' 127473')
+State(name='Kentucky', abbrev='KY', capital='Frankfort', founded='1792', population=' 25527')
+State(name='Louisiana', abbrev='LA', capital='Baton Rouge', founded='1812', population=' 225374')
+State(name='Maine', abbrev='ME', capital='Augusta', founded='1820', population=' 19136')
+State(name='Maryland', abbrev='MD', capital='Annapolis', founded='1788', population=' 38394')
+State(name='Massachusetts', abbrev='MA', capital='Boston', founded='1788', population=' 694483')
+State(name='Michigan', abbrev='MI', capital='Lansing', founded='1837', population=' 114297')
+State(name='Minnesota', abbrev='MN', capital='Saint Paul', founded='1858', population=' 285068')
+State(name='Mississippi', abbrev='MS', capital='Jackson', founded='1817', population=' 173514')
+State(name='Missouri', abbrev='MO', capital='Jefferson City', founded='1821', population=' 43079')
+State(name='Montana', abbrev='MT', capital='Helena', founded='1889', population=' 28190')
+State(name='Nebraska', abbrev='NE', capital='Lincoln', founded='1867', population=' 258379')
+State(name='Nevada', abbrev='NV', capital='Carson City', founded='1864', population=' 55274')
+State(name='New Hampshire', abbrev='NH', capital='Concord', founded='1788', population=' 42695')
+State(name='New Jersey', abbrev='NJ', capital='Trenton', founded='1787', population=' 84913')
+State(name='New Mexico', abbrev='NM', capital='Santa Fe', founded='1912', population=' 75764')
+State(name='New York', abbrev='NY', capital='Albany', founded='1788', population=' 97856')
+State(name='North Carolina', abbrev='NC', capital='Raleigh', founded='1789', population=' 403892')
+State(name='North Dakota', abbrev='ND', capital='Bismarck', founded='1889', population=' 61272')
+State(name='Ohio', abbrev='OH', capital='Columbus', founded='1803', population=' 892553')
+State(name='Oklahoma', abbrev='OK', capital='Oklahoma City', founded='1907', population=' 649021')
+State(name='Oregon', abbrev='OR', capital='Salem', founded='1859', population=' 154637')
+State(name='Pennsylvania', abbrev='PA', capital='Harrisburg', founded='1787', population=' 49528')
+State(name='Rhode Island', abbrev='RI', capital='Providence', founded='1790', population=' 178042')
+State(name='South Carolina', abbrev='SC', capital='Columbia', founded='1788', population=' 129272')
+State(name='South Dakota', abbrev='SD', capital='Pierre', founded='1889', population=' 13646')
+State(name='Tennessee', abbrev='TN', capital='Nashville', founded='1796', population=' 691243')
+State(name='Texas', abbrev='TX', capital='Austin', founded='1845', population=' 964254')
+State(name='Utah', abbrev='UT', capital='Salt Lake City', founded='1896', population=' 186440')
+State(name='Vermont', abbrev='VT', capital='Montpelier', founded='1791', population=' 7855')
+State(name='Virginia', abbrev='VA', capital='Richmond', founded='1788', population=' 204214')
+State(name='Washington', abbrev='WA', capital='Olympia', founded='1889', population=' 46478')
+State(name='West Virginia', abbrev='WV', capital='Charleston', founded='1863', population=' 51400')
+State(name='Wisconsin', abbrev='WI', capital='Madison', founded='1848', population=' 233209')
+State(name='Wyoming', abbrev='WY', capital='Cheyenne', founded='1890', population=' 59466')</code></pre>
 </div>
 </div>
 <ul>
@@ -426,15 +467,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>A <code>Listbox</code> is a widget that let’s the user select from a drop-down menu of strings</li>
 <li>This can be made pretty easily out of the box</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tkinter <span class="im">as</span> tk</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> UIBuilder():</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, states_list):</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.states <span class="op">=</span> states_list</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.listbox <span class="op">=</span> tk.Listbox(root, selectmode<span class="op">=</span>tk.SINGLE)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.listbox.grid(column<span class="op">=</span><span class="dv">0</span>, row<span class="op">=</span><span class="dv">0</span>, rowspan<span class="op">=</span><span class="dv">4</span>, padx<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> state <span class="kw">in</span> <span class="va">self</span>.states:</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.listbox.insert(tk.END, state.name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tkinter <span class="im">as</span> tk</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> UIBuilder():</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, states_list):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.states <span class="op">=</span> states_list</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.listbox <span class="op">=</span> tk.Listbox(root, selectmode<span class="op">=</span>tk.SINGLE)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.listbox.grid(column<span class="op">=</span><span class="dv">0</span>, row<span class="op">=</span><span class="dv">0</span>, rowspan<span class="op">=</span><span class="dv">4</span>, padx<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> state <span class="kw">in</span> <span class="va">self</span>.states:</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.listbox.insert(tk.END, state.name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><p>To add options to the <code>Listbox</code> we call the <code>insert</code> method</p>
 <ul>
@@ -481,12 +522,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li>We add the following to the <code>UIBuilder</code> class <code>__init__</code> method (See <a href="Examples/02-Scrollbar/02-scrollbar.py">02-scrollbar.py</a> for the full program)</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create scrollbar and link to the listbox</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>scrollbar <span class="op">=</span> tk.Scrollbar(root, command<span class="op">=</span><span class="va">self</span>.listbox.yview)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>scrollbar.grid(row<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span><span class="dv">1</span>, rowspan<span class="op">=</span><span class="dv">4</span>, sticky<span class="op">=</span>tk.N <span class="op">+</span> tk.S)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># make it so scrolling on the listbox adjusts the scroll bar in turn</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.listbox.config(yscrollcommand<span class="op">=</span>scrollbar.<span class="bu">set</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create scrollbar and link to the listbox</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>scrollbar <span class="op">=</span> tk.Scrollbar(root, command<span class="op">=</span><span class="va">self</span>.listbox.yview)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>scrollbar.grid(row<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span><span class="dv">1</span>, rowspan<span class="op">=</span><span class="dv">4</span>, sticky<span class="op">=</span>tk.N <span class="op">+</span> tk.S)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># make it so scrolling on the listbox adjusts the scroll bar in turn</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.listbox.config(yscrollcommand<span class="op">=</span>scrollbar.<span class="bu">set</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><p>As seen below, the program now contains a synchronised scroll bar</p>
 <div class="quarto-figure quarto-figure-center">
@@ -508,20 +549,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>i.e.&nbsp;It maps the column headers to their respective values</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="at">@dataclasses.dataclass</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> State:</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>      name: <span class="bu">str</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      abbrev: <span class="bu">str</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      capital: <span class="bu">str</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      founded: <span class="bu">str</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> to_dict(<span class="va">self</span>):</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> {</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>              <span class="st">"State"</span>: <span class="va">self</span>.name,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Abbrev"</span>: <span class="va">self</span>.abbrev,</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Capital"</span>: <span class="va">self</span>.capital,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Founded"</span>: <span class="va">self</span>.founded,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>          }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="at">@dataclasses.dataclass</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> State:</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>      name: <span class="bu">str</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      abbrev: <span class="bu">str</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      capital: <span class="bu">str</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      founded: <span class="bu">str</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> to_dict(<span class="va">self</span>):</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> {</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>              <span class="st">"State"</span>: <span class="va">self</span>.name,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Abbrev"</span>: <span class="va">self</span>.abbrev,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Capital"</span>: <span class="va">self</span>.capital,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Founded"</span>: <span class="va">self</span>.founded,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>          }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>We’ve also renamed our <code>StatesList</code> class to <code>StatesLoader</code> to reflect that it only has responsibility for loading the data from a file</p></li>
 <li><p>Once that’s done we can retrieve the headers and the list itself and work with those directly</p></li>
 <li><p>The next step is to create the labels</p>
@@ -534,30 +575,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Tkinter provides a range of different events that can be bound to</li>
 <li>Check out the <a href="https://docs.python.org/3/library/tkinter.html#module-tkinter">documentation</a> for all of them</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create labels for data in the state list</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.state_labels <span class="op">=</span> {</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        column_name: tk.Label(root, text<span class="op">=</span><span class="st">""</span>) <span class="cf">for</span> column_name <span class="kw">in</span> <span class="va">self</span>.header</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.state_labels[<span class="st">"Abbrev"</span>].config(fg<span class="op">=</span><span class="st">"red"</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, label <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.state_labels.values()):</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        label.grid(column<span class="op">=</span><span class="dv">2</span>, row<span class="op">=</span>idx, sticky<span class="op">=</span>tk.W)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.listbox.bind(<span class="st">"&lt;&lt;ListboxSelect&gt;&gt;"</span>, <span class="va">self</span>.state_selected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create labels for data in the state list</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.state_labels <span class="op">=</span> {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        column_name: tk.Label(root, text<span class="op">=</span><span class="st">""</span>) <span class="cf">for</span> column_name <span class="kw">in</span> <span class="va">self</span>.header</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.state_labels[<span class="st">"Abbrev"</span>].config(fg<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, label <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.state_labels.values()):</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        label.grid(column<span class="op">=</span><span class="dv">2</span>, row<span class="op">=</span>idx, sticky<span class="op">=</span>tk.W)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.listbox.bind(<span class="st">"&lt;&lt;ListboxSelect&gt;&gt;"</span>, <span class="va">self</span>.state_selected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul></li>
 <li><p>Then the last step is to define the function that is actually bound</p>
 <ul>
 <li>Here we use the fact that the keys are synchronised between the <code>state_labels</code> dictionary and the <code>state</code> class do this with a simple <code>for</code> loop</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> state_selected(<span class="va">self</span>, event):</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>      idx <span class="op">=</span> <span class="bu">int</span>(<span class="va">self</span>.listbox.curselection()[<span class="dv">0</span>])</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>      state <span class="op">=</span> <span class="va">self</span>.states[idx]</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> key, val <span class="kw">in</span> state.to_dict().items():</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.state_labels[key].config(text<span class="op">=</span>val)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> state_selected(<span class="va">self</span>, event):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>      idx <span class="op">=</span> <span class="bu">int</span>(<span class="va">self</span>.listbox.curselection()[<span class="dv">0</span>])</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>      state <span class="op">=</span> <span class="va">self</span>.states[idx]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> key, val <span class="kw">in</span> state.to_dict().items():</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.state_labels[key].config(text<span class="op">=</span>val)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>The resulting program should now look like below, and can be found in <a href="Examples/03-display-state-data/03-display-state-data.py">03-display-state-data.py</a></p></li>
 <li><p>A nice feature to have might be the ability to jump through a list to a letter by pressing the corresponding key</p>
 <ul>
@@ -565,11 +606,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>We then bind the <code>&lt;Key&gt;</code> event on the entry field (corresponding to a key being entered) to a new function</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create Entry so that we can jump alphabetically</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">self</span>.entry <span class="op">=</span> tk.Entry(root)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">self</span>.entry.grid(column<span class="op">=</span><span class="dv">0</span>, row<span class="op">=</span><span class="dv">4</span>, pady<span class="op">=</span><span class="dv">4</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">self</span>.entry.focus_set()  <span class="co"># makes this the focus of the window</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">self</span>.entry.bind(<span class="st">"&lt;Key&gt;"</span>, <span class="va">self</span>.key_press)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create Entry so that we can jump alphabetically</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">self</span>.entry <span class="op">=</span> tk.Entry(root)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">self</span>.entry.grid(column<span class="op">=</span><span class="dv">0</span>, row<span class="op">=</span><span class="dv">4</span>, pady<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">self</span>.entry.focus_set()  <span class="co"># makes this the focus of the window</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">self</span>.entry.bind(<span class="st">"&lt;Key&gt;"</span>, <span class="va">self</span>.key_press)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li>Now again just have to define the bound function
 <ul>
 <li>Here we want,
@@ -581,27 +622,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Update the displayed data</li>
 </ol></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> key_press(<span class="va">self</span>, event):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>      char <span class="op">=</span> event.char.upper()</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> find_closest():</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>          idx <span class="op">=</span> bisect.bisect_left(<span class="va">self</span>.states, char, key<span class="op">=</span><span class="kw">lambda</span> x: x.name)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> idx <span class="op">!=</span> <span class="bu">len</span>(<span class="va">self</span>.states):</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>              <span class="cf">return</span> idx</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> <span class="dv">0</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      idx <span class="op">=</span> find_closest()</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>      <span class="co"># reset the entry</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.entry.delete(<span class="dv">0</span>, tk.END)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Update the listbox to the new selection, discarding the old and scrolling so its visible</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.listbox.select_clear(<span class="dv">0</span>, tk.END)</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.listbox.select_set(idx)</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.listbox.see(idx)</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>      <span class="co"># call the function triggered a new selection</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.state_selected(event)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> key_press(<span class="va">self</span>, event):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>      char <span class="op">=</span> event.char.upper()</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> find_closest():</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>          idx <span class="op">=</span> bisect.bisect_left(<span class="va">self</span>.states, char, key<span class="op">=</span><span class="kw">lambda</span> x: x.name)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> idx <span class="op">!=</span> <span class="bu">len</span>(<span class="va">self</span>.states):</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>              <span class="cf">return</span> idx</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>      idx <span class="op">=</span> find_closest()</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>      <span class="co"># reset the entry</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.entry.delete(<span class="dv">0</span>, tk.END)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Update the listbox to the new selection, discarding the old and scrolling so its visible</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.listbox.select_clear(<span class="dv">0</span>, tk.END)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.listbox.select_set(idx)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.listbox.see(idx)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>      <span class="co"># call the function triggered a new selection</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.state_selected(event)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul></li>
 <li><p>The final program given in <a href="Examples/04-bind-key-press/04-bind-key-press.py">04-bind-key-press.py</a> should look like the below,</p>
 <div class="quarto-figure quarto-figure-center">
@@ -626,41 +667,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>Combobox</code> has it’s own scrollbar so we don’t need to add one ourselves</li>
 <li>By binding on <code>&lt;&lt;ComboBoxSelected&gt;&gt;</code> we only trigger when the user selects an option from the drop-down</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> UIBuilder:</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, states_loader):</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>          states_loader <span class="op">=</span> states_loader</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.states <span class="op">=</span> states_loader.states</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.header <span class="op">=</span> states_loader.header</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.combo <span class="op">=</span> tk.ttk.Combobox(root, values<span class="op">=</span>[state.name <span class="cf">for</span> state <span class="kw">in</span> <span class="va">self</span>.states])</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.combo.current(<span class="dv">0</span>)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.combo.bind(<span class="st">"&lt;&lt;ComboboxSelected&gt;&gt;"</span>, <span class="va">self</span>.state_selected)</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.combo.grid(column<span class="op">=</span><span class="dv">0</span>, row<span class="op">=</span><span class="dv">0</span>, rowspan<span class="op">=</span><span class="dv">8</span>, padx<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>          <span class="co"># create labels for data in the state list</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.state_labels <span class="op">=</span> {</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>              column_name: tk.Label(root, text<span class="op">=</span><span class="st">""</span>) <span class="cf">for</span> column_name <span class="kw">in</span> <span class="va">self</span>.header</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>          }</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>          <span class="cf">try</span>:</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>              <span class="va">self</span>.state_labels[<span class="st">"Abbrev"</span>].config(fg<span class="op">=</span><span class="st">"red"</span>)</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>          <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>              <span class="cf">pass</span></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> idx, label <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.state_labels.values()):</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>              label.grid(column<span class="op">=</span><span class="dv">2</span>, row<span class="op">=</span>idx, sticky<span class="op">=</span>tk.W)</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.state_selected(<span class="va">None</span>)</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> state_selected(<span class="va">self</span>, event):</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>          state <span class="op">=</span> <span class="va">self</span>.states[<span class="va">self</span>.combo.current()]</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.update_labels(state)</span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> update_labels(<span class="va">self</span>, state):</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> key, val <span class="kw">in</span> state.to_dict().items():</span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>              <span class="va">self</span>.state_labels[key].config(text<span class="op">=</span>val)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> UIBuilder:</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, states_loader):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>          states_loader <span class="op">=</span> states_loader</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.states <span class="op">=</span> states_loader.states</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.header <span class="op">=</span> states_loader.header</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.combo <span class="op">=</span> tk.ttk.Combobox(root, values<span class="op">=</span>[state.name <span class="cf">for</span> state <span class="kw">in</span> <span class="va">self</span>.states])</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.combo.current(<span class="dv">0</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.combo.bind(<span class="st">"&lt;&lt;ComboboxSelected&gt;&gt;"</span>, <span class="va">self</span>.state_selected)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.combo.grid(column<span class="op">=</span><span class="dv">0</span>, row<span class="op">=</span><span class="dv">0</span>, rowspan<span class="op">=</span><span class="dv">8</span>, padx<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>          <span class="co"># create labels for data in the state list</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.state_labels <span class="op">=</span> {</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>              column_name: tk.Label(root, text<span class="op">=</span><span class="st">""</span>) <span class="cf">for</span> column_name <span class="kw">in</span> <span class="va">self</span>.header</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>          <span class="cf">try</span>:</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>              <span class="va">self</span>.state_labels[<span class="st">"Abbrev"</span>].config(fg<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>          <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>              <span class="cf">pass</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> idx, label <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.state_labels.values()):</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>              label.grid(column<span class="op">=</span><span class="dv">2</span>, row<span class="op">=</span>idx, sticky<span class="op">=</span>tk.W)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.state_selected(<span class="va">None</span>)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> state_selected(<span class="va">self</span>, event):</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>          state <span class="op">=</span> <span class="va">self</span>.states[<span class="va">self</span>.combo.current()]</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.update_labels(state)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> update_labels(<span class="va">self</span>, state):</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> key, val <span class="kw">in</span> state.to_dict().items():</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>              <span class="va">self</span>.state_labels[key].config(text<span class="op">=</span>val)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>As with previous examples the full code can be found in <a href="Examples/05-Combobox/05-combobox.py">05-combobox.py</a></p></li>
 <li><p>The program should look similar to below</p>
 <div class="quarto-figure quarto-figure-center">
@@ -724,29 +765,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>We set the <code>width</code> and <code>minwidth</code> values in pixels</li>
 <li>Then set <code>stretch=tk.NO</code> to stop the widget resizing columns</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>  states_loader: StatesLoader <span class="op">=</span> states_loader</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.states <span class="op">=</span> states_loader.states</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.header <span class="op">=</span> states_loader.header</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      <span class="co"># slice off the first header since that's column #0</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      columns <span class="op">=</span> <span class="va">self</span>.header[<span class="dv">1</span>:]</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      tree <span class="op">=</span> tk.ttk.Treeview(root, columns<span class="op">=</span>columns)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>      tree.column(<span class="st">"#0"</span>, width<span class="op">=</span><span class="dv">100</span>, minwidth<span class="op">=</span><span class="dv">100</span>, stretch<span class="op">=</span>tk.NO)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> column <span class="kw">in</span> columns:</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>          tree.column(column, width<span class="op">=</span><span class="dv">100</span>, minwidth<span class="op">=</span><span class="dv">100</span>, stretch<span class="op">=</span>tk.NO)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>  states_loader: StatesLoader <span class="op">=</span> states_loader</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.states <span class="op">=</span> states_loader.states</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.header <span class="op">=</span> states_loader.header</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      <span class="co"># slice off the first header since that's column #0</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      columns <span class="op">=</span> <span class="va">self</span>.header[<span class="dv">1</span>:]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      tree <span class="op">=</span> tk.ttk.Treeview(root, columns<span class="op">=</span>columns)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>      tree.column(<span class="st">"#0"</span>, width<span class="op">=</span><span class="dv">100</span>, minwidth<span class="op">=</span><span class="dv">100</span>, stretch<span class="op">=</span>tk.NO)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> column <span class="kw">in</span> columns:</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>          tree.column(column, width<span class="op">=</span><span class="dv">100</span>, minwidth<span class="op">=</span><span class="dv">100</span>, stretch<span class="op">=</span>tk.NO)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><p>Next we formally create our headings</p>
 <ul>
 <li>Since <code>Treeview</code> is in <code>ttk</code> we need to define the new <code>Style</code> to make the headings bold</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create headings</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    style <span class="op">=</span> tk.ttk.Style()</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    style.configure(<span class="st">"Treeview.Heading"</span>, font<span class="op">=</span>(<span class="va">None</span>, <span class="dv">10</span>, <span class="st">"bold"</span>))</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> column, label <span class="kw">in</span> <span class="bu">zip</span>((<span class="st">"#0"</span>,) <span class="op">+</span> columns, <span class="va">self</span>.header):</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        tree.heading(column, text<span class="op">=</span>label)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create headings</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    style <span class="op">=</span> tk.ttk.Style()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    style.configure(<span class="st">"Treeview.Heading"</span>, font<span class="op">=</span>(<span class="va">None</span>, <span class="dv">10</span>, <span class="st">"bold"</span>))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> column, label <span class="kw">in</span> <span class="bu">zip</span>((<span class="st">"#0"</span>,) <span class="op">+</span> columns, <span class="va">self</span>.header):</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        tree.heading(column, text<span class="op">=</span>label)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Last step is then insert our data rows</p>
 <ul>
 <li>The first argument is the <code>node</code></li>
@@ -775,47 +816,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>First we have to play around with our data</p>
 <ul>
 <li><p>We need to exclude <code>"Capital Population"</code> from the headings</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># slice off the first header since that's column #0</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    columns <span class="op">=</span> <span class="bu">tuple</span>([col <span class="cf">for</span> col <span class="kw">in</span> <span class="va">self</span>.header[<span class="dv">1</span>:] <span class="cf">if</span> col <span class="op">!=</span> <span class="st">"Capital Population"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># slice off the first header since that's column #0</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    columns <span class="op">=</span> <span class="bu">tuple</span>([col <span class="cf">for</span> col <span class="kw">in</span> <span class="va">self</span>.header[<span class="dv">1</span>:] <span class="cf">if</span> col <span class="op">!=</span> <span class="st">"Capital Population"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Then we need to update how we pass values to the rows to create a list containing the values for the main row</p></li>
 <li><p>Then also create an appropriately padded row so that the capital city population appears below the capital city</p></li>
 <li><p>We then create our first row as normal, but this time retrieve it’s identifier</p>
 <ul>
 <li>We then create the sub-row and insert it as a child our parent row</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># insert the data rows</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, state <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.states):</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        main_row_values <span class="op">=</span> []</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        sub_row_values <span class="op">=</span> []</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> key, value <span class="kw">in</span> state.to_dict().items():</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> key <span class="op">==</span> <span class="st">"State"</span> <span class="kw">or</span> key <span class="op">==</span> <span class="st">"Capital Population"</span>:</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> key <span class="op">==</span> <span class="st">"Capital"</span>:</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                main_row_values.append(value)</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>                sub_row_values.append(<span class="ss">f"pop=</span><span class="sc">{</span>state<span class="sc">.</span>population<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>                main_row_values.append(value)</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                sub_row_values.append(<span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># insert the data rows</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, state <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.states):</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        main_row_values <span class="op">=</span> []</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        sub_row_values <span class="op">=</span> []</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> key, value <span class="kw">in</span> state.to_dict().items():</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> key <span class="op">==</span> <span class="st">"State"</span> <span class="kw">or</span> key <span class="op">==</span> <span class="st">"Capital Population"</span>:</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> key <span class="op">==</span> <span class="st">"Capital"</span>:</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                main_row_values.append(value)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                sub_row_values.append(<span class="ss">f"pop=</span><span class="sc">{</span>state<span class="sc">.</span>population<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>                main_row_values.append(value)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>                sub_row_values.append(<span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul></li>
 <li><p>This should result in a program that looks like the following,</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># insert the data rows</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> idx, state <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.states):</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>      main_row_values <span class="op">=</span> []</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      sub_row_values <span class="op">=</span> []</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> key, value <span class="kw">in</span> state.to_dict().items():</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> key <span class="op">==</span> <span class="st">"State"</span> <span class="kw">or</span> key <span class="op">==</span> <span class="st">"Capital Population"</span>:</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>              <span class="cf">continue</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>          <span class="cf">elif</span> key <span class="op">==</span> <span class="st">"Capital"</span>:</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>              main_row_values.append(value)</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>              sub_row_values.append(<span class="ss">f"pop=</span><span class="sc">{</span>state<span class="sc">.</span>population<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>          <span class="cf">else</span>:</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>              main_row_values.append(value)</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>              sub_row_values.append(<span class="st">""</span>)</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>      state_row <span class="op">=</span> tree.insert(<span class="st">""</span>, idx, text<span class="op">=</span>state.name, values<span class="op">=</span>main_row_values)</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>      tree.insert(state_row, tk.END, values<span class="op">=</span>sub_row_values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># insert the data rows</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> idx, state <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.states):</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>      main_row_values <span class="op">=</span> []</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>      sub_row_values <span class="op">=</span> []</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> key, value <span class="kw">in</span> state.to_dict().items():</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> key <span class="op">==</span> <span class="st">"State"</span> <span class="kw">or</span> key <span class="op">==</span> <span class="st">"Capital Population"</span>:</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>              <span class="cf">continue</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>          <span class="cf">elif</span> key <span class="op">==</span> <span class="st">"Capital"</span>:</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>              main_row_values.append(value)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>              sub_row_values.append(<span class="ss">f"pop=</span><span class="sc">{</span>state<span class="sc">.</span>population<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>          <span class="cf">else</span>:</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>              main_row_values.append(value)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>              sub_row_values.append(<span class="st">""</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>      state_row <span class="op">=</span> tree.insert(<span class="st">""</span>, idx, text<span class="op">=</span>state.name, values<span class="op">=</span>main_row_values)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>      tree.insert(state_row, tk.END, values<span class="op">=</span>sub_row_values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>The resulting <code>Treeview</code> should then look like below</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
