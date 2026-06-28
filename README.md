@@ -10,6 +10,7 @@ This repository contains notes and code examples from the book, [Python Programm
 
 - [Chapter 1: Introduction to Objects](I-introduction/chapter-01/chapter-01.md)
 - [Chapter 2: Visual Programming in Python](I-introduction/chapter-02/chapter-02.md)
+- [Chapter 3: Visual Programming of Tables of Data](I-introduction/chapter-03/chapter-03.md)
 
 ### II: Creational Patterns
 

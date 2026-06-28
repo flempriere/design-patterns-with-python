@@ -8,13 +8,13 @@ title: "Chapter 3: Visual Programming of Tables of Data"
 - Next we'll examine how we can represent data in graphical user interface
 - Throughout the chapter we'll use the following data table for US states
 
-| State      | Abbrev | Capital     | Founded |
-|------------|--------|-------------|---------|
-| Alabama    | AL     | Montgomery  | 1819    |
-| Alaska     | AK     | Juneau      | 1960    |
-| Arizona    | AZ     | Phoenix     | 1912    |
-| Arkansas   | AR     | Little Rock | 1836    |
-| California | CA     | Sacramento  | 1850    |
+| State      | Abbrev | Capital     | Founded | Capital Population |
+|------------|--------|-------------|---------|--------------------|
+| Alabama    | AL     | Montgomery  | 1819    | 198218             |
+| Alaska     | AK     | Juneau      | 1960    | 31275              |
+| Arizona    | AZ     | Phoenix     | 1912    | 1660272            |
+| Arkansas   | AR     | Little Rock | 1836    | 193524             |
+| California | CA     | Sacramento  | 1850    | 508524             |
 
 - We start by reading this data from a [csv file](Examples/sample_data.csv)
     - We can write a simple generator function to do this using the `csv` built-in library
@@ -33,6 +33,7 @@ def generate_csv(file_path):
 
 csv_data = generate_csv("Examples/sample_data.csv")
 header, *rows = csv_data
+print(header)
 print("\n".join([str(row) for row in rows]))
 ```
 
@@ -51,6 +52,7 @@ class State:
     abbrev: str
     capital: str
     founded: str
+    population: str
 
 
 class StatesList:
