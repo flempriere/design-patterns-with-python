@@ -1,6 +1,7 @@
 # Chapter 5: The Factory Pattern
 
 - [Notes](#notes)
+  - [How a Factory Works](#how-a-factory-works)
 - [Summary](#summary)
 
 ## Notes
@@ -15,5 +16,144 @@
   inputs
 - The *Simple Factory* is a more basic version of the general *Factory
   Pattern* which we’ll look at soon
+
+### How a Factory Works
+
+- Consider the simple case of an entry form to receive user’s name
+
+- Might receive it in the format
+
+  1. “firstname lastname” or,
+  2. “lastname, firstname”
+
+- We assume we can always differentiate between the two forms by the
+  presence of a comma
+
+  - The comma delimits the last and first names
+
+- The basic class structure is represented in UML below
+
+``` mermaid
+---
+title: Name Factory
+---
+classDiagram
+
+  class Name{
+    Name : +String first
+    Name : +String last
+  }
+
+  class LastNameFirst
+
+  class FirstNameFirst
+
+  Name <|-- LastNameFirst
+  Name <|-- FirstNameFirst
+
+  class NameFactory{
+    NameFactory : +get_class(raw_name_string) Name
+  }
+
+  NameFactory --> LastNameFirst : Returns
+  NameFactory --> FirstNameFirst : Returns
+```
+
+- Here `Name` is an abstract base class representing a name
+  - `LastNameFirst` and `FirstNameFirst` are concrete implementations
+    that handle parsing the respective format into a properly normalised
+    name
+- The `NameFactory` takes in the raw name string and uses that to
+  determine what which `Name` subclass to return
+  - Here the programmer doesn’t care about what instance is returned or
+    *how* it is created
+  - Just care that they pass an approved data format in and get
+    something that behaves like a `Name` back
+  - This concept scales to more complex object instantiation as well
+- We can implement the design above simply enough
+  - The base class doesn’t implement any logic, it just defines the
+    structure
+  - And a simple `__str__` method to control how it’s printed
+  - `FirstNameFirst` creates a name by finding the *last* whitespace
+    character and splitting on that
+    - Every preceding character is assumed to be part of the first name
+    - Every subsequent character is assumed to be part of the last name
+    - If there is no whitespace to split on, we treat the entire name as
+      the last name
+  - `LastNameFirst` creates a name by finding a *comma*
+    - Preceding characters form the last name, subsequent form the first
+      name
+    - If there is no comma the entire thing is again treated as the last
+      name
+
+``` python
+class Name:
+    def __init__(self):
+        self.first = ""
+        self.last = ""
+
+    def __str__(self):
+        return f"{self.first} {self.last}"
+
+
+class FirstNameFirst(Name):
+    def __init__(self, name_string: str):
+        super().__init__()
+        if (i := name_string.rfind(" ")) > 0:
+            first = name_string[0:i]
+            last = name_string[i + 1 :]
+        else:
+            last = name_string
+
+
+class LastNameFirst(Name):
+    def __init__(self, name_string: str):
+        super().__init__()
+        if (i := name_string.find(",")) > 0:
+            first = name_string[0:i]
+            last = name_string[i + 1 :]
+        else:
+            last = name_string
+
+
+class NameFactory:
+    def __init__(self, name_string: str):
+        self.name = name_string
+
+    def get_name(self):
+        if i := self.name.find(",") > 0:
+            return LastNameFirst(name_string)
+        else:
+            return FirstNameFirst(name_string)
+
+
+raw_names = ["Sandy Smith", "Jones, Doug", "Cthulhu"]
+names = [NameFactory(name).get_name() for name in raw_names]
+
+for name in names:
+    print(type(name), name)
+```
+
+    NameError: name 'name_string' is not defined
+    ---------------------------------------------------------------------------
+    NameError                                 Traceback (most recent call last)
+    Cell In[1], line 42
+         38             return FirstNameFirst(name_string)
+         39
+         40
+         41 raw_names = ["Sandy Smith", "Jones, Doug", "Cthulhu"]
+    ---> 42 names = [NameFactory(name).get_name() for name in raw_names]
+         43
+         44 for name in names:
+         45     print(type(name), name)
+
+    Cell In[1], line 38, in NameFactory.get_name(self)
+         34     def get_name(self):
+         35         if i := self.name.find(",") > 0:
+         36             return LastNameFirst(name_string)
+         37         else:
+    ---> 38             return FirstNameFirst(name_string)
+
+    NameError: name 'name_string' is not defined
 
 ## Summary
