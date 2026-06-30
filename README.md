@@ -1,6 +1,7 @@
 # Python Programming with Design Patterns: Notes
 
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/flempriere/design-patterns-with-python/main.svg)](https://results.pre-commit.ci/latest/github/flempriere/design-patterns-with-python/main)
+[![pages-build-deployment](https://github.com/flempriere/design-patterns-with-python/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/flempriere/design-patterns-with-python/actions/workflows/pages/pages-build-deployment)
 
 This repository contains notes and code examples from the book, [Python Programming with Design Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp/0137579934)
 
@@ -13,7 +14,9 @@ This repository contains notes and code examples from the book, [Python Programm
 - [Chapter 3: Visual Programming of Tables of Data](I-introduction/chapter-03/chapter-03.md)
 - [Chapter 4: What are Design Patterns?](I-introduction/chapter-04/chapter-04.md)
 
-### II: Creational Patterns
+### [II: Creational Patterns](II-Creational-Patterns/ii-creational-patterns.md)
+
+- [Chapter 5: The Factory Pattern](II-Creational-Patterns/chapter-05/chapter-05.md)
 
 ### III: Structural Patterns
 
