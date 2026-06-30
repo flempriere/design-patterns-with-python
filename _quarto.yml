@@ -28,6 +28,7 @@ website:
       - section: II-Creational-Patterns/ii-creational-patterns.qmd
         contents:
           - II-Creational-Patterns/chapter-05/chapter-05.qmd
+          - II-Creational-Patterns/chapter-06/chapter-06.qmd
 
 format:
   html:
