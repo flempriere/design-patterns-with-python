@@ -110,8 +110,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta property="og:title" content="Chapter 5: The Factory Pattern – Python Programming with Design Patterns: Notes">
+<meta property="og:image" content="Examples/01-simple-gui/simple-gui.png">
 <meta property="og:site_name" content="Python Programming with Design Patterns: Notes">
 </head>
 
@@ -232,8 +262,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#notes" id="toc-notes" class="nav-link active" data-scroll-target="#notes">Notes</a>
   <ul>
   <li><a href="#how-a-factory-works" id="toc-how-a-factory-works" class="nav-link" data-scroll-target="#how-a-factory-works">How a Factory Works</a></li>
+  <li><a href="#a-simple-gui" id="toc-a-simple-gui" class="nav-link" data-scroll-target="#a-simple-gui">A Simple GUI</a></li>
+  <li><a href="#factory-pattern" id="toc-factory-pattern" class="nav-link" data-scroll-target="#factory-pattern">Factory Pattern</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a></li>
   </ul>
 <div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/flempriere/design-patterns-with-python/" target="_blank"><i class="bi bi-github"></i>GitHub Repo</a></li></ul></div></nav>
     </div>
@@ -347,81 +380,215 @@ classDiagram
 </ul></li>
 </ul></li>
 </ul>
-<div id="4c07c8c3" class="cell" data-execution_count="1">
+<div id="a6ef3b63" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Name:</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.first <span class="op">=</span> <span class="st">""</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.last <span class="op">=</span> <span class="st">""</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__str__</span>(<span class="va">self</span>):</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>first<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>last<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FirstNameFirst(Name):</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name_string: <span class="bu">str</span>):</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (i <span class="op">:=</span> name_string.rfind(<span class="st">" "</span>)) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            first <span class="op">=</span> name_string[<span class="dv">0</span>:i]</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            last <span class="op">=</span> name_string[i <span class="op">+</span> <span class="dv">1</span> :]</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            last <span class="op">=</span> name_string</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LastNameFirst(Name):</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name_string: <span class="bu">str</span>):</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (i <span class="op">:=</span> name_string.find(<span class="st">","</span>)) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            first <span class="op">=</span> name_string[<span class="dv">0</span>:i]</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>            last <span class="op">=</span> name_string[i <span class="op">+</span> <span class="dv">1</span> :]</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>            last <span class="op">=</span> name_string</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NameFactory:</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name_string: <span class="bu">str</span>):</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.name <span class="op">=</span> name_string</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_name(<span class="va">self</span>):</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> i <span class="op">:=</span> <span class="va">self</span>.name.find(<span class="st">","</span>) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> LastNameFirst(name_string)</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> FirstNameFirst(name_string)</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>raw_names <span class="op">=</span> [<span class="st">"Sandy Smith"</span>, <span class="st">"Jones, Doug"</span>, <span class="st">"Cthulhu"</span>]</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>names <span class="op">=</span> [NameFactory(name).get_name() <span class="cf">for</span> name <span class="kw">in</span> raw_names]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.first:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.first <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> <span class="va">self</span>.last</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.last</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FirstNameFirst(Name):</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name_string: <span class="bu">str</span>):</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (i <span class="op">:=</span> name_string.rfind(<span class="st">" "</span>)) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.first <span class="op">=</span> name_string[<span class="dv">0</span>:i].strip()</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.last <span class="op">=</span> name_string[i <span class="op">+</span> <span class="dv">1</span> :].strip()</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.last <span class="op">=</span> name_string.strip()</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LastNameFirst(Name):</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name_string: <span class="bu">str</span>):</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (i <span class="op">:=</span> name_string.find(<span class="st">","</span>)) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.first <span class="op">=</span> name_string[<span class="dv">0</span>:i].strip()</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.last <span class="op">=</span> name_string[i <span class="op">+</span> <span class="dv">1</span> :].strip()</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.last <span class="op">=</span> name_string.strip()</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NameFactory:</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, name_string: <span class="bu">str</span>):</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.name <span class="op">=</span> name_string</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_name(<span class="va">self</span>):</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.name.find(<span class="st">","</span>) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> LastNameFirst(<span class="va">self</span>.name)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> FirstNameFirst(<span class="va">self</span>.name)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name <span class="kw">in</span> names:</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">type</span>(name), name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[1]</span><span class="ansi-green-fg">, line 42</span>
-<span class="ansi-green-fg">     38</span>             <span style="font-weight:bold;color:rgb(0,135,0)">return</span> FirstNameFirst(name_string)
-<span class="ansi-green-fg">     39</span> 
-<span class="ansi-green-fg">     40</span> 
-<span class="ansi-green-fg">     41</span> raw_names = [<span class="ansi-yellow-fg">"Sandy Smith"</span>, <span class="ansi-yellow-fg">"Jones, Doug"</span>, <span class="ansi-yellow-fg">"Cthulhu"</span>]
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">42</span> names = [NameFactory(name).get_name() <span style="font-weight:bold;color:rgb(0,135,0)">for</span> name <span style="font-weight:bold;color:rgb(0,135,0)">in</span> raw_names]
-<span class="ansi-green-fg">     43</span> 
-<span class="ansi-green-fg">     44</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> name <span style="font-weight:bold;color:rgb(0,135,0)">in</span> names:
-<span class="ansi-green-fg">     45</span>     print(type(name), name)
-
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[1]</span><span class="ansi-green-fg">, line 38</span>, in <span class="ansi-cyan-fg">NameFactory.get_name</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-fg">     34</span>     <span style="font-weight:bold;color:rgb(0,135,0)">def</span> get_name(self):
-<span class="ansi-green-fg">     35</span>         <span style="font-weight:bold;color:rgb(0,135,0)">if</span> i := self.name.find(<span class="ansi-yellow-fg">","</span>) &gt; <span class="ansi-green-fg">0</span>:
-<span class="ansi-green-fg">     36</span>             <span style="font-weight:bold;color:rgb(0,135,0)">return</span> LastNameFirst(name_string)
-<span class="ansi-green-fg">     37</span>         <span style="font-weight:bold;color:rgb(0,135,0)">else</span>:
-<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">38</span>             <span style="font-weight:bold;color:rgb(0,135,0)">return</span> FirstNameFirst(name_string)
-
-<span class="ansi-red-fg">NameError</span>: name 'name_string' is not defined</pre>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>raw_names <span class="op">=</span> [<span class="st">"Sandy Smith"</span>, <span class="st">"Jones, Doug"</span>, <span class="st">"Cthulhu"</span>]</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>names <span class="op">=</span> [NameFactory(name).get_name() <span class="cf">for</span> name <span class="kw">in</span> raw_names]</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name <span class="kw">in</span> names:</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">type</span>(name), name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class '__main__.FirstNameFirst'&gt; Sandy Smith
+&lt;class '__main__.LastNameFirst'&gt; Jones Doug
+&lt;class '__main__.FirstNameFirst'&gt; Cthulhu</code></pre>
 </div>
+</div>
+</section>
+<section id="a-simple-gui" class="level3">
+<h3 class="anchored" data-anchor-id="a-simple-gui">A Simple GUI</h3>
+<ul>
+<li>Below demonstrates how to integrate this factory pattern into a simple widget that recieves a name and displays the resulting <code>first</code> and <code>last</code> name
+<ul>
+<li>The full code can be found at <a href="Examples/01-simple-gui/01-simple-gui.py">01-simple-gui.py</a></li>
+<li>Below shows the code for the UI</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> NameEntryForm:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, master):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>          master.title(<span class="st">"Simple Factory"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>          tk.Label(master, text<span class="op">=</span><span class="st">"Enter Name:"</span>, foreground<span class="op">=</span><span class="st">"blue"</span>).grid(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>              row<span class="op">=</span><span class="dv">0</span>, columnspan<span class="op">=</span><span class="dv">3</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.name_entry <span class="op">=</span> tk.Entry(master)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.name_entry.grid(row<span class="op">=</span><span class="dv">1</span>, column<span class="op">=</span><span class="dv">1</span>, sticky<span class="op">=</span>tk.E <span class="op">+</span> tk.W)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>          tk.Label(master, text<span class="op">=</span><span class="st">"First name:"</span>, foreground<span class="op">=</span><span class="st">"blue"</span>).grid(</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>              row<span class="op">=</span><span class="dv">2</span>, column<span class="op">=</span><span class="dv">0</span>, sticky<span class="op">=</span>tk.W, pady<span class="op">=</span><span class="dv">10</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.first_name_display <span class="op">=</span> tk.Entry(master)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.first_name_display.grid(row<span class="op">=</span><span class="dv">2</span>, column<span class="op">=</span><span class="dv">1</span>, sticky<span class="op">=</span>tk.E, pady<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>          tk.Label(master, text<span class="op">=</span><span class="st">"Last name:"</span>, foreground<span class="op">=</span><span class="st">"blue"</span>).grid(</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>              row<span class="op">=</span><span class="dv">3</span>, column<span class="op">=</span><span class="dv">0</span>, sticky<span class="op">=</span>tk.W, pady<span class="op">=</span><span class="dv">10</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.last_name_display <span class="op">=</span> tk.Entry(master)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.last_name_display.grid(row<span class="op">=</span><span class="dv">3</span>, column<span class="op">=</span><span class="dv">1</span>, sticky<span class="op">=</span>tk.E, pady<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>          compute_name_button <span class="op">=</span> tk.ttk.Button(</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>              master, text<span class="op">=</span><span class="st">"Process"</span>, command<span class="op">=</span><span class="va">self</span>.compute_name</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>          compute_name_button.grid(row<span class="op">=</span><span class="dv">4</span>, column<span class="op">=</span><span class="dv">0</span>, pady<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>          clear_button <span class="op">=</span> tk.ttk.Button(master, text<span class="op">=</span><span class="st">"Clear"</span>, command<span class="op">=</span><span class="va">self</span>.clear_form)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>          clear_button.grid(row<span class="op">=</span><span class="dv">4</span>, column<span class="op">=</span><span class="dv">1</span>, pady<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>          quit_button <span class="op">=</span> tk.ttk.Button(text<span class="op">=</span><span class="st">"Quit"</span>, command<span class="op">=</span>sys.exit)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>          quit_button.grid(row<span class="op">=</span><span class="dv">4</span>, column<span class="op">=</span><span class="dv">2</span>, pady<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> compute_name(<span class="va">self</span>):</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>          raw_name <span class="op">=</span> <span class="va">self</span>.name_entry.get()</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>          name <span class="op">=</span> NameFactory(raw_name).get_name()</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.first_name_display.insert(<span class="dv">0</span>, name.first)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.last_name_display.insert(<span class="dv">0</span>, name.last)</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> clear_form(<span class="va">self</span>):</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.name_entry.delete(<span class="dv">0</span>, tk.END)</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.first_name_display.delete(<span class="dv">0</span>, tk.END)</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.last_name_display.delete(<span class="dv">0</span>, tk.END)</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> main():</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>      root <span class="op">=</span> tk.Tk()</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>      NameEntryForm(root)</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>      tk.mainloop()</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>      main()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p>The corresponding output looks like,</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/01-simple-gui/simple-gui.png" class="img-fluid figure-img"></p>
+<figcaption>Here the Name Entry Form splits the string <code>"Hello, World!"</code> into the first name <code>Hello</code> and the last name <code>World!</code></figcaption>
+</figure>
+</div></li>
+</ul></li>
+</ul>
+</section>
+<section id="factory-pattern" class="level3">
+<h3 class="anchored" data-anchor-id="factory-pattern">Factory Pattern</h3>
+<ul>
+<li><p>Consider a program that uses the Fast Fourier Transform on some data</p></li>
+<li><p>In the general case this requires evaluating the following four equations</p>
+<p><span class="math display">\[
+  \begin{align}
+      R_{1}^{'} &amp;= R_{1} + R_{2}\cos\left(y\right) - I_{2}\sin\left(y\right) \\
+      R_{2}^{'} &amp;= R_{1} - R_{2}\cos\left(y\right) + I_{2}\sin\left(y\right) \\
+      I_{1}^{'} &amp;= I_{1} + R_{2}\sin\left(y\right) + I_{2}\cos\left(y\right) \\
+      I_{2}^{'} &amp;= I_{1} - R_{2}\sin\left(y\right) - I_{2}\cos\left(y\right)
+  \end{align}
+\]</span></p></li>
+<li><p>Often the <span class="math inline">\(y\)</span> value is <span class="math inline">\(0\)</span> in which case the equations reduce to,</p>
+<p><span class="math display">\[
+  \begin{align}
+      R_{1}^{'} &amp;= R_{1} + R_{2} \\
+      R_{2}^{'} &amp;= R_{1} - R_{2} \\
+      I_{1}^{'} &amp;= I_{1} + I_{2} \\
+      I_{2}^{'} &amp;= I_{1} - I_{2}
+  \end{align}
+\]</span></p></li>
+<li><p>We could use a simple factory class that decides if it should return the full equation set or a reduced set</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> FourierEquationsFactory:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> get_fourier_equations(<span class="va">self</span>, y: <span class="bu">float</span>):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> y:</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>              <span class="cf">return</span> FullFourierEquations(y)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>          <span class="cf">else</span>:</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>              <span class="cf">return</span> ReducedFourierEquations(y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Object-Oriented Programming and Mathematics</strong></p>
+<p>The above example while conceptually <em>neat</em> is likely a <em>very</em> bad way of performing calculations. Modern Linear Algebra packages are highly-efficient and often use array-based paradigms for operating on large data. Having to build a class <em>every</em> iteration to run equations will almost definitely be slower than just computing from the full equations for each iteration</p>
 </div>
 </div>
 </section>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ul>
+<li>To summarise the basic factory method
+<ul>
+<li>An abstraction decides which of several possible classes to return</li>
+<li>Call methods on the returned object based on the base class interface
+<ul>
+<li>Never explicitly rely on a subclass</li>
+</ul></li>
+<li>Data is kept separated from the class methods</li>
+</ul></li>
+</ul>
+</section>
+<section id="questions" class="level2">
+<h2 class="anchored" data-anchor-id="questions">Questions</h2>
+<ol type="1">
+<li>Consider a personal checkbook management program such as Quicken. It manages several bank accounts and investments and can handle your bill paying. Where could you use a factory pattern in designing a program like this?
+<ul>
+<li>Different types of accounts probably have similar interfaces, but different implementations</li>
+<li>A factory would be useful to abstract the creation of specific account type representations</li>
+<li>Different payment methods as well may also have similar interfaces but different implementations</li>
+<li>Could use a factory to provide the correct payment method class for a given transaction</li>
+</ul></li>
+<li>Suppose you are writing a program to assist homeowners in designing additions to their houses. What objects might a Factory be used to produce?
+<ul>
+<li>Different types of furniture potentially have a common interface, but different implementation that could be captured in a class?</li>
+<li>Different room types may have different requirements that need to be captured in a class representation
+<ul>
+<li>Can still generally create new rooms via a factory method</li>
+</ul></li>
+</ul></li>
+</ol>
 
 
 </section>

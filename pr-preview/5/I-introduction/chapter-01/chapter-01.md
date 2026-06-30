@@ -63,7 +63,7 @@ print(f"alice:", alice)
 print(f"bob.get_salary():", bob.get_salary())
 ```
 
-    alice: <__main__.Employee object at 0x7efd88893380>
+    alice: <__main__.Employee object at 0x7f1b8892b380>
     bob.get_salary(): 8000
 
 - For example above defines an `Employee` class representing someone
