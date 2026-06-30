@@ -29,7 +29,10 @@ Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp
 - [Chapter 4: What are Design
   Patterns?](I-introduction/chapter-04/chapter-04.qmd)
 
-### II: Creational Patterns
+### [II: Creational Patterns](II-Creational-Patterns/ii-creational-patterns.qmd)
+
+- [Chapter 5: The Factory
+  Pattern](II-Creational-Patterns/chapter-05/chapter-05.qmd)
 
 ### III: Structural Patterns
 
