@@ -1,6 +1,5 @@
 # Chapter 6: The Factory Method Pattern
 
-
 - [Notes](#notes)
   - [The `Swimmer` Class](#the-swimmer-class)
   - [The `Event` Class](#the-event-class)
@@ -96,12 +95,12 @@ classDiagram
 - The `Swimmer` class is a basic class designed to store information
   about a Swimmer
   - Namely,
-    1.  Name
-    2.  Age
-    3.  Club
-    4.  Seed time
-    5.  Seeded lane
-    6.  Heat
+    1. Name
+    2. Age
+    3. Club
+    4. Seed time
+    5. Seeded lane
+    6. Heat
 - We’ll use a common Python pattern for handling object creation which
   is to define a generic `__init__` that accepts the required parameters
   - We then define *class methods* to handle the various ways that one
@@ -116,7 +115,7 @@ classDiagram
 
 - The `Event` class acts as our abstract base class for defining *what*
   seeding objects should be created
-- 
+-
 
 ## Summary
 
