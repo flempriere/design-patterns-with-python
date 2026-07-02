@@ -11,19 +11,20 @@ Classes
 * Swimmer  -- A swimmer competing in events
 * Event -- Abstract class representing swimming events
 
-  * PreliminaryEvent -- Represents a Preliminary Event in a Swimming Competition
-  * TimedFinalEvent -- Represents a Timed Final in a Swimming Competition
+    * PreliminaryEvent -- Represents a Preliminary Event in a Swimming Competition
+    * TimedFinalEvent -- Represents a Timed Final in a Swimming Competition
 
 * Seeding -- Abstract class representing a Seeding Method for Swimming Events
 
-  * StraightSeeding -- Implementation of the Straight Seeding Method
+    * StraightSeeding -- Implementation of the Straight Seeding Method
 
-    * CircleSeeding -- Implementation of the Circle Seeding Method
+        * CircleSeeding -- Implementation of the Circle Seeding Method
 """
 
 import abc
 import datetime
 import itertools
+import typing
 from typing import Sequence
 
 
@@ -111,10 +112,14 @@ class Swimmer:
             Could not convert the provided string to a `Swimmer` instance
         """
 
-        swimmer_parameters = swimmer.split(sep=delimiter)
+        swimmer_parameters = [
+            parameter for parameter in swimmer.split(sep=delimiter) if parameter
+        ]
 
         if len(swimmer_parameters) != 5:
-            raise ValueError("Swimmer requires 5 parameters")
+            raise ValueError(
+                f"Swimmer requires 5 parameters, got {len(swimmer_parameters)}\n{swimmer_parameters}"
+            )
 
         swimmer_parameters = [parameter.strip() for parameter in swimmer_parameters]
 
@@ -217,7 +222,7 @@ class PreliminaryEvent(Event):
     A Preliminary Swimming Competition Event
     """
 
-    def seeding(self):
+    def seeding(self) -> Seeding:
         return CircleSeeding(self.swimmers, self.number_of_lanes)
 
 
@@ -226,7 +231,7 @@ class TimedFinalEvent(Event):
     A Timed Swimming Competition Event
     """
 
-    def seeding(self):
+    def seeding(self) -> Seeding:
         return StraightSeeding(self.swimmers, self.number_of_lanes)
 
 
@@ -277,14 +282,15 @@ class StraightSeeding(Seeding):
     in the center lanes
     """
 
-    def seed(self):
+    @typing.override
+    def seed(self) -> None:
         """
         Seed swimmers into a designated heat and lane
 
         Heats are seeded slowest to fastest, with the fastest swimmers
         in the center lanes
         """
-
+        print("Straight seeding...")
         # calculate number of swimmers in the last heat, we want it to be a minimum of three
         # unless there are only two competitors
         n_swimmers_in_last_heat = len(self.swimmers) % self.number_of_lanes
@@ -305,6 +311,7 @@ class StraightSeeding(Seeding):
         for idx, (lane, swimmer) in enumerate(
             zip(lane_ordering, self.swimmers[:remaining_lanes])
         ):
+            print(f"Seeding {swimmer.name} ({idx}, {lane})")
             swimmer.lane = lane
             swimmer.heat = self.number_of_heats - (idx // self.number_of_lanes)
 
@@ -312,9 +319,10 @@ class StraightSeeding(Seeding):
         if not n_swimmers_in_last_heat:
             return
 
+        print("Seeding final heat")
         # otherwise seed the final heat
         for lane, swimmer in zip(
-            self.generate_lane_order(), self.swimmers[-remaining_lanes:]
+            self.generate_lane_order(), self.swimmers[-n_swimmers_in_last_heat:]
         ):
             swimmer.lane = lane
             swimmer.heat = 1
@@ -340,6 +348,7 @@ class StraightSeeding(Seeding):
             lane = mid + incr
             incr = -incr + (1 if incr < 0 else 0)
 
+        print(f"Ordering: {lanes}")
         return lanes
 
 
@@ -353,7 +362,8 @@ class CircleSeeding(StraightSeeding):
     ``(7, 1, 4), (8, 2, 5), (9, 3, 6)``
     """
 
-    def seed(self):
+    @typing.override
+    def seed(self) -> None:
         """
         Seed swimmers into a designated heat and lane
 
@@ -364,6 +374,7 @@ class CircleSeeding(StraightSeeding):
         ``(7, 1, 4), (8, 2, 5), (9, 3, 6)``
         """
 
+        print("Circle seeding\nInitial Straight seeding")
         # start by straight-seeding
         super().seed()
         if self.number_of_heats <= 1:
@@ -378,7 +389,13 @@ class CircleSeeding(StraightSeeding):
 
         for swimmer, (lane, heat) in zip(
             self.swimmers[: self.number_of_lanes * number_to_circle_seed],
-            itertools.product(lane_ordering, range(number_to_circle_seed)),
+            itertools.product(
+                itertools.islice(
+                    lane_ordering, number_to_circle_seed * self.number_of_lanes
+                ),
+                range(number_to_circle_seed),
+            ),
         ):
+            print(f"Seeding {swimmer.lane} ({lane}{heat})")
             swimmer.lane = lane
             swimmer.heat = self.number_of_heats - heat

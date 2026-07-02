@@ -219,29 +219,29 @@ classDiagram
 
     ```{python}
         import datetime
-        def parse_time(timecode: str) -> datetime.time:
-        """Parse a seed timecode to a time
+            def parse_time(timecode: str) -> datetime.time:
+            """Parse a seed timecode to a time
 
-        Parameters
-        ----------
-        timecode : str
-            seed time represented in either `%M:%S.%f` or `%S.%f` ISO format
+            Parameters
+            ----------
+            timecode : str
+                seed time represented in either `%M:%S.%f` or `%S.%f` ISO format
 
-        Returns
-        -------
-        `datetime.time`
-            time corresponding to the provided time code
+            Returns
+            -------
+            `datetime.time`
+                time corresponding to the provided time code
 
-        Raises
-        ------
-        ValueError
-            Raised if `timecode` is not in a supported format
-        """
-        try:
-            time = datetime.time.strptime(timecode, "%M:%S.%f")
-        except ValueError:
-            time = datetime.time.strptime(timecode, "%S.%f")
-        return time
+            Raises
+            ------
+            ValueError
+                Raised if `timecode` is not in a supported format
+            """
+            try:
+                time = datetime.time.strptime(timecode, "%M:%S.%f")
+            except ValueError:
+                time = datetime.time.strptime(timecode, "%S.%f")
+            return time
 
         print("%M:%S.%f type time:", parse_time("30:30.5"))
         print("%S.%f type time:", parse_time("30.5"))
@@ -258,46 +258,46 @@ classDiagram
 
   ```python
     class Event(abc.ABC):
-    """
-    Abstract Class representing a generic swimming event
-
-    Subclasses should override the `seeding` factory method to create the
-    appropriate seeding instance for the event type
-
-    Attributes
-    ----------
-    swimmers: Sequence[Swimmer]
-        swimmers competing in the event
-    number_of_lanes: int
-        number of lanes in each heat
-    """
-
-    def __init__(self, swimmers: Sequence[Swimmer], lanes: int):
         """
-        Create a new event instance with the provided swimmers and the
-        given number of lanes per heat
+        Abstract Class representing a generic swimming event
 
-        Parameters
+        Subclasses should override the `seeding` factory method to create the
+        appropriate seeding instance for the event type
+
+        Attributes
         ----------
         swimmers: Sequence[Swimmer]
-            Swimmers competing in the event
-        lanes: int
-            Number of lanes per heat
+            swimmers competing in the event
+        number_of_lanes: int
+            number of lanes in each heat
         """
-        self.number_of_lanes = lanes
-        self.swimmers = swimmers
 
-    @abc.abstractmethod
-    def seeding(self) -> Seeding:
-        """
-        Create the seeding for the event
+        def __init__(self, swimmers: Sequence[Swimmer], lanes: int):
+            """
+            Create a new event instance with the provided swimmers and the
+            given number of lanes per heat
 
-        Returns
-        -------
-        Seeding
-            The seeding methodology to be used for the event
-        """
-        pass
+            Parameters
+            ----------
+            swimmers: Sequence[Swimmer]
+                Swimmers competing in the event
+            lanes: int
+                Number of lanes per heat
+            """
+            self.number_of_lanes = lanes
+            self.swimmers = swimmers
+
+        @abc.abstractmethod
+        def seeding(self) -> Seeding:
+            """
+            Create the seeding for the event
+
+            Returns
+            -------
+            Seeding
+                The seeding methodology to be used for the event
+            """
+            pass
   ```
 
 - We then define two subclasses
@@ -306,12 +306,12 @@ classDiagram
 
      ```python
         class PreliminaryEvent(Event):
-        """
-        A Preliminary Swimming Competition Event
-        """
+            """
+            A Preliminary Swimming Competition Event
+            """
 
-        def seeding(self):
-            return CircleSeeding(self.swimmers, self.number_of_lanes)
+            def seeding(self):
+                return CircleSeeding(self.swimmers, self.number_of_lanes)
      ```
 
   2. `TimedFinalEvent`
