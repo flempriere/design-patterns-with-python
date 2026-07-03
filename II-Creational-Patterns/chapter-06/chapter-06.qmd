@@ -219,7 +219,8 @@ classDiagram
 
     ```{python}
         import datetime
-            def parse_time(timecode: str) -> datetime.time:
+
+        def parse_time(timecode: str) -> datetime.time:
             """Parse a seed timecode to a time
 
             Parameters

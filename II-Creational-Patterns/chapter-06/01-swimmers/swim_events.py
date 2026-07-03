@@ -24,8 +24,7 @@ Classes
 import abc
 import datetime
 import itertools
-import typing
-from typing import Sequence
+from typing import Sequence, override
 
 
 def parse_time(timecode: str) -> datetime.time:
@@ -222,6 +221,7 @@ class PreliminaryEvent(Event):
     A Preliminary Swimming Competition Event
     """
 
+    @override
     def seeding(self) -> Seeding:
         return CircleSeeding(self.swimmers, self.number_of_lanes)
 
@@ -231,6 +231,7 @@ class TimedFinalEvent(Event):
     A Timed Swimming Competition Event
     """
 
+    @override
     def seeding(self) -> Seeding:
         return StraightSeeding(self.swimmers, self.number_of_lanes)
 
@@ -240,7 +241,9 @@ class Seeding(abc.ABC):
     Abstract Class representing a methodology for seeding an event
 
     Distributes a roster of swimmer's across heats and lanes according to
-    the desired seeding method
+    the desired seeding method. Seeding is performed on object creation and
+    does not require an explicit call to `seed`
+
 
     Subclasses should override the `seed` method to implement the desired
     seeding methodology
@@ -248,7 +251,7 @@ class Seeding(abc.ABC):
     Attributes
     ----------
     swimmers: Sequence[Swimmer]
-        swimmers to be seeded
+        swimmers to be seeded, sorted by increasing seed time
     number_of_lanes: int
         number of lanes in each heat
     number_of_heats: int
@@ -256,7 +259,7 @@ class Seeding(abc.ABC):
     """
 
     def __init__(self, swimmers: Sequence[Swimmer], number_of_lanes: int):
-        self.swimmers = sorted(swimmers, reverse=True, key=lambda x: x.seed_time)
+        self.swimmers = sorted(swimmers, key=lambda x: x.seed_time)
         self.number_of_lanes = number_of_lanes
         self.number_of_heats = 0
 
@@ -282,7 +285,7 @@ class StraightSeeding(Seeding):
     in the center lanes
     """
 
-    @typing.override
+    @override
     def seed(self) -> None:
         """
         Seed swimmers into a designated heat and lane
@@ -362,7 +365,7 @@ class CircleSeeding(StraightSeeding):
     ``(7, 1, 4), (8, 2, 5), (9, 3, 6)``
     """
 
-    @typing.override
+    @override
     def seed(self) -> None:
         """
         Seed swimmers into a designated heat and lane
@@ -399,3 +402,31 @@ class CircleSeeding(StraightSeeding):
             print(f"Seeding {swimmer.lane} ({lane}{heat})")
             swimmer.lane = lane
             swimmer.heat = self.number_of_heats - heat
+
+
+def load_swimmers(filename: str, delimiter=" ") -> list[Swimmer]:
+    """
+    Load swimmers from a delimited file
+
+    Load's swimmer's from a delimited file into a list of `swim_events.Swimmer`
+    instances. Does not populate their heat and lane.
+
+    Assumes the file follow's the interface of `swim_events.Swimmer.from_string`
+
+    Parameters
+    ----------
+    filename : str
+        path to the file containing swimmers, can be absolute or relative
+
+    Returns
+    -------
+    list[Swimmer]
+        list of Swimmer objects corresponding to rows in the file
+    """
+    # extract swimmers from file, slicing off the initial "idx " substring
+    with open(filename, "r") as f:
+        swimmers = [
+            Swimmer.from_string(line.partition(" ")[2], delimiter=delimiter)
+            for line in f.readlines()
+        ]
+    return swimmers
