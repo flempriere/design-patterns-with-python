@@ -244,7 +244,8 @@ classDiagram
 
     ``` python
         import datetime
-            def parse_time(timecode: str) -> datetime.time:
+
+        def parse_time(timecode: str) -> datetime.time:
             """Parse a seed timecode to a time
 
             Parameters
@@ -272,11 +273,8 @@ classDiagram
         print("%S.%f type time:", parse_time("30.5"))
     ```
 
-        IndentationError: unexpected indent (1827498199.py, line 2)
-          Cell In[1], line 2
-            def parse_time(timecode: str) -> datetime.time:
-            ^
-        IndentationError: unexpected indent
+        %M:%S.%f type time: 00:30:30.500000
+        %S.%f type time: 00:00:30.500000
 
 ### The `Event` Class
 
