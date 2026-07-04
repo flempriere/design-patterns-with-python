@@ -29,7 +29,7 @@ website:
         contents:
           - II-Creational-Patterns/chapter-05/chapter-05.qmd
           - II-Creational-Patterns/chapter-06/chapter-06.qmd
-          - II-Creational-Patterns/chapter-06/chapter-07.qmd
+          - II-Creational-Patterns/chapter-07/chapter-07.qmd
 
 format:
   html:
