@@ -1,3 +1,7 @@
+"""
+GUI-based application for seeding swim events
+"""
+
 import tkinter as tk
 import tkinter.messagebox
 import tkinter.ttk
