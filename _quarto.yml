@@ -30,6 +30,7 @@ website:
           - II-Creational-Patterns/chapter-05/chapter-05.qmd
           - II-Creational-Patterns/chapter-06/chapter-06.qmd
           - II-Creational-Patterns/chapter-07/chapter-07.qmd
+          - II-Creational-Patterns/chapter-08/chapter-08.qmd
 
 format:
   html:

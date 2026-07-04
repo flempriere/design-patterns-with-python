@@ -8,12 +8,12 @@ via implementing a system for constructing different gardening events
 Classes
 -------
 
-* Plant -- A plant type for a garden
-* Garden -- Abstract class representing a garden
+* `Plant` -- A plant type for a garden
+* `Garden` -- Abstract class representing a garden
 
-  * VegetableGarden -- Provides a factory for a vegetable garden
-  * AnnualGarden -- Provides a factory for an annual garden
-  * PerennialGarden -- Provides a factory for a perennial garden
+  * `VegetableGarden` -- Provides a factory for a vegetable garden
+  * `AnnualGarden` -- Provides a factory for an annual garden
+  * `PerennialGarden` -- Provides a factory for a perennial garden
 """
 
 import abc
