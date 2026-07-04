@@ -8,17 +8,17 @@ seeding system for swimming events
 Classes
 -------
 
-* Swimmer  -- A swimmer competing in events
-* Event -- Abstract class representing swimming events
+* `Swimmer`  -- A swimmer competing in events
+* `Event` -- Abstract class representing swimming events
 
-  * PreliminaryEvent -- Represents a Preliminary Event in a Swimming Competition
-  * TimedFinalEvent -- Represents a Timed Final in a Swimming Competition
+  * `PreliminaryEvent` -- Represents a Preliminary Event in a Swimming Competition
+  * `TimedFinalEvent` -- Represents a Timed Final in a Swimming Competition
 
-* Seeding -- Abstract class representing a Seeding Method for Swimming Events
+* `Seeding` -- Abstract class representing a Seeding Method for Swimming Events
 
-  * StraightSeeding -- Implementation of the Straight Seeding Method
+  * `StraightSeeding` -- Implementation of the Straight Seeding Method
 
-    * CircleSeeding -- Implementation of the Circle Seeding Method
+    * `CircleSeeding` -- Implementation of the Circle Seeding Method
 """
 
 import abc
