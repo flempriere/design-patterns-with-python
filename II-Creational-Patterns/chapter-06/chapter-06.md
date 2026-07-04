@@ -4,6 +4,7 @@
 - [Notes](#notes)
   - [The `Swimmer` Class](#the-swimmer-class)
   - [The `Event` Class](#the-event-class)
+  - [The `Seeding` Class](#the-seeding-class)
   - [Other Factories](#other-factories)
 - [Summary](#summary)
 
@@ -53,6 +54,7 @@ title: Using the Factory Pattern to create an Event Seeding System
 classDiagram
 
     class Event {
+        <<abstract>>
         Event: +get_seeding() Seeding
     }
 
@@ -64,6 +66,7 @@ classDiagram
     Event <|-- PreliminaryEvent
 
     class Seeding {
+        <<abstract>>
         Seeding: +get_swimmers() List~Swimmer~
     }
 
@@ -275,7 +278,6 @@ classDiagram
 
 - The `Event` class acts as our abstract base class for defining *what*
   seeding objects should be created
-
   - It is the core of our *factory method pattern*
   - We define an abstract method `seeding` which returns a `Seeding`
     instance
@@ -327,9 +329,7 @@ classDiagram
             """
             pass
   ```
-
 - We then define two subclasses
-
   1.  `PreliminaryEvent`
 
       - Implements `seeding` to return a `CircleSeeding` instance
@@ -359,6 +359,8 @@ classDiagram
              def seeding(self) -> Seeding:
                  return StraightSeeding(self.swimmers, self.number_of_lanes)
       ```
+
+### The `Seeding` Class
 
 - The hierarchy to define now is the `Seeding` abstract base class
 
@@ -545,11 +547,11 @@ classDiagram
     ```
 
 - The full code above can be found in
-  [swim_events.py](./01-swimmers/swim_events.py)
+  [swim_events.py](./Examples/swimmers/swim_events.py)
 
 - We can then implement two interfaces for this program
 
-  1.  [A command line application](./01-swimmers/swim_console.py)
+  1.  [A command line application](./Examples/swimmers/swim_console.py)
 
       ``` python
          from typing import Sequence
@@ -619,13 +621,13 @@ classDiagram
              main()
       ```
 
-  2.  [A simple graphical program](./01-swimmers/swim_events.py)
+  2.  [A simple graphical program](./Examples/swimmers/swim_events.py)
 
       - The program should look something like,
 
         ![The Basic Swim Events GUI. The User can select events from a
         listbox and see the resulting heats and lanes in a
-        table](./01-swimmers/swim_gui.png)
+        table](./Examples/swimmers/swim_gui.png)
 
 ### Other Factories
 

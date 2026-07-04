@@ -29,12 +29,9 @@ class Name:
         last name
     """
 
-    def __init__(self):
-        self.first = ""
-        self.last = ""
-
-    def __str__(self):
-        pass
+    def __init__(self, first: str, last: str) -> None:
+        self.first = first
+        self.last = last
 
 
 class FirstNameFirst(Name):
@@ -42,7 +39,7 @@ class FirstNameFirst(Name):
     Name represented as *First Last.*
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
         """
         Create a new instance from a string.`
 
@@ -55,12 +52,13 @@ class FirstNameFirst(Name):
         name : str
             name represented as `first last`
         """
-        super().__init__()
         if (i := name.rfind(" ")) > 0:
-            self.first = name[0:i].strip()
-            self.last = name[i + 1 :].strip()
+            first = name[0:i].strip()
+            last = name[i + 1 :].strip()
         else:
-            self.last = name.strip()
+            first = ""
+            last = name.strip()
+        super().__init__(first, last)
 
     def __str__(self) -> str:
         """
@@ -83,7 +81,7 @@ class LastNameFirst(Name):
     Name represented as *Last, First*
     """
 
-    def __init__(self, name_string: str):
+    def __init__(self, name_string: str) -> None:
         """
         Create a new instance from a string.
 
@@ -96,12 +94,13 @@ class LastNameFirst(Name):
         name : str
             name represented as `last, first`
         """
-        super().__init__()
         if (i := name_string.find(",")) > 0:
-            self.first = name_string[0:i].strip()
-            self.last = name_string[i + 1 :].strip()
+            first = name_string[0:i].strip()
+            last = name_string[i + 1 :].strip()
         else:
-            self.last = name_string.strip()
+            first = ""
+            last = name_string.strip()
+        super().__init__(first, last)
 
 
 class NameFactory:
@@ -117,7 +116,7 @@ class NameFactory:
         name used to create `Name` instances
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
         """Create a new instance for the provided `name`
 
         Parameters
@@ -150,7 +149,7 @@ class NameEntryForm:
     and last names
     """
 
-    def __init__(self, master):
+    def __init__(self, master) -> None:
 
         master.title("Simple Factory")
         tk.Label(master, text="Enter Name:", foreground="blue").grid(
@@ -183,7 +182,7 @@ class NameEntryForm:
         quit_button = tk.ttk.Button(text="Quit", command=sys.exit)
         quit_button.grid(row=4, column=2, pady=5)
 
-    def compute_name(self):
+    def compute_name(self) -> None:
         """
         Update the displayed name in response to the current user input
         """
@@ -194,7 +193,7 @@ class NameEntryForm:
         self.first_name_display.insert(0, name.first)
         self.last_name_display.insert(0, name.last)
 
-    def clear_form(self):
+    def clear_form(self) -> None:
         """
         Clear the current form, deleting all Entries
         """
@@ -204,7 +203,7 @@ class NameEntryForm:
         self.last_name_display.delete(0, tk.END)
 
 
-def main():
+def main() -> None:
     root = tk.Tk()
     NameEntryForm(root)
     tk.mainloop()

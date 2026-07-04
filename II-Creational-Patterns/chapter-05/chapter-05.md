@@ -44,6 +44,7 @@ title: Name Factory
 classDiagram
 
   class Name{
+    <<abstract>>
     Name : +String first
     Name : +String last
   }
