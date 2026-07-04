@@ -17,6 +17,8 @@ This repository contains notes and code examples from the book, [Python Programm
 ### [II: Creational Patterns](II-Creational-Patterns/ii-creational-patterns.md)
 
 - [Chapter 5: The Factory Pattern](II-Creational-Patterns/chapter-05/chapter-05.md)
+- [Chapter 6: The Factory Method Pattern](II-Creational-Patterns/chapter-06/chapter-06.md)
+- [Chapter 7: The Abstract Factory Pattern](II-Creational-Patterns/chapter-07/chapter-07.qmd)
 
 ### III: Structural Patterns
 

@@ -11,14 +11,14 @@ Classes
 * Swimmer  -- A swimmer competing in events
 * Event -- Abstract class representing swimming events
 
-    * PreliminaryEvent -- Represents a Preliminary Event in a Swimming Competition
-    * TimedFinalEvent -- Represents a Timed Final in a Swimming Competition
+  * PreliminaryEvent -- Represents a Preliminary Event in a Swimming Competition
+  * TimedFinalEvent -- Represents a Timed Final in a Swimming Competition
 
 * Seeding -- Abstract class representing a Seeding Method for Swimming Events
 
-    * StraightSeeding -- Implementation of the Straight Seeding Method
+  * StraightSeeding -- Implementation of the Straight Seeding Method
 
-        * CircleSeeding -- Implementation of the Circle Seeding Method
+    * CircleSeeding -- Implementation of the Circle Seeding Method
 """
 
 import abc
@@ -28,7 +28,8 @@ from typing import Sequence, override
 
 
 def parse_time(timecode: str) -> datetime.time:
-    """Parse a seed timecode to a time
+    """
+    Parse a seed timecode to a time
 
     Parameters
     ----------
@@ -53,7 +54,8 @@ def parse_time(timecode: str) -> datetime.time:
 
 
 class Swimmer:
-    """Represents a Swimmer competing in an Event
+    """
+    Represents a Swimmer competing in an Event
 
     Attributes
     ----------
@@ -75,7 +77,8 @@ class Swimmer:
 
     @classmethod
     def from_string(cls, swimmer: str, delimiter=" ") -> Swimmer:
-        """Create a swimmer from a delimited string
+        """
+        Create a swimmer from a delimited string
 
         Converts a delimited string into a `Swimmer`, the string is split into
         arguments to the `Swimmer` constructor by the delimiter, and must follow
@@ -138,7 +141,7 @@ class Swimmer:
         age: int,
         club: str,
         seed_time: datetime.time,
-    ):
+    ) -> None:
         """
         Create a new instance based on the provided details
 
@@ -188,7 +191,7 @@ class Event(abc.ABC):
         number of lanes in each heat
     """
 
-    def __init__(self, swimmers: Sequence[Swimmer], lanes: int):
+    def __init__(self, swimmers: Sequence[Swimmer], lanes: int) -> None:
         """
         Create a new event instance with the provided swimmers and the
         given number of lanes per heat
@@ -258,7 +261,7 @@ class Seeding(abc.ABC):
         number of heats in the event
     """
 
-    def __init__(self, swimmers: Sequence[Swimmer], number_of_lanes: int):
+    def __init__(self, swimmers: Sequence[Swimmer], number_of_lanes: int) -> None:
         self.swimmers = sorted(swimmers, key=lambda x: x.seed_time)
         self.number_of_lanes = number_of_lanes
         self.number_of_heats = 0

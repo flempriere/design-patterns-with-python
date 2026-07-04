@@ -1,3 +1,7 @@
+"""
+Console-based Application for seeding swim events
+"""
+
 from typing import Sequence
 
 import swim_events
@@ -43,7 +47,7 @@ def select_event(event_id: int) -> Sequence[swim_events.Swimmer]:
 
 
 class SwimEventConsoleUI:
-    def build(self):
+    def build(self) -> None:
         while distance := int(input("Select Event (1 - 100 m, 5 - 500 m, 0 - quit): ")):
             try:
                 swimmers = select_event(distance)
@@ -56,7 +60,7 @@ class SwimEventConsoleUI:
                     )
 
 
-def main():
+def main() -> None:
     console = SwimEventConsoleUI()
     console.build()
 
