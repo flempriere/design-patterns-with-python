@@ -1,6 +1,5 @@
 # Chapter 8: The Singleton Pattern
 
-
 - [Notes](#notes)
   - [The Traditional Singleton](#the-traditional-singleton)
     - [Static Classes](#static-classes)
@@ -17,17 +16,17 @@
   instance of a given class
   - For example,
 
-    1.  One Window Manager
-    2.  One database access point
+    1. One Window Manager
+    2. One database access point
 
 ### The Traditional Singleton
 
 - The traditional singleton is implemented in other languages via the
   following,
 
-  1.  Making all constructors private
+  1. Making all constructors private
       - Prevents a client instantiating it themselves
-  2.  Providing a *static* or *class* method that returns a *reference*
+  2. Providing a *static* or *class* method that returns a *reference*
       to the instance
       - In some cases *lazy instantiation* is used
       - The first call to this function also creates the first instance
@@ -141,7 +140,7 @@ Singleton()
     Cell In[3], line 9
           5 assert first == second, "multiple singleton instances detected"
           6 print("Received the same global object")
-          7 
+          7
           8 # trying to directly call `__init__ a second time throws an exception
     ----> 9 Singleton()
 
@@ -330,14 +329,14 @@ def print_greeting(name: str) -> None:
 
 - Other critiques include
 
-  1.  It can be difficult to subclass a singleton because one cannot
+  1. It can be difficult to subclass a singleton because one cannot
       create instantiate the different subclasses
-  2.  Singleton’s can be extended to allow a fixed number of entities
+  2. Singleton’s can be extended to allow a fixed number of entities
       other than zero
-  3.  They effectively introduce a global state dependency into a
+  3. They effectively introduce a global state dependency into a
       program
       - This can make it harder to test components
-  4.  Singleton’s can be make it hard to introduce concurrency by
+  4. Singleton’s can be make it hard to introduce concurrency by
       creating race conditions
 
 ## Summary
