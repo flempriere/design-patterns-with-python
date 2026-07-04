@@ -33,6 +33,8 @@ Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp
 
 - [Chapter 5: The Factory
   Pattern](II-Creational-Patterns/chapter-05/chapter-05.qmd)
+- [Chapter 6: The Factory Method
+  Pattern](II-Creational-Patterns/chapter-06/chapter-06.qmd)
 
 ### III: Structural Patterns
 

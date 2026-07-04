@@ -10,11 +10,11 @@ class Rectangle:
 
 
 class Square(Rectangle):
-    def __init__(self, canvas):
+    def __init__(self, canvas: tkinter.Canvas):
         super().__init__(canvas)
 
-    def draw(self, x, y, w):  # ty:ignore[invalid-method-override]
-        super().draw(x, y, w, w)
+    def draw(self, x: int | float, y: int | float, width: int | float):  # ty:ignore[invalid-method-override]
+        super().draw(x, y, width, width)
 
 
 def main():
