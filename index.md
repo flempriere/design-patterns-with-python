@@ -37,6 +37,8 @@ Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp
   Pattern](II-Creational-Patterns/chapter-06/chapter-06.qmd)
 - [Chapter 7: The Abstract Factory
   Pattern](II-Creational-Patterns/chapter-07/chapter-07.qmd)
+- [Chapter 8: The Singleton
+  Pattern](II-Creational-Patterns/chapter-08/chapter-08.qmd)
 
 ### III: Structural Patterns
 
