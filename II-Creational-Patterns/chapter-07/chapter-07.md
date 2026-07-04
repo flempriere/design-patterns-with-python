@@ -1,6 +1,5 @@
 # Chapter 7: The Abstract Factory Pattern
 
-
 - [Notes](#notes)
   - [A GardenMaker Factory](#a-gardenmaker-factory)
     - [The `Plant` Class](#the-plant-class)
@@ -36,15 +35,15 @@
 
   - The program supports a number of different garden types
 
-    1.  Annual Gardens
-    2.  Vegetable Gardens
-    3.  Perennial Gardens
+    1. Annual Gardens
+    2. Vegetable Gardens
+    3. Perennial Gardens
 
 - For each type of garden, we have the following requirements
 
-  1.  What are good border plants?
-  2.  What are good centre plants?
-  3.  What plants do well in partial shade?
+  1. What are good border plants?
+  2. What are good centre plants?
+  3. What plants do well in partial shade?
 
 - Our Abstract factory class will be a `Garden`
 
