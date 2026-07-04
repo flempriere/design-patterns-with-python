@@ -63,7 +63,7 @@ print(f"alice:", alice)
 print(f"bob.get_salary():", bob.get_salary())
 ```
 
-    alice: <__main__.Employee object at 0x7f5280ca3380>
+    alice: <__main__.Employee object at 0x7f9df0723380>
     bob.get_salary(): 8000
 
 - For example above defines an `Employee` class representing someone
@@ -165,7 +165,7 @@ charlie = TempEmployee("Charlie", "C", 20_000, datetime.now() + timedelta(days=1
 print("Charlie has", charlie.contract_period_left(), "until their contract expires")
 ```
 
-    Charlie has 9 days, 23:59:59.999952 until their contract expires
+    Charlie has 9 days, 23:59:59.999956 until their contract expires
 
 #### Overriding Methods
 
