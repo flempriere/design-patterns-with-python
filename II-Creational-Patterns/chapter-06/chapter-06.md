@@ -3,8 +3,8 @@
 - [Notes](#notes)
   - [The `Swimmer` Class](#the-swimmer-class)
   - [The `Event` Class](#the-event-class)
+  - [Other Factories](#other-factories)
 - [Summary](#summary)
-- [Questions](#questions)
 
 ## Notes
 
@@ -180,10 +180,14 @@ classDiagram
                 Could not convert the provided string to a `Swimmer` instance
             """
 
-            swimmer_parameters = swimmer.split(sep=delimiter)
+            swimmer_parameters = [
+                parameter for parameter in swimmer.split(sep=delimiter) if parameter
+            ]
 
             if len(swimmer_parameters) != 5:
-                raise ValueError("Swimmer requires 5 parameters")
+                raise ValueError(
+                    f"Swimmer requires 5 parameters, got {len(swimmer_parameters)}\n{swimmer_parameters}"
+                )
 
             swimmer_parameters = [parameter.strip() for parameter in swimmer_parameters]
 
@@ -195,47 +199,6 @@ classDiagram
             seed_time = parse_time(swimmer_parameters[4])
 
             return cls(first_name, last_name, age, club, seed_time)
-
-        def __init__(
-            self,
-            first_name: str,
-            last_name: str,
-            age: int,
-            club: str,
-            seed_time: datetime.time,
-        ):
-            """
-            Create a new instance based on the provided details
-
-            Parameters
-            ----------
-
-            first_name: str
-                swimmer's first name
-            last_name: str
-                swimmer's last name
-            age : int
-                swimmer's current age in years
-            club : str
-                club the swimmer is representing
-            seed_time : datetime.time
-                swimmer's seed time
-            """
-
-            self.first_name = first_name
-            self.last_name = last_name
-            self.age = age
-            self.club = club
-            self.seed_time = seed_time
-            self.heat = 0
-            self.lane = 0
-
-        @property
-        def name(self) -> str:
-            """
-            The Swimmer's full name
-            """
-            return self.first_name + " " + self.last_name
     ```
 
   - We have a very simple `parse_time` function which helps convert a
@@ -275,10 +238,43 @@ classDiagram
         %M:%S.%f type time: 00:30:30.500000
         %S.%f type time: 00:00:30.500000
 
+  - Lastly, we define a standalone method that read’s a list of swimmers
+    from a file and convert’s them to `Swimmer` objects
+
+    ``` python
+    def load_swimmers(filename: str, delimiter=" ") -> list[Swimmer]:
+        """
+        Load swimmers from a delimited file
+
+        Load's swimmer's from a delimited file into a list of `swim_events.Swimmer`
+        instances. Does not populate their heat and lane.
+
+        Assumes the file follow's the interface of `swim_events.Swimmer.from_string`
+
+        Parameters
+        ----------
+        filename : str
+            path to the file containing swimmers, can be absolute or relative
+
+        Returns
+        -------
+        list[Swimmer]
+            list of Swimmer objects corresponding to rows in the file
+        """
+        # extract swimmers from file, slicing off the initial "idx " substring
+        with open(filename, "r") as f:
+            swimmers = [
+                Swimmer.from_string(line.partition(" ")[2], delimiter=delimiter)
+                for line in f.readlines()
+            ]
+        return swimmers
+    ```
+
 ### The `Event` Class
 
 - The `Event` class acts as our abstract base class for defining *what*
   seeding objects should be created
+
   - It is the core of our *factory method pattern*
   - We define an abstract method `seeding` which returns a `Seeding`
     instance
@@ -332,6 +328,7 @@ classDiagram
   ```
 
 - We then define two subclasses
+
   1. `PreliminaryEvent`
 
       - Implements `seeding` to return a `CircleSeeding` instance
@@ -339,10 +336,11 @@ classDiagram
       ``` python
          class PreliminaryEvent(Event):
              """
-             A Preliminary Swimming Competition Event
+             A Preliminary Swimming Competition Event with circle seeding
              """
 
-             def seeding(self):
+             @override
+             def seeding(self) -> Seeding:
                  return CircleSeeding(self.swimmers, self.number_of_lanes)
       ```
 
@@ -353,13 +351,355 @@ classDiagram
       ``` python
          class TimedFinalEvent(Event):
              """
-             A Timed Swimming Competition Event
+             A Timed Swimming Competition Event using straight seeding
              """
 
-             def seeding(self):
+             @override
+             def seeding(self) -> Seeding:
                  return StraightSeeding(self.swimmers, self.number_of_lanes)
       ```
 
+- The hierarchy to define now is the `Seeding` abstract base class
+
+  - This class implements two behaviours
+
+    1. It stores the swimmers competing in an event in a *sorted* list
+        in increasing seed time
+    2. Seeds the swimmers into heats and lanes via the `seed` abstract
+        method
+        - Called as part of the `__init__` method
+
+  ``` python
+    class Seeding(abc.ABC):
+        """
+        Abstract Class representing a methodology for seeding an event
+
+        Distributes a roster of swimmer's across heats and lanes according to
+        the desired seeding method. Seeding is performed on object creation and
+        does not require an explicit call to `seed`
+
+
+        Subclasses should override the `seed` method to implement the desired
+        seeding methodology
+
+        Attributes
+        ----------
+        swimmers: Sequence[Swimmer]
+            swimmers to be seeded, sorted by increasing seed time
+        number_of_lanes: int
+            number of lanes in each heat
+        number_of_heats: int
+            number of heats in the event
+        """
+
+        def __init__(self, swimmers: Sequence[Swimmer], number_of_lanes: int):
+            self.swimmers = sorted(swimmers, key=lambda x: x.seed_time)
+            self.number_of_lanes = number_of_lanes
+            self.number_of_heats = 0
+
+            self.seed()
+
+        @abc.abstractmethod
+        def seed(self) -> None:
+            """
+            Seed swimmers into a designated heat and lane
+
+            Each swimmer in `self.swimmers` must have their `heat` and `lane`
+            attribute assigned after `seed` is called. A `(heat, lane)` pair
+            must be unique
+            """
+            pass
+  ```
+
+- We then implement two subclasses `StraightSeeding` and `CircleSeeding`
+
+  - `StraightSeeding` inherit’s directly from `Seeding` to implement
+    it’s `seed` method
+
+    ``` python
+       class StraightSeeding(Seeding):
+           """
+           Straight seeds an event
+
+           Heats are seeded slowest to fastest, with the fastest swimmers
+           in the center lanes
+           """
+
+           @override
+           def seed(self) -> None:
+               """
+               Seed swimmers into a designated heat and lane
+
+               Heats are seeded slowest to fastest, with the fastest swimmers
+               in the center lanes
+               """
+               # calculate number of swimmers in the last heat, we want it to be a minimum of three
+               # unless there are only two competitors
+               n_swimmers_in_last_heat = len(self.swimmers) % self.number_of_lanes
+               if n_swimmers_in_last_heat < 3:
+                   n_swimmers_in_last_heat = min(3, len(self.swimmers))
+
+               # calculate number of lanes in the normal heat
+               # and the total number of heats
+               remaining_lanes = len(self.swimmers) - n_swimmers_in_last_heat
+               self.number_of_heats = len(self.swimmers) // self.number_of_lanes + (
+                   1 if remaining_lanes else 0
+               )
+
+               # generate the lane orderings and set to repeat for as we cycle over the heats
+               lane_ordering = itertools.cycle(self.generate_lane_order())
+
+               # cycle over the heats performing the seeding
+               for idx, (lane, swimmer) in enumerate(
+                   zip(lane_ordering, self.swimmers[:remaining_lanes])
+               ):
+                   swimmer.lane = lane
+                   swimmer.heat = self.number_of_heats - (idx // self.number_of_lanes)
+
+               # if no left over heat, return now
+               if not n_swimmers_in_last_heat:
+                   return
+
+               # otherwise seed the final heat
+               for lane, swimmer in zip(
+                   self.generate_lane_order(), self.swimmers[-n_swimmers_in_last_heat:]
+               ):
+                   swimmer.lane = lane
+                   swimmer.heat = 1
+
+           def generate_lane_order(self) -> Sequence[int]:
+               """
+               The order to assign lanes within a heat
+
+               Returns
+               -------
+               Sequence[int]
+                   The order in which lanes are seeded.
+                   Lanes start at 1.
+               """
+
+               mid = self.number_of_lanes // 2 + self.number_of_lanes % 2
+
+               incr = 1
+               lane = mid
+               lanes = []
+               for i in range(self.number_of_lanes):
+                   lanes.append(lane)
+                   lane = mid + incr
+                   incr = -incr + (1 if incr < 0 else 0)
+
+               return lanes
+    ```
+
+  - Circle seeding is a slight variation of the straight seeding method
+
+    - We thus implement it as a subclass of `CircleSeeding`
+
+    ``` python
+        class CircleSeeding(StraightSeeding):
+            """
+            Circle seeds an event
+
+            As for straight seeding but the fastest swimmers are distributed to the
+            top three heats as in the diagram below
+
+            ``(7, 1, 4), (8, 2, 5), (9, 3, 6)``
+            """
+
+            @override
+            def seed(self) -> None:
+                """
+                Seed swimmers into a designated heat and lane
+
+                Heats are seeded slowest to fastest, with the fastest swimmers
+                in the center lanes. The fastest swimmers are distributed across the
+                top 3 heats.
+
+                ``(7, 1, 4), (8, 2, 5), (9, 3, 6)``
+                """
+
+                # start by straight-seeding
+                super().seed()
+                if self.number_of_heats <= 1:
+                    return
+
+                # Calculate, number of heats to be circle seeded, if only one heat
+                # return early
+                number_to_circle_seed = min(3, self.number_of_heats)
+
+                # Reseed the final `number_to_circle_seed`
+                lane_ordering = itertools.cycle(self.generate_lane_order())
+
+                for swimmer, (lane, heat) in zip(
+                    self.swimmers[: self.number_of_lanes * number_to_circle_seed],
+                    itertools.product(
+                        itertools.islice(
+                            lane_ordering, number_to_circle_seed * self.number_of_lanes
+                        ),
+                        range(number_to_circle_seed),
+                    ),
+                ):
+                    swimmer.lane = lane
+                    swimmer.heat = self.number_of_heats - heat
+    ```
+
+- The full code above can be found in
+  [swim_events.py](./01-swimmers/swim_events.py)
+
+- We can then implement two interfaces for this program
+
+  1. [A command line application](./01-swimmers/swim_console.py)
+
+      ``` python
+         from typing import Sequence
+
+         import swim_events
+
+
+         def select_event(event_id: int) -> Sequence[swim_events.Swimmer]:
+             """
+             Select and seed a corresponding event
+
+             Parameters
+             ----------
+             event_id : int
+                 integer id corresponding to a specific event
+
+             Returns
+             -------
+             Sequence[swim_events.Swimmer]
+                 Swimmers competing in the event seeded into heats and lanes, sorted
+                 in ascending seed time
+
+             Raises
+             ------
+             ValueError
+                 Raised if `event_id` does not correspond to an event
+             """
+             if event_id == 1:
+                 print("loading swimmers")
+                 swimmers = swim_events.load_swimmers("100free.txt")
+                 print("swimmers loaded\nGenerating event")
+                 event = swim_events.PreliminaryEvent(swimmers, 6)
+                 print("Event retrieved")
+             elif event_id == 5:
+                 swimmers = swim_events.load_swimmers("500free.txt")
+                 event = swim_events.TimedFinalEvent(swimmers, 6)
+             else:
+                 raise ValueError(f"No event found corresponding to {event_id}")
+
+             print("Seeding")
+             seeding = event.seeding()
+             swimmers = seeding.swimmers  # get's the sorted swimmers list
+             print("Finished seeding")
+             return swimmers
+
+
+         class SwimEventConsoleUI:
+             def build(self):
+                 while distance := int(input("Select Event (1 - 100 m, 5 - 500 m, 0 - quit): ")):
+                     try:
+                         swimmers = select_event(distance)
+                     except ValueError as e:
+                         print(e)
+                     else:
+                         for swimmer in swimmers:
+                             print(
+                                 f"{swimmer.heat:3}{swimmer.lane:3} {swimmer.name:20}{swimmer.age:3}{swimmer.seed_time:9}"
+                             )
+
+
+         def main():
+             console = SwimEventConsoleUI()
+             console.build()
+
+
+         if __name__ == "__main__":
+             main()
+      ```
+
+  2. [A simple graphical program](./01-swimmers/swim_events.py)
+
+      - The program should look something like,
+
+        ![The Basic Swim Events GUI. The User can select events from a
+        listbox and see the resulting heats and lanes in a
+        table](./01-swimmers/swim_gui.png)
+
+### Other Factories
+
+- One issue currently is that our program needs a way to determine which
+  `Event` subclass to instantiate
+
+- At the moment this is hardcoded. For example in the GUI we use a
+  hard-coded look-up table associating files to subclasses
+
+  ``` python
+    def select_swim_event(self, event):
+        """
+        Callback to handle when the currently selected event changes
+
+        Updates the displayed table to correspond to the selected event
+        in `self.event_list`
+
+        Parameters
+        ----------
+        event:
+            tkinter event that triggered this callback
+        """
+        index = int(self.event_list.curselection()[0])
+
+        # store events in an internal look-up table of
+        # the data file and the corresponding event type
+        events: list[tuple[str, type[swim_events.Event]]] = [
+            ("500free.txt", swim_events.TimedFinalEvent),
+            ("100free.txt", swim_events.PreliminaryEvent),
+        ]
+
+        try:
+            event_file, event_format = events[index]
+            swimmers = swim_events.load_swimmers(event_file, delimiter=" ")
+        except IndexError:
+            tk.messagebox.showerror(
+                title="Invalid Event Selected",
+                message="Current Selection does not match any event",
+            )
+            return
+        except FileNotFoundError:
+            tk.messagebox.showerror(
+                title="File Missing", message=f"Could not find event file {event_file}"
+            )
+            return
+        swim_event = event_format(swimmers, lanes=6)
+        seeded_swimmers = swim_event.seeding().swimmers
+
+        self.update_table(seeded_swimmers)
+  ```
+
+  - Eventually we might want to replace this with another factory
+    in-kind, e.g. an `EventFactory`
+
 ## Summary
 
-## Questions
+- Consider a factory method when
+
+  1. A class can’t anticipate which kind of objects of a class it must
+      create
+  2. A class uses it’s subclass to delegate which objects it creates
+  3. You want to localise knowledge of which class is created
+
+- There are variations on the factory pattern, for example
+
+  1. The base class is abstract
+
+      - The pattern returns a working class
+
+  2. The base class contains a default implementation
+
+      - Subclasses override the default implementation
+
+  3. Parameters are passed to the factory method to determine which
+      type of class to return
+
+      - Classes may share method names / interfaces
+      - Implement different behaviours
