@@ -93,7 +93,7 @@ class UIBuilder:
 
         # store events in an internal look-up table of
         # the data file and the corresponding event type
-        events = [
+        events: list[tuple[str, type[swim_events.Event]]] = [
             ("500free.txt", swim_events.TimedFinalEvent),
             ("100free.txt", swim_events.PreliminaryEvent),
         ]

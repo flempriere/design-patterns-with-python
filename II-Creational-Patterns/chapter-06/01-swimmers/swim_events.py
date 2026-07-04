@@ -218,7 +218,7 @@ class Event(abc.ABC):
 
 class PreliminaryEvent(Event):
     """
-    A Preliminary Swimming Competition Event
+    A Preliminary Swimming Competition Event with circle seeding
     """
 
     @override
@@ -228,7 +228,7 @@ class PreliminaryEvent(Event):
 
 class TimedFinalEvent(Event):
     """
-    A Timed Swimming Competition Event
+    A Timed Swimming Competition Event using straight seeding
     """
 
     @override
@@ -293,7 +293,6 @@ class StraightSeeding(Seeding):
         Heats are seeded slowest to fastest, with the fastest swimmers
         in the center lanes
         """
-        print("Straight seeding...")
         # calculate number of swimmers in the last heat, we want it to be a minimum of three
         # unless there are only two competitors
         n_swimmers_in_last_heat = len(self.swimmers) % self.number_of_lanes
@@ -314,7 +313,6 @@ class StraightSeeding(Seeding):
         for idx, (lane, swimmer) in enumerate(
             zip(lane_ordering, self.swimmers[:remaining_lanes])
         ):
-            print(f"Seeding {swimmer.name} ({idx}, {lane})")
             swimmer.lane = lane
             swimmer.heat = self.number_of_heats - (idx // self.number_of_lanes)
 
@@ -322,7 +320,6 @@ class StraightSeeding(Seeding):
         if not n_swimmers_in_last_heat:
             return
 
-        print("Seeding final heat")
         # otherwise seed the final heat
         for lane, swimmer in zip(
             self.generate_lane_order(), self.swimmers[-n_swimmers_in_last_heat:]
@@ -351,7 +348,6 @@ class StraightSeeding(Seeding):
             lane = mid + incr
             incr = -incr + (1 if incr < 0 else 0)
 
-        print(f"Ordering: {lanes}")
         return lanes
 
 
@@ -377,7 +373,6 @@ class CircleSeeding(StraightSeeding):
         ``(7, 1, 4), (8, 2, 5), (9, 3, 6)``
         """
 
-        print("Circle seeding\nInitial Straight seeding")
         # start by straight-seeding
         super().seed()
         if self.number_of_heats <= 1:
@@ -399,7 +394,6 @@ class CircleSeeding(StraightSeeding):
                 range(number_to_circle_seed),
             ),
         ):
-            print(f"Seeding {swimmer.lane} ({lane}{heat})")
             swimmer.lane = lane
             swimmer.heat = self.number_of_heats - heat
 
