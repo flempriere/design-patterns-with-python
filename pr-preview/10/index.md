@@ -39,6 +39,8 @@ Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp
   Pattern](II-Creational-Patterns/chapter-07/chapter-07.qmd)
 - [Chapter 8: The Singleton
   Pattern](II-Creational-Patterns/chapter-08/chapter-08.qmd)
+- [Chapter 9: The Builder
+  Pattern](II-Creational-Patterns/chapter-09/chapter-09.qmd)
 
 ### III: Structural Patterns
 

@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -71,9 +106,13 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <meta property="og:title" content="Chapter 9: The Builder Pattern – Python Programming with Design Patterns: Notes">
+<meta property="og:image" content="Examples/investment-tracker/gui-first.png">
 <meta property="og:site_name" content="Python Programming with Design Patterns: Notes">
 </head>
 
@@ -217,9 +256,14 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#notes" id="toc-notes" class="nav-link active" data-scroll-target="#notes">Notes</a>
   <ul>
-  <li><a href="#an-investment-tracker" id="toc-an-investment-tracker" class="nav-link" data-scroll-target="#an-investment-tracker">An Investment Tracker</a></li>
+  <li><a href="#an-investment-tracker" id="toc-an-investment-tracker" class="nav-link" data-scroll-target="#an-investment-tracker">An Investment Tracker</a>
+  <ul>
+  <li><a href="#the-multichoicewidget" id="toc-the-multichoicewidget" class="nav-link" data-scroll-target="#the-multichoicewidget">The <code>MultiChoiceWidget</code></a></li>
+  <li><a href="#the-uibuilder-method" id="toc-the-uibuilder-method" class="nav-link" data-scroll-target="#the-uibuilder-method">The <code>UIBuilder</code> Method</a></li>
+  <li><a href="#displaying-selected-securities" id="toc-displaying-selected-securities" class="nav-link" data-scroll-target="#displaying-selected-securities">Displaying Selected Securities</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul></li>
   <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a></li>
   </ul>
 <div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/flempriere/design-patterns-with-python/" target="_blank"><i class="bi bi-github"></i>GitHub Repo</a></li></ul></div></nav>
@@ -301,13 +345,417 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 <li><p>We need a builder class that can choose how to configure the UI</p></li>
 </ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">---
+title: Using the Builder Pattern to construct a GUI
+---
+classDiagram
+
+    class UIBuilder {
+
+      +Securities securities
+      +Listbox security_type_selector
+      +MultiChoiceWidget choice_ui
+      +build(root)
+      +construct_choice_ui(choices) MultiChoiceWidget
+
+    }
+
+    class MultiChoiceWidget {
+
+        +Sequence~str~ choices
+        +Widget frame
+    }
+
+    class ListboxChoice {
+      +Listbox list
+    }
+
+    class CheckboxChoice {
+      +Sequence~Checkbox~ boxes
+    }
+
+    class UIBuilder {
+      +Widget root
+      +Sequence~Securities~ securities
+      +Listbox security_type_selector
+      +Widget right_frame
+      +MultiChoiceWidget choice_ui
+
+      +build()
+      +selection_changed(event)
+      +construct_choice_ui(Sequence~str~ choices, Widget frame) MultiChoiceWidget
+    }
+
+    MultiChoiceWidget &lt;|-- ListboxChoice
+    MultiChoiceWidget &lt;|-- CheckboxChoice
+
+    UIBuilder *-- MultiChoiceWidget : construct_choice_ui
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="the-multichoicewidget" class="level4">
+<h4 class="anchored" data-anchor-id="the-multichoicewidget">The <code>MultiChoiceWidget</code></h4>
+<ul>
+<li><p>The core of the program is the <code>MultiChoiceWidget</code> we construct to display different types of data</p></li>
+<li><p><code>MultiChoiceWidget</code> itself is an abstract class</p>
+<ul>
+<li>It defines a basic initializer containing the parent widget and the selection of choices to contain</li>
+<li>We then define abstract methods
+<ul>
+<li><code>make_ui</code> which the widget uses to construct itself</li>
+<li><code>get_selected</code> returns the current selection</li>
+</ul></li>
+<li>We define a concrete method <code>clear_all</code> that deletes this widget from it’s parent frame
+<ul>
+<li>This enables us to easily swap in and out different <code>MultiChoiceWidgets</code></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MultiChoiceWidget(abc.ABC):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Abstract widget that allows the user to select multiple options from a collection</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">  Once instantiated the UI must be constructed via the `make_ui` method.</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">  Subclasses should override the `make_ui` and `get_selected` methods.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">  Parameters</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">  ----------</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">  frame</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">      parent widget</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">  choices : Sequence[str]</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">      options that can be selected</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, frame, choices: Sequence[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      <span class="co">"""</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">      Construct a new MultiChoiceWidget for the given choices</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">      Parameters</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">      ----------</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">      frame :</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">          parent widget</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">      choices : Sequence[str]</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">          choices to add to this widget</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">      """</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.choices <span class="op">=</span> choices</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.frame <span class="op">=</span> frame</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">@abc.abstractmethod</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> make_ui(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>      <span class="co">"""</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">      Construct the Widget</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">      """</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>      <span class="cf">pass</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">@abc.abstractmethod</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_selected(<span class="va">self</span>) <span class="op">-&gt;</span> Sequence[<span class="bu">str</span>]:</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>      <span class="co">"""</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">      Retrieve the currently selected elements</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">      Returns</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">      -------</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">      Sequence[str]</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">          The currently selected choices</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">      """</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>      <span class="cf">pass</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> clear_all(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>      <span class="co">"""</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">      Delete the current widget from the screen</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">      """</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> widget <span class="kw">in</span> <span class="va">self</span>.frame.winfo_children():</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>          widget.destroy()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul></li>
+<li><p>We then make two concrete implementations</p>
+<ol type="1">
+<li><p><code>ListboxChoice</code></p>
+<ul>
+<li>Implements the multiple choice via a <code>Listbox</code></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> <span class="kw">class</span> ListboxChoice(MultiChoiceWidget):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>     <span class="co">"""</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">     MultipleChoiceWidget implemented via a Listbox</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">     Parameters</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">     ----------</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">     list : tkinter.Listbox</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">         The listbox</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">     """</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>     <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, frame, choices: Sequence[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>         <span class="bu">super</span>().<span class="fu">__init__</span>(frame, choices)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">@override</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>     <span class="kw">def</span> make_ui(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>         <span class="va">self</span>.clear_all()</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>         <span class="va">self</span>.<span class="bu">list</span> <span class="op">=</span> tk.Listbox(<span class="va">self</span>.frame, selectmode<span class="op">=</span>tk.MULTIPLE)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>         <span class="va">self</span>.<span class="bu">list</span>.pack()</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>         <span class="cf">for</span> choice <span class="kw">in</span> <span class="va">self</span>.choices:</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>             <span class="va">self</span>.<span class="bu">list</span>.insert(tk.END, choice)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">@override</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>     <span class="kw">def</span> get_selected(<span class="va">self</span>) <span class="op">-&gt;</span> Sequence[<span class="bu">str</span>]:</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>         selection: Sequence[<span class="bu">str</span>] <span class="op">=</span> [</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>             <span class="va">self</span>.<span class="bu">list</span>.get(idx) <span class="cf">for</span> idx <span class="kw">in</span> <span class="va">self</span>.<span class="bu">list</span>.curselection()</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>         ]</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>         <span class="cf">return</span> selection</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><code>CheckboxChoice</code></p>
+<ul>
+<li>Implements the multiple choice via checkboxes</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>   <span class="kw">class</span> CheckboxChoice(MultiChoiceWidget):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>       <span class="co">"""</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">       MultipleChoiceWidget implemented via a Checkbox</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">       Parameters</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">       ----------</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">       boxes: Sequence[Checkbox]</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">           checkboxes associated with this widget</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">       """</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>       <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, panel, choices: Sequence[<span class="bu">str</span>]) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>           <span class="bu">super</span>().<span class="fu">__init__</span>(panel, choices)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>       <span class="kw">def</span> make_ui(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>           <span class="va">self</span>.clear_all()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>           <span class="va">self</span>.boxes: <span class="bu">list</span>[Checkbox] <span class="op">=</span> []</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>           <span class="cf">for</span> row, name <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.choices):</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>               cb <span class="op">=</span> Checkbox(<span class="va">self</span>.frame, name)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>               cb.grid(row<span class="op">=</span>row, column<span class="op">=</span><span class="dv">0</span>, sticky<span class="op">=</span>tk.W)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>               <span class="va">self</span>.boxes.append(cb)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>       <span class="kw">def</span> get_selected(<span class="va">self</span>) <span class="op">-&gt;</span> Sequence[<span class="bu">str</span>]:</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>           items: <span class="bu">list</span>[<span class="bu">str</span>] <span class="op">=</span> [box.text <span class="cf">for</span> box <span class="kw">in</span> <span class="va">self</span>.boxes <span class="cf">if</span> box.is_checked()]</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>           <span class="cf">return</span> items</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ol></li>
+</ul>
+</section>
+<section id="the-uibuilder-method" class="level4">
+<h4 class="anchored" data-anchor-id="the-uibuilder-method">The <code>UIBuilder</code> Method</h4>
+<ul>
+<li><p>We now define a builder class responsible for constructing the widgets</p>
+<ul>
+<li>First we define a simple factory method that chooses the correct <code>MultiChoiceWidget</code>
+<ul>
+<li>As the implementation becomes more complex we might delegate this out to a distinct <em>Factory class</em></li>
+</ul></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> construct_choice_ui(<span class="va">self</span>, choices: Sequence[<span class="bu">str</span>], frame) <span class="op">-&gt;</span> MultiChoiceWidget:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="co">"""</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">      Build the appropriate `MultiChoiceWidget` for the given selection</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">      Parameters</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">      ----------</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">      choices : Sequence[str]</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">          options to add to the MultiChoiceWidget</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">      frame :</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">          parent widget to place the MultiChoiceWidget into</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">      Returns</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">      -------</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">      MultiChoiceWidget</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">          The newly constructed widget</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">      """</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="bu">len</span>(choices) <span class="op">&lt;=</span> <span class="dv">3</span>:</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> CheckboxChoice(frame, choices)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span>:</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> ListboxChoice(frame, choices)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p>Next we define our standard <code>build</code> methods and create the <code>selection_changed</code> function to handle choosing between different securities</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Create the UI and initialise the attributes</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    stocks <span class="op">=</span> Securities(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Stocks"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        investments<span class="op">=</span>[</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Cisco"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Coca Cola"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">"General Electric"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Harley Davidson"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">"IBM"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    bonds <span class="op">=</span> Securities(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Bonds"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        investments<span class="op">=</span>[<span class="st">"CT State GO 2024"</span>, <span class="st">"New York GO 2026"</span>, <span class="st">"GE Corp Bonds"</span>],</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    mutuals <span class="op">=</span> Securities(</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Mutuals"</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        investments<span class="op">=</span>[</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Fidelity Magellan"</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>            <span class="st">"T Rowe Prices"</span>,</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Vanguard Primecap"</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Lindner"</span>,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.securities <span class="op">=</span> [stocks, bonds, mutuals]</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    left_frame <span class="op">=</span> tk.ttk.Frame(<span class="va">self</span>.root)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    left_frame.grid(row<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.security_type_selector <span class="op">=</span> tk.Listbox(left_frame, exportselection<span class="op">=</span>tk.FALSE)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.security_type_selector.pack()</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> security <span class="kw">in</span> <span class="va">self</span>.securities:</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.security_type_selector.insert(tk.END, security.name)</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.security_type_selector.bind(<span class="st">"&lt;&lt;ListboxSelect&gt;&gt;"</span>, <span class="va">self</span>.selection_changed)</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.right_frame <span class="op">=</span> tk.ttk.Frame(<span class="va">self</span>.root)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.right_frame.grid(row<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> show_selected() <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="co">        Display the currently selected options</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="co">        Invokes a Messagebox</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>        securities <span class="op">=</span> <span class="va">self</span>.choice_ui.get_selected()</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(securities)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>        tk.messagebox.showinfo(title<span class="op">=</span><span class="st">"Selected securities"</span>, message<span class="op">=</span>text)</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    show_button <span class="op">=</span> tk.ttk.Button(<span class="va">self</span>.root, text<span class="op">=</span><span class="st">"Show"</span>, command<span class="op">=</span>show_selected)</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>    show_button.grid(row<span class="op">=</span><span class="dv">1</span>, column<span class="op">=</span><span class="dv">0</span>, columnspan<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> selection_changed(<span class="va">self</span>, event) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="co">    Callback function for when the selected securities category has changed</span></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co">    Creates and applies the correct `MultiChoiceWidget`</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="co">    event :</span></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="co">        event that triggered the callback</span></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>    index <span class="op">=</span> <span class="bu">int</span>(<span class="va">self</span>.security_type_selector.curselection()[<span class="dv">0</span>])</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>    security_category <span class="op">=</span> <span class="va">self</span>.securities[index]</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.choice_ui <span class="op">=</span> <span class="va">self</span>.construct_choice_ui(</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>        security_category.investments, <span class="va">self</span>.right_frame</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.choice_ui.make_ui()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul></li>
+<li><p>From a <em>design patterns</em> perspective this is not perhaps the best example of the builder</p>
+<ul>
+<li>Here both the individual <code>MultiChoiceWidget</code> instances are the <em>builders</em> and the <em>product</em></li>
+<li>The <code>UIBuilder</code> is more of a <em>Director</em> that decides how to call the builders</li>
+</ul></li>
+<li><p>A good example of the builder pattern in Python is <code>matplotlib</code></p>
+<ul>
+<li>Normally you start by defining a figure, or axes via one of the standard <code>pyplot</code> methods
+<ul>
+<li>Then add on <code>ticks</code>, <code>labels</code>, <code>legends</code> and more</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="displaying-selected-securities" class="level4">
+<h4 class="anchored" data-anchor-id="displaying-selected-securities">Displaying Selected Securities</h4>
+<ul>
+<li><p>In our <code>build</code> method we define a <em>closure</em> <code>show_selected</code></p>
+<ul>
+<li>This is used as a callback for the <code>show</code> button</li>
+<li>Brings up a message box displaying the selected entities</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> show_selected() <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      <span class="co">"""</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">      Display the currently selected options</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">      Invokes a Messagebox</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">      """</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      securities <span class="op">=</span> <span class="va">self</span>.choice_ui.get_selected()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      text <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(securities)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      tk.messagebox.showinfo(title<span class="op">=</span><span class="st">"Selected securities"</span>, message<span class="op">=</span>text)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  show_button <span class="op">=</span> tk.ttk.Button(<span class="va">self</span>.root, text<span class="op">=</span><span class="st">"Show"</span>, command<span class="op">=</span>show_selected)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  show_button.grid(row<span class="op">=</span><span class="dv">1</span>, column<span class="op">=</span><span class="dv">0</span>, columnspan<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>The final program can be seen in <a href="Examples/investment-tracker/investment_tracker.py">investment_tracker.py</a></p></li>
+<li><p>When run it should look like the following images depending on which <code>MultiChoiceWidget</code> is constructed</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/investment-tracker/gui-first.png" class="img-fluid figure-img"></p>
+<figcaption>When the number of choices is three or less the selection is a series of checkboxes</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/investment-tracker/gui-second.png" class="img-fluid figure-img"></p>
+<figcaption>When the number of choices is greater than three the selection is a listbox</figcaption>
+</figure>
+</div></li>
+</ul>
 </section>
 </section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<section id="summary" class="level3">
+<h3 class="anchored" data-anchor-id="summary">Summary</h3>
+<ul>
+<li><p>The builder pattern</p>
+<ol type="1">
+<li>Let’s you vary the internal representation of the built product
+<ul>
+<li>Hide’s the details of how an object is constructed</li>
+</ul></li>
+<li>Each builder is independent of each other and the wider program
+<ul>
+<li>Though they may follow a common interface</li>
+<li>Improves modularity</li>
+</ul></li>
+<li>Products are created in discrete steps
+<ul>
+<li>Provides more fine-grained control over when we stop constructing a product</li>
+</ul></li>
+</ol></li>
+</ul>
+</section>
 </section>
 <section id="questions" class="level2">
 <h2 class="anchored" data-anchor-id="questions">Questions</h2>
+<ol type="1">
+<li><p>Some graphical programs construct menus dynamically based on the context of the data being displayed. How can you use a builder effectively here?</p>
+<ul>
+<li>We can use a director class that directs how each menu is constructed</li>
+<li>Different Menu types are then implemented as builder classes
+<ul>
+<li>Depending on the data provided the appropriate builder is called</li>
+<li>Components are added to the menu dynamically as discrete steps provided by the builder</li>
+</ul></li>
+</ul></li>
+<li><p>Not all builders must construct visual objects.</p>
+<ol type="1">
+<li><p>What might you use a Builder to construct in the personal finance industry</p>
+<ul>
+<li>Loan programs and credit programs for example might have special add-ons that clients can opt-into</li>
+<li>We wouldn’t want to have to define a factory or constructor that used <code>None</code> to indicate all optional features
+<ul>
+<li>Especially if those options were time-limited since they would then have to live in the code in-theory indefinitely</li>
+</ul></li>
+<li>So instead we should use a builder which can <em>add-on</em> these options as distinct steps</li>
+</ul></li>
+<li><p>Suppose you were scoring a track meet made up of five to six different events, can you use a builder here?</p>
+<ul>
+<li>We would likely implement the construction of each event via some variation of the factory</li>
+<li>The builder would then be useful as the marshalling class
+<ul>
+<li>Provides the mechanism to combine events into a meet</li>
+<li>Since meets can be made up of different numbers of events or different event types the builder gives us flexibility</li>
+</ul></li>
+</ul></li>
+</ol></li>
+</ol>
 
 
 </section>
