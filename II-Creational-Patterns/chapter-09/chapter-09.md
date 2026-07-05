@@ -1,6 +1,5 @@
 # Chapter 9: The Builder Pattern
 
-
 - [Notes](#notes)
   - [An Investment Tracker](#an-investment-tracker)
 - [Summary](#summary)
@@ -18,7 +17,7 @@
 - For example, consider an address book
   - An address might be a,
 
-    1.  A Person, comprising
+    1. A Person, comprising
 
         - First name
         - Last name
@@ -26,7 +25,7 @@
         - Email
         - Phone Number
 
-    2.  Group, comprising
+    2. Group, comprising
 
         - Name
         - Purpose
@@ -44,9 +43,9 @@
 
 - Tracks,
 
-  1.  Stocks
-  2.  Bonds
-  3.  Mutual Funds
+  1. Stocks
+  2. Bonds
+  3. Mutual Funds
 
 - We want to be able to display each category
 
