@@ -20,6 +20,34 @@
   - Superclass defers construction to each subclass
 - Programs define an abstract class that creates objects
   - Subclasses decide which object to create
+
+``` mermaid
+---
+title: "Factory Method Pattern"
+---
+classDiagram
+
+class AbstractCreator {
+    +factory_method() AbstractProduct
+}
+
+class ConcreteCreator
+
+ConcreteCreator --|> AbstractCreator
+
+class AbstractProduct {
+    <<interface>>
+}
+
+AbstractCreator ..> AbstractProduct : factory_method()
+
+class ConcreteProduct
+
+ConcreteProduct --|> AbstractProduct
+
+ConcreteCreator ..> ConcreteProduct : factory_method()
+```
+
 - As a simple example, consider swimmers seeded into swim lanes
   - Swimmers competing in multiple heats are first sorted to compete
     from slowest in early heats to fastest in the last heat

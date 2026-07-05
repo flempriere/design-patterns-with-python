@@ -40,6 +40,39 @@
     - Not a factory here because each object has to be configured
       differently rather than just overriding methods
 
+``` mermaid
+---
+title: "The Builder Pattern"
+---
+classDiagram
+
+
+class Director
+
+class Builder {
+    <<interface>>
+    +build_part_a() PartA
+    +build_part_b() PartB
+    +get_result() Product
+}
+
+class ConcreteBuilder
+
+class ComplexProduct
+class PartA
+class PartB
+
+Director --> Builder : controls
+ConcreteBuilder --|> Builder
+
+ConcreteBuilder ..> PartA : builds
+ConcreteBuilder ..> PartB : builds
+PartA ..> ComplexProduct : assemble
+PartB ..> ComplexProduct : assemble
+
+Director --> ComplexProduct : Retrieves
+```
+
 ### An Investment Tracker
 
 - We’ll work with a simpler example of an investment tracker program

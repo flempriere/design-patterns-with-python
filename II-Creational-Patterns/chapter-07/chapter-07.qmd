@@ -14,6 +14,57 @@ title: "Chapter 7: The Abstract Factory Pattern"
   - Another might return the set of Gnome widgets etc.
 - Can then request specific widget's from the respective factory instance
 
+```{mermaid}
+---
+title: "The Abstract Factory Pattern"
+---
+classDiagram
+
+class AbstractFactory {
+    <<interface>>
+    +create_product_a() AbstractProductA
+    +create_product_b() AbstractProductB
+}
+
+class ConcreteFactory1
+class ConcreteFactory2
+
+ConcreteFactory1 --|> AbstractFactory
+ConcreteFactory2 --|> AbstractFactory
+
+class AbstractProductA {
+    <<interface>>
+}
+
+class ConcreteProductA1
+class ConcreteProductA2
+
+ConcreteProductA1 --|> AbstractProductA
+ConcreteProductA2 --|> AbstractProductA
+
+ConcreteFactory1 ..> ConcreteProductA1 : instantiates
+ConcreteFactory1 ..> ConcreteProductB1 : instantiates
+
+class AbstractProductB {
+    <<interface>>
+}
+
+class ConcreteProductB1
+class ConcreteProductB2
+
+ConcreteProductB1 --|> AbstractProductB
+ConcreteProductB2 --|> AbstractProductB
+
+ConcreteFactory2 ..> ConcreteProductA2 : instantiates
+ConcreteFactory2 ..> ConcreteProductB2 : instantiates
+
+class client
+
+client --> AbstractFactory : imports
+client --> AbstractProductA : imports
+client --> AbstractProductB : imports
+```
+
 ### A GardenMaker Factory
 
 - Consider a simple program for planning out a garden
