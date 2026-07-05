@@ -21,6 +21,7 @@ This repository contains notes and code examples from the book, [Python Programm
 - [Chapter 7: The Abstract Factory Pattern](II-Creational-Patterns/chapter-07/chapter-07.md)
 - [Chapter 8: The Singleton Pattern](II-Creational-Patterns/chapter-08/chapter-08.md)
 - [Chapter 9: The Builder Pattern](II-Creational-Patterns/chapter-09/chapter-09.md)
+- [Chapter 10: The Prototype Pattern](II-Creational-Patterns/chapter-10/chapter-10.md)
 
 ### III: Structural Patterns
 
