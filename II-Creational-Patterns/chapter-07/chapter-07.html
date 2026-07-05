@@ -243,6 +243,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Chapter 9: The Builder Pattern</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../II-Creational-Patterns/chapter-10/chapter-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 10: The Prototype Pattern</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -312,6 +318,65 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li>Can then request specific widget’s from the respective factory instance</li>
 </ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">---
+title: "The Abstract Factory Pattern"
+---
+classDiagram
+
+class AbstractFactory {
+    &lt;&lt;interface&gt;&gt;
+    +create_product_a() AbstractProductA
+    +create_product_b() AbstractProductB
+}
+
+class ConcreteFactory1
+class ConcreteFactory2
+
+ConcreteFactory1 --|&gt; AbstractFactory
+ConcreteFactory2 --|&gt; AbstractFactory
+
+class AbstractProductA {
+    &lt;&lt;interface&gt;&gt;
+}
+
+class ConcreteProductA1
+class ConcreteProductA2
+
+ConcreteProductA1 --|&gt; AbstractProductA
+ConcreteProductA2 --|&gt; AbstractProductA
+
+ConcreteFactory1 ..&gt; ConcreteProductA1 : instantiates
+ConcreteFactory1 ..&gt; ConcreteProductB1 : instantiates
+
+class AbstractProductB {
+    &lt;&lt;interface&gt;&gt;
+}
+
+class ConcreteProductB1
+class ConcreteProductB2
+
+ConcreteProductB1 --|&gt; AbstractProductB
+ConcreteProductB2 --|&gt; AbstractProductB
+
+ConcreteFactory2 ..&gt; ConcreteProductA2 : instantiates
+ConcreteFactory2 ..&gt; ConcreteProductB2 : instantiates
+
+class client
+
+client --&gt; AbstractFactory : imports
+client --&gt; AbstractProductA : imports
+client --&gt; AbstractProductB : imports
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <section id="a-gardenmaker-factory" class="level3">
 <h3 class="anchored" data-anchor-id="a-gardenmaker-factory">A GardenMaker Factory</h3>
 <ul>

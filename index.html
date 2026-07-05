@@ -203,6 +203,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Chapter 9: The Builder Pattern</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./II-Creational-Patterns/chapter-10/chapter-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 10: The Prototype Pattern</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -223,6 +229,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#iv-behavioural-patterns" id="toc-iv-behavioural-patterns" class="nav-link" data-scroll-target="#iv-behavioural-patterns">IV: Behavioural Patterns</a></li>
   </ul></li>
   <li><a href="#attribution" id="toc-attribution" class="nav-link" data-scroll-target="#attribution">Attribution</a></li>
+  <li><a href="#code-style" id="toc-code-style" class="nav-link" data-scroll-target="#code-style">Code Style</a></li>
   </ul>
 <div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/flempriere/design-patterns-with-python/" target="_blank"><i class="bi bi-github"></i>GitHub Repo</a></li></ul></div></nav>
     </div>
@@ -269,6 +276,7 @@ ul.task-list li input[type="checkbox"] {
 <li><a href="./II-Creational-Patterns/chapter-07/chapter-07.html">Chapter 7: The Abstract Factory Pattern</a></li>
 <li><a href="./II-Creational-Patterns/chapter-08/chapter-08.html">Chapter 8: The Singleton Pattern</a></li>
 <li><a href="./II-Creational-Patterns/chapter-09/chapter-09.html">Chapter 9: The Builder Pattern</a></li>
+<li><a href="./II-Creational-Patterns/chapter-10/chapter-10.html">Chapter 10: The Prototype Pattern</a></li>
 </ul>
 </section>
 <section id="iii-structural-patterns" class="level3">
@@ -294,6 +302,10 @@ Note
 <section id="attribution" class="level2">
 <h2 class="anchored" data-anchor-id="attribution">Attribution</h2>
 <p>The notes and code in this repository are based on the work of the original author. You can find their original supplied code at the attached submodule, or at the following <a href="https://github.com/jwcnmr/jameswcooper">github repository</a>. The original code is also supplied as a submodule.</p>
+</section>
+<section id="code-style" class="level2">
+<h2 class="anchored" data-anchor-id="code-style">Code Style</h2>
+<p>I’m personally not a fan of the way the original code examples have been written. There is a lack of consistency in name conventions and the code is (in my opinion) written in a way that is very rigid and not very pythonic. In general the the code has been rewritten to follow PEP 8 conventions and make for greater clarity. For example, the use of <em>closures</em> to write callback’s for GUI triggers over proliferating object methods, and giving objects generic constructors for their parameters and using free functions or class methods to handle construction from sources like files and strings.</p>
 
 
 </section>

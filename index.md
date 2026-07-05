@@ -7,6 +7,7 @@
   - [III: Structural Patterns](#iii-structural-patterns)
   - [IV: Behavioural Patterns](#iv-behavioural-patterns)
 - [Attribution](#attribution)
+- [Code Style](#code-style)
 
 [![pre-commit.ci
 status](https://results.pre-commit.ci/badge/github/flempriere/design-patterns-with-python/main.svg)](https://results.pre-commit.ci/latest/github/flempriere/design-patterns-with-python/main)
@@ -41,6 +42,8 @@ Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp
   Pattern](II-Creational-Patterns/chapter-08/chapter-08.qmd)
 - [Chapter 9: The Builder
   Pattern](II-Creational-Patterns/chapter-09/chapter-09.qmd)
+- [Chapter 10: The Prototype
+  Pattern](II-Creational-Patterns/chapter-10/chapter-10.qmd)
 
 ### III: Structural Patterns
 
@@ -58,3 +61,15 @@ original author. You can find their original supplied code at the
 attached submodule, or at the following [github
 repository](https://github.com/jwcnmr/jameswcooper). The original code
 is also supplied as a submodule.
+
+## Code Style
+
+I’m personally not a fan of the way the original code examples have been
+written. There is a lack of consistency in name conventions and the code
+is (in my opinion) written in a way that is very rigid and not very
+pythonic. In general the the code has been rewritten to follow PEP 8
+conventions and make for greater clarity. For example, the use of
+*closures* to write callback’s for GUI triggers over proliferating
+object methods, and giving objects generic constructors for their
+parameters and using free functions or class methods to handle
+construction from sources like files and strings.

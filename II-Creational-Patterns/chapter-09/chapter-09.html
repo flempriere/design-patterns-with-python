@@ -68,6 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../II-Creational-Patterns/chapter-10/chapter-10.html" rel="next">
 <link href="../../II-Creational-Patterns/chapter-08/chapter-08.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -242,6 +243,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Chapter 9: The Builder Pattern</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../II-Creational-Patterns/chapter-10/chapter-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 10: The Prototype Pattern</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -323,6 +330,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul></li>
 </ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">---
+title: "The Builder Pattern"
+---
+classDiagram
+
+
+class Director
+
+class Builder {
+    &lt;&lt;interface&gt;&gt;
+    +build_part_a() PartA
+    +build_part_b() PartB
+    +get_result() Product
+}
+
+class ConcreteBuilder
+
+class ComplexProduct
+class PartA
+class PartB
+
+Director --&gt; Builder : controls
+ConcreteBuilder --|&gt; Builder
+
+ConcreteBuilder ..&gt; PartA : builds
+ConcreteBuilder ..&gt; PartB : builds
+PartA ..&gt; ComplexProduct : assemble
+PartB ..&gt; ComplexProduct : assemble
+
+Director --&gt; ComplexProduct : Retrieves
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <section id="an-investment-tracker" class="level3">
 <h3 class="anchored" data-anchor-id="an-investment-tracker">An Investment Tracker</h3>
 <ul>
@@ -1168,6 +1216,9 @@ classDiagram
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../II-Creational-Patterns/chapter-10/chapter-10.html" class="pagination-link" aria-label="Chapter 10: The Prototype Pattern">
+        <span class="nav-page-text">Chapter 10: The Prototype Pattern</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

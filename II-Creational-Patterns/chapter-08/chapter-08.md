@@ -19,6 +19,25 @@
 
     1.  One Window Manager
     2.  One database access point
+- The *Singleton Pattern* is a design pattern for enforcing a single
+  instance of a class
+  - Usually implemented with a single global point of access
+
+``` mermaid
+---
+title: "The Singleton Pattern (Python Flavoured)"
+---
+classDiagram
+
+class Singleton {
+    - instance : Singleton
+    + instance() Singleton
+}
+
+class SingletonException
+
+Singleton --> SingletonException : throws
+```
 
 ### The Traditional Singleton
 
