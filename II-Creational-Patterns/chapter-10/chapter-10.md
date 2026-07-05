@@ -1,6 +1,5 @@
 # Chapter 10: The Prototype Pattern
 
-
 - [Notes](#notes)
   - [Cloning in Python](#cloning-in-python)
   - [Using a Prototype](#using-a-prototype)
@@ -58,15 +57,15 @@ ConcretePrototype --|> Prototype : implements
 - Python provides the `copy` module for creating copies of objects,
   there are three main functions
 
-  1.  `copy`
+  1. `copy`
 
       - Returns a shallow copy of an *object*
 
-  2.  `deepcopy`
+  2. `deepcopy`
 
       - Returns a deep copy of an *object*
 
-  3.  `replace`
+  3. `replace`
 
       - Creates a new object of the same type as *object* replacing
         fields with values from *changes*
@@ -190,22 +189,23 @@ Swimmers o-- Swimmer
               sex: Sex = raw_sex  # ty:ignore[invalid-assignment] previous check ensures, value is M, F or U
               return sex
     ```
+
 - Now we need to update the `Swimmer` class
   - This includes modifying,
 
-    1.  The `from_string` class method
+    1. The `from_string` class method
 
         - This needs to be updated to handle the new `parse_name`
           functionality
         - Further updates to handle the new `parse_sex`
         - Otherwise it’s mostly the same
 
-    2.  The `__init__` method
+    2. The `__init__` method
 
         - Reflects the updated attributes, namely the removal addition
           of the `sex` attribute and removal of `heat` and `lane`
 
-    3.  `__str__`
+    3. `__str__`
 
         - We’ll add this method to simplify converting instances to a
           string later
@@ -276,6 +276,7 @@ Swimmers o-- Swimmer
         reference_button = tk.ttk.Button(self.root, text="Reference", command=reference)
         reference_button.grid(row=0, column=1)
         ```
+
     - `Copy` updates the right box by calling `sorted` on
       `self.swimmers`
       - Rather than sorting *in-place* this returns a *sorted copy*,
@@ -293,6 +294,7 @@ Swimmers o-- Swimmer
         copy_button = tk.ttk.Button(self.root, text="Copy", command=copy)
         copy_button.grid(row=1, column=1)
       ```
+
 - The full program can be found in
   [swim_database.py](Examples/swim_database/swim_database.py)
   - It should produce a program that looks similar to below
