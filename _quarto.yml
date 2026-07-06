@@ -33,6 +33,9 @@ website:
           - II-Creational-Patterns/chapter-08/chapter-08.qmd
           - II-Creational-Patterns/chapter-09/chapter-09.qmd
           - II-Creational-Patterns/chapter-10/chapter-10.qmd
+      - section: III-Structural-Patterns/iii-structural-patterns.qmd
+        contents:
+          - III-Structural-Patterns/chapter-12/chapter-12.qmd
 
 format:
   html:
