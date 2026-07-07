@@ -190,6 +190,10 @@ Client --> Target : Uses
     - We also need to put `tree` onto the grid rather than `right_list` itself
 - Observe that we don't need to then rewire any of the code that depends on `right_list`
   - This is because it still obeys the same interface as before, and is for all intents and purposes the *same* object to the others
+- The full code can be seen in [student_table.py](Examples/02-student-table/student_table.py)
+  - The program should look like below
+
+    ![The updated Student List with a listbox and an adapted table](Examples/02-student-table/students_table.png)
 
 ### The Class Adapter
 
