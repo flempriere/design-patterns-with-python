@@ -371,7 +371,7 @@ Singleton --&gt; SingletonException : throws
 <li><p>In Python we cannot make constructors private, so we have to use some workarounds</p>
 <ul>
 <li><p>We <em>can</em> however, define an <code>Exception</code></p>
-<div id="c0b642be" class="cell" data-execution_count="1">
+<div id="18239375" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SingletonException(<span class="pp">Exception</span>):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Raised when trying to create multiple instances</span></span>
@@ -387,7 +387,7 @@ Singleton --&gt; SingletonException : throws
 <li>The leading underscore <code>_</code> indicates the variable is private and should not be directly accessed</li>
 <li>Instead, we then define a <em>class method</em> as an access point to this instance</li>
 </ul>
-<div id="0ad642da" class="cell" data-execution_count="2">
+<div id="4d0c9b4d" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> Singleton:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>      <span class="co">"""</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">      Represents a singleton object for which</span></span>
@@ -456,7 +456,7 @@ Note
 <li>Here we show that the first instance we create is subsequently returned by a call to <code>instance</code> and that we get an exception when trying to call the <code>__init__</code> a second time</li>
 </ul></li>
 </ul>
-<div id="d608b020" class="cell" data-execution_count="3">
+<div id="d0a977a4" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>first <span class="op">=</span> Singleton()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>second <span class="op">=</span> Singleton.instance()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -507,7 +507,7 @@ Note
 <li><code>@staticmethod</code> are not modified by inheritance</li>
 </ul></li>
 <li><p>For example, here we implement a mock of a <code>Spooler</code></p>
-<div id="d5c8fdce" class="cell" data-execution_count="4">
+<div id="12fae4f9" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">  Demonstrate a Singleton implemented as a static class</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -524,7 +524,7 @@ Note
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>          <span class="bu">print</span>(text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></li>
 <li><p>Methods are invoked via the class name</p>
-<div id="34615222" class="cell" data-execution_count="5">
+<div id="31766157" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  name <span class="op">=</span> <span class="st">"Fred"</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  Spooler.print_text(name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
