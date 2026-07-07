@@ -212,6 +212,12 @@ Client --> Target : Uses
   on `right_list`
   - This is because it still obeys the same interface as before, and is
     for all intents and purposes the *same* object to the others
+- The full code can be seen in
+  [student_table.py](Examples/02-student-table/student_table.py)
+  - The program should look like below
+
+    ![The updated Student List with a listbox and an adapted
+    table](Examples/02-student-table/students_table.png)
 
 ### The Class Adapter
 
