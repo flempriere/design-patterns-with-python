@@ -1,4 +1,4 @@
-# II: Creational Patterns
+# Part II: Creational Patterns
 
 - Creational Patterns deal with the *creation* of objects
 
@@ -26,23 +26,23 @@
 
 - This section will cover the following creational patterns
 
-  1.  The Factory pattern
+  1.  [The Factory pattern](chapter-06/chapter-06.qmd)
       - Object creation is delegated to a simple-decision making class
         that can decide between different subclasses of an abstract base
         class
-  2.  The Abstract Factory pattern
+  2.  [The Abstract Factory pattern](chapter-07/chapter-07.qmd)
       - Extends the Factory pattern with an interface to create
         instances from a family of related objects
-  3.  The Builder pattern
+  3.  The Singleton pattern
+      - Define a class that can have no more than one instance
+      - Provides a single global point of access to that instance
+  4.  [The Builder pattern](chapter-09/chapter-09.qmd)
       - Separate construction of a complex object from it’s
         representation
       - Several different representations of the same object can be
         constructed by different consumers
-  4.  The Prototype pattern
+  5.  [The Prototype pattern](chapter-10/chapter-10.qmd)
       - Start with an instantiated instance of a class and create new
         instances by cloning or copying the prototype
       - Instances are then able to be further customised via method
         calls
-  5.  The Singleton pattern
-      - Define a class that can have no more than one instance
-      - Provides a single global point of access to that instance

@@ -45,7 +45,10 @@ Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp
 - [Chapter 10: The Prototype
   Pattern](II-Creational-Patterns/chapter-10/chapter-10.qmd)
 
-### III: Structural Patterns
+### [III: Structural Patterns](III-Structural-Patterns/iii-structural-patterns.qmd)
+
+- [Chapter 12: The Adaptor
+  Pattern](III-Structural-Patterns/chapter-12/chapter-12.qmd)
 
 ### IV: Behavioural Patterns
 
