@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -71,9 +106,13 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <meta property="og:title" content="Chapter 12: The Adaptor Pattern – Python Programming with Design Patterns: Notes">
+<meta property="og:image" content="Examples/01-student-list/students.png">
 <meta property="og:site_name" content="Python Programming with Design Patterns: Notes">
 </head>
 
@@ -238,9 +277,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#notes" id="toc-notes" class="nav-link active" data-scroll-target="#notes">Notes</a></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link active" data-scroll-target="#notes">Notes</a>
+  <ul>
+  <li><a href="#moving-data-between-lists" id="toc-moving-data-between-lists" class="nav-link" data-scroll-target="#moving-data-between-lists">Moving Data Between Lists</a></li>
+  <li><a href="#making-an-adaptor" id="toc-making-an-adaptor" class="nav-link" data-scroll-target="#making-an-adaptor">Making an Adaptor</a></li>
+  <li><a href="#the-class-adapter" id="toc-the-class-adapter" class="nav-link" data-scroll-target="#the-class-adapter">The Class Adapter</a></li>
+  <li><a href="#beyond-basic-adapters" id="toc-beyond-basic-adapters" class="nav-link" data-scroll-target="#beyond-basic-adapters">Beyond Basic Adapters</a>
+  <ul>
+  <li><a href="#two-way-adapters" id="toc-two-way-adapters" class="nav-link" data-scroll-target="#two-way-adapters">Two-Way Adapters</a></li>
+  <li><a href="#pluggable-adapters" id="toc-pluggable-adapters" class="nav-link" data-scroll-target="#pluggable-adapters">Pluggable Adapters</a></li>
+  </ul></li>
+  </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
-  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a></li>
   </ul>
 <div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/flempriere/design-patterns-with-python/" target="_blank"><i class="bi bi-github"></i>GitHub Repo</a></li></ul></div></nav>
     </div>
@@ -268,12 +316,279 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="notes" class="level2">
 <h2 class="anchored" data-anchor-id="notes">Notes</h2>
+<ul>
+<li>The <strong>Adaptor Pattern</strong> converts the interface of one class to another</li>
+<li>There are two styles of adaptors
+<ol type="1">
+<li><em>Object</em> adaptors
+<ul>
+<li>The adapting class contains an instance of the adapted object and delegates to this instance</li>
+</ul></li>
+<li><em>Class</em> adaptors
+<ul>
+<li>The client uses multiple inheritance or interfaces to implement both the expected and pre-existing implementation</li>
+</ul></li>
+</ol></li>
+</ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">---
+title: "The Adaptor Pattern (Object-Adaptor)"
+---
+classDiagram
+
+class Client
+
+class Target {
+    &lt;&lt;Interface&gt;&gt;
+    +Operation()
+}
+
+class Adapter {
+    +Operation()
+}
+
+class Adaptee {
+    +OtherOperation()
+}
+
+Adapter --&gt; Adaptee : Adapts
+Adapter ..|&gt; Target
+Client --&gt; Target : Uses
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="moving-data-between-lists" class="level3">
+<h3 class="anchored" data-anchor-id="moving-data-between-lists">Moving Data Between Lists</h3>
+<ul>
+<li>Consider a simple case of a program that consists of a list of student names
+<ul>
+<li>A client can enter new names into the list</li>
+<li>The user can then select a subset of the student names to be copied into another list</li>
+</ul></li>
+<li>Names are added at the top via an <code>Insert</code> button
+<ul>
+<li>Moved between the two lists via an <code>Add</code> and <code>Remove</code> list</li>
+</ul></li>
+<li>This initial implementation is straightforward and can be found in <a href="Examples/01-student-list/student_list.py">student_list.py</a>
+<ul>
+<li><p>We simply moving data between the two listboxes with a class</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DerivedListbox(tk.Listbox):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(root)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> selected(<span class="va">self</span>):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        selection <span class="op">=</span> <span class="va">self</span>.curselection()</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        selected_index <span class="op">=</span> selection[<span class="dv">0</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.get(selected_index)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> delete_selected(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        selection <span class="op">=</span> <span class="va">self</span>.curselection()</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        selected_index <span class="op">=</span> selection[<span class="dv">0</span>]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.delete(selected_index)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> append(<span class="va">self</span>, text: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.insert(tk.END, text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>We then implement our UI with a standard builder class and method</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> UIBuilder:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.root <span class="op">=</span> root</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> build(<span class="va">self</span>):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.root.geometry(<span class="st">"300x200"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.root.title(<span class="st">"Student List"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.entry <span class="op">=</span> tk.Entry(<span class="va">self</span>.root)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.entry.grid(row<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.left_list <span class="op">=</span> DerivedListbox(<span class="va">self</span>.root)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.left_list.grid(row<span class="op">=</span><span class="dv">1</span>, column<span class="op">=</span><span class="dv">0</span>, rowspan<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.right_list <span class="op">=</span> DerivedListbox(<span class="va">self</span>.root)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.right_list.grid(row<span class="op">=</span><span class="dv">1</span>, column<span class="op">=</span><span class="dv">2</span>, rowspan<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> enter_name():</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            text <span class="op">=</span> <span class="va">self</span>.entry.get()</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.left_list.append(text)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.entry.delete(<span class="dv">0</span>, tk.END)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        entry_button <span class="op">=</span> tk.ttk.Button(<span class="va">self</span>.root, text<span class="op">=</span><span class="st">"Insert"</span>, command<span class="op">=</span>enter_name)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        entry_button.grid(row<span class="op">=</span><span class="dv">0</span>, column<span class="op">=</span><span class="dv">1</span>, sticky<span class="op">=</span>tk.W)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> move_selection(source: DerivedListbox, destination: DerivedListbox):</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>            selected <span class="op">=</span> source.selected()</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            destination.append(selected)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            source.delete_selected()</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        add_button <span class="op">=</span> tk.ttk.Button(</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.root,</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span><span class="st">"Add"</span>,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            command<span class="op">=</span><span class="kw">lambda</span>: move_selection(<span class="va">self</span>.left_list, <span class="va">self</span>.right_list),</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        add_button.grid(row<span class="op">=</span><span class="dv">1</span>, column<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        remove_button <span class="op">=</span> tk.ttk.Button(</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.root,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>            text<span class="op">=</span><span class="st">"Remove"</span>,</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>            command<span class="op">=</span><span class="kw">lambda</span>: move_selection(<span class="va">self</span>.right_list, <span class="va">self</span>.left_list),</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        remove_button.grid(row<span class="op">=</span><span class="dv">2</span>, column<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>The resulting program should look like,</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Examples/01-student-list/students.png" class="img-fluid figure-img"></p>
+<figcaption>A simple program consisting of two lists that data can be moved between</figcaption>
+</figure>
+</div></li>
+</ul></li>
+</ul>
+</section>
+<section id="making-an-adaptor" class="level3">
+<h3 class="anchored" data-anchor-id="making-an-adaptor">Making an Adaptor</h3>
+<ul>
+<li>Consider now that we want the right-side to display data differently
+<ul>
+<li>For example a table of IQ and test scores</li>
+</ul></li>
+<li>We want to be able to keep using the <code>UIBuilder</code> class
+<ul>
+<li>But we don’t want to have to change the interface to the listboxes</li>
+</ul></li>
+<li>We want to create an adaptor that can convert the data for a <code>Treeview</code> widget to our listbox
+<ul>
+<li><p>The adaptor here accepts an existing tree widget and adapts the method implementations as required</p>
+<ol type="1">
+<li><code>selected</code>
+<ul>
+<li>This is updated to a straightforward retrieval on the tree</li>
+</ul></li>
+<li><code>delete_selected</code>
+<ul>
+<li>This is updated to a straightforward delete on the tree</li>
+</ul></li>
+<li><code>append</code>
+<ul>
+<li>This is the most complicated</li>
+<li>The insert itself is simple</li>
+<li>However we need to provide values for <code>IQ</code> and <code>Score</code>
+<ul>
+<li>In this case we use a simple random number generation</li>
+<li>In a more realistic example this might trigger a database look-up on the provided name</li>
+</ul></li>
+</ul></li>
+</ol></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> ListboxAdaptor(DerivedListbox):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, root, tree):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>          <span class="bu">super</span>().<span class="fu">__init__</span>(root)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.tree <span class="op">=</span> tree</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.idx <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">@override</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> selected(<span class="va">self</span>):</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>          tree_row <span class="op">=</span> <span class="va">self</span>.tree.focus()</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>          row <span class="op">=</span> <span class="va">self</span>.tree.item(tree_row)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>          <span class="cf">return</span> row.get(<span class="st">"text"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">@override</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> delete_selected(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>          tree_row <span class="op">=</span> <span class="va">self</span>.tree.focus()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.tree.delete(tree_row)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">@override</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> append(<span class="va">self</span>, text: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>          <span class="kw">def</span> random_iq():</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>              <span class="cf">return</span> random.randint(a<span class="op">=</span><span class="dv">115</span>, b<span class="op">=</span><span class="dv">145</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>          <span class="kw">def</span> random_score():</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>              <span class="cf">return</span> random.randint(a<span class="op">=</span><span class="dv">25</span>, b<span class="op">=</span><span class="dv">35</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.tree.insert(<span class="st">""</span>, <span class="va">self</span>.idx, text<span class="op">=</span>text, values<span class="op">=</span>(random_iq(), random_score()))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Now we need to update our <code>UIBuilder</code> to create the tree, the <code>build</code> method is modified accordingly</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.tree <span class="op">=</span> tk.ttk.Treeview(<span class="va">self</span>.root)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.tree[<span class="st">"columns"</span>] <span class="op">=</span> (<span class="st">"IQ"</span>, <span class="st">"Score"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.tree.column(column<span class="op">=</span><span class="st">"#0"</span>, width<span class="op">=</span><span class="dv">100</span>, minwidth<span class="op">=</span><span class="dv">100</span>, stretch<span class="op">=</span>tk.NO)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.tree.column(column<span class="op">=</span><span class="st">"IQ"</span>, width<span class="op">=</span><span class="dv">50</span>, minwidth<span class="op">=</span><span class="dv">50</span>, stretch<span class="op">=</span>tk.NO)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.tree.column(column<span class="op">=</span><span class="st">"Score"</span>, width<span class="op">=</span><span class="dv">50</span>, minwidth<span class="op">=</span><span class="dv">50</span>, stretch<span class="op">=</span>tk.NO)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.tree.heading(column<span class="op">=</span><span class="st">"#0"</span>, text<span class="op">=</span><span class="st">"Name"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.tree.heading(column<span class="op">=</span><span class="st">"IQ"</span>, text<span class="op">=</span><span class="st">"IQ"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.tree.heading(column<span class="op">=</span><span class="st">"Score"</span>, text<span class="op">=</span><span class="st">"Score"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.right_list <span class="op">=</span> ListboxAdaptor(<span class="va">self</span>.root, <span class="va">self</span>.tree)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.tree.grid(row<span class="op">=</span><span class="dv">1</span>, column<span class="op">=</span><span class="dv">2</span>, rowspan<span class="op">=</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>As you can see from above once we’ve created the tree we simply replace the <code>self.right_list</code> assignment with <code>ListboxAdaptor</code> instead of <code>DerivedListbox</code>
+<ul>
+<li>We also need to put <code>tree</code> onto the grid rather than <code>right_list</code> itself</li>
+</ul></li>
+</ul></li>
+<li>Observe that we don’t need to then rewire any of the code that depends on <code>right_list</code>
+<ul>
+<li>This is because it still obeys the same interface as before, and is for all intents and purposes the <em>same</em> object to the others</li>
+</ul></li>
+</ul>
+</section>
+<section id="the-class-adapter" class="level3">
+<h3 class="anchored" data-anchor-id="the-class-adapter">The Class Adapter</h3>
+<ul>
+<li>The above is an example of an <em>object adaptor</em> because it wraps an instance of the object being adapted
+<ul>
+<li>Here the <code>Treelist</code></li>
+</ul></li>
+<li>A <em>class adaptor</em> would instead derive a new class that provides the additional methods of the interface being targeted</li>
+</ul>
+</section>
+<section id="beyond-basic-adapters" class="level3">
+<h3 class="anchored" data-anchor-id="beyond-basic-adapters">Beyond Basic Adapters</h3>
+<section id="two-way-adapters" class="level4">
+<h4 class="anchored" data-anchor-id="two-way-adapters">Two-Way Adapters</h4>
+<ul>
+<li>Two way adapters are a special technique that allow adapters to be viewed as either side of the adaptee vs target</li>
+<li>Typically implemented via a class adapter since the base class methods are automatically inherited</li>
+<li>However, this works only if base class methods are not overridden to provide different behaviours</li>
+</ul>
+</section>
+<section id="pluggable-adapters" class="level4">
+<h4 class="anchored" data-anchor-id="pluggable-adapters">Pluggable Adapters</h4>
+<ul>
+<li>A pluggable adapter adapts dynamically to one of several classes</li>
+<li>The adapter can only adapt to classes it recognises</li>
+<li>Usually the adapter is configured by the differing constructors
+<ul>
+<li>Or in python <code>classmethod</code> or attributes</li>
+</ul></li>
+</ul>
+</section>
+</section>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-</section>
-<section id="questions" class="level2">
-<h2 class="anchored" data-anchor-id="questions">Questions</h2>
+<ul>
+<li><p>A class adapter</p>
+<ul>
+<li>Doesn’t work when adapting a class and all it’s subclasses since it fixed to derive from a specified subclass</li>
+<li>The adapter can change some of the adapted class methods
+<ul>
+<li>Others can be used unchanged</li>
+</ul></li>
+</ul></li>
+<li><p>An object adapter</p>
+<ul>
+<li>Subclasses can be adapted by passing them into the constructor</li>
+<li>Requires explicitly provided forwarded method signatures for any methods on the wrapped subclass you wish to make part of the adapter’s interface</li>
+</ul></li>
+</ul>
 
 
 </section>
