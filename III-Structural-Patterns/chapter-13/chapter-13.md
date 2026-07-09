@@ -4,8 +4,8 @@
   - [Defining the Bridge and Implementation
     Classes](#defining-the-bridge-and-implementation-classes)
   - [Creating the User Interface](#creating-the-user-interface)
+  - [Extending the Bridge](#extending-the-bridge)
 - [Summary](#summary)
-- [Questions](#questions)
 
 ## Notes
 
@@ -326,6 +326,102 @@ Implementer1 --|> Implementer
     ![The Products program, both the Listbox and Treeview communicate
     with the main program via a bridge](Examples/01-bridge/bridge.png)
 
+### Extending the Bridge
+
+- The goal of the bridge pattern is to decouple the client-facing
+  interface from the specific implementation
+  - The advantage this provides is clear when we either want to modify
+    the interface, or the implementation
+  - For example, suppose we want to have the products displayed in
+    alphabetical order
+    - Rather than modifying every `Display` implementation, we just
+      provide a new `Bridge` implementation
+      - This new `Bridge` has the same interface but internally sorts
+        data before passing it onto the display
+
+  ``` python
+    class SortedDisplayBridge(Bridge):
+    """
+    Concrete implementation of the Bridge connecting it to a display,
+    extended with additional functionality to sort the input alphabetically
+
+    Attributes
+    ----------
+    display
+        the display being bridged
+    """
+
+    def __init__(self, display: Display) -> None:
+        """
+        Create a new `SortedDisplayBridge` instance
+
+        Parameters
+        ----------
+        display : Display
+            the display to bridge
+        """
+        self.display = display
+        self.display.pack()
+
+    def add_data(self, products: Sequence[Product]) -> None:
+        products = sorted(products, key=lambda x: x.name)
+        self.display.add_lines(products)
+  ```
+
+- The only change in the client facing code is modifying the code to
+  create a `SortedDisplayBridge` rather than a `DisplayBridge`
+- We can also vary the implementation as well by simply adding new ones
+  that can be wrapped by a bridge
+  - For example, suppose we want to modify the customer view so it now
+    displays products as a tree
+    - We simply define a new implementation of `Display` and modify the
+      clent code to create this widget rather than the `ListBoxDisplay`
+
+``` python
+class TreeDisplay(Display, tk.ttk.Treeview):
+    """
+    A simple Product display using a Treeview to display a tree
+    """
+
+    def __init__(self, frame) -> None:
+        """
+        Create a new TreeDisplay instance
+
+        Parameters
+        ----------
+        frame :
+            Frame to place the display within
+        """
+        super().__init__(frame)
+        self.column("#0", width=150, minwidth=100, stretch=tk.NO)
+        self.idx = 0
+
+    def add_lines(self, lines: Sequence[Product]) -> None:
+        for line in lines:
+            product_line = self.insert("", self.idx, text=line.name)
+            self.insert(product_line, tk.END, text=str(line.count))
+            self.idx += 1
+```
+
+- The full code can be seen in
+  [extended_bridge.py](./Examples/02-extended-bridge/extended_bridge.py)
+
+- The resulting program should look like below,
+
+  ![The program has now been updated to display in sorted order and with
+  a tree widget. Since the Bridge Pattern decouples the client interface
+  and the implementation each is modified
+  separately](./Examples/02-extended-bridge/extended_bridge.png)
+
 ## Summary
 
-## Questions
+1. The Bridge pattern keeps the client-facing interface distinct from
+    the implementation interface
+    - Enables modifying the internal interface or choice of concrete
+      implementation without impacting the client
+    - Decouples changes to internal systems from the client-facing
+      consumption
+2. The implementation and the bridge can be extended independently with
+    minimal coupling
+3. Implementation details can be hidden from the client via limiting
+    the exposed interface of the bridge
