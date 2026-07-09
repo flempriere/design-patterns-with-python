@@ -68,6 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../III-Structural-Patterns/chapter-12/chapter-12.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -147,7 +148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Chapter 13: The Bridge Pattern</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/iii-structural-patterns.html">Part III: Structural Patterns</a></li><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/chapter-13/chapter-13.html">Chapter 13: The Bridge Pattern</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -253,15 +254,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../../III-Structural-Patterns/iii-structural-patterns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part III: Structural Patterns</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../III-Structural-Patterns/chapter-12/chapter-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Chapter 12: The Adaptor Pattern</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../III-Structural-Patterns/chapter-13/chapter-13.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Chapter 13: The Bridge Pattern</span></a>
   </div>
 </li>
       </ul>
@@ -280,16 +287,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#defining-the-bridge-and-implementation-classes" id="toc-defining-the-bridge-and-implementation-classes" class="nav-link" data-scroll-target="#defining-the-bridge-and-implementation-classes">Defining the Bridge and Implementation Classes</a></li>
   <li><a href="#creating-the-user-interface" id="toc-creating-the-user-interface" class="nav-link" data-scroll-target="#creating-the-user-interface">Creating the User Interface</a></li>
+  <li><a href="#extending-the-bridge" id="toc-extending-the-bridge" class="nav-link" data-scroll-target="#extending-the-bridge">Extending the Bridge</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
-  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a></li>
   </ul>
 <div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/flempriere/design-patterns-with-python/" target="_blank"><i class="bi bi-github"></i>GitHub Repo</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/iii-structural-patterns.html">Part III: Structural Patterns</a></li><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/chapter-13/chapter-13.html">Chapter 13: The Bridge Pattern</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Chapter 13: The Bridge Pattern</h1>
 </div>
@@ -613,12 +620,101 @@ Implementer1 --|&gt; Implementer
 </ul></li>
 </ul>
 </section>
+<section id="extending-the-bridge" class="level3">
+<h3 class="anchored" data-anchor-id="extending-the-bridge">Extending the Bridge</h3>
+<ul>
+<li>The goal of the bridge pattern is to decouple the client-facing interface from the specific implementation
+<ul>
+<li>The advantage this provides is clear when we either want to modify the interface, or the implementation</li>
+<li>For example, suppose we want to have the products displayed in alphabetical order
+<ul>
+<li>Rather than modifying every <code>Display</code> implementation, we just provide a new <code>Bridge</code> implementation
+<ul>
+<li>This new <code>Bridge</code> has the same interface but internally sorts data before passing it onto the display</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">class</span> SortedDisplayBridge(Bridge):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Concrete implementation of the Bridge connecting it to a display,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">  extended with additional functionality to sort the input alphabetically</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">  Attributes</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">  ----------</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">  display</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">      the display being bridged</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, display: Display) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="co">"""</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">      Create a new `SortedDisplayBridge` instance</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">      Parameters</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">      ----------</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">      display : Display</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">          the display to bridge</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">      """</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.display <span class="op">=</span> display</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.display.pack()</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> add_data(<span class="va">self</span>, products: Sequence[Product]) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>      products <span class="op">=</span> <span class="bu">sorted</span>(products, key<span class="op">=</span><span class="kw">lambda</span> x: x.name)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.display.add_lines(products)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li>The only change in the client facing code is modifying the code to create a <code>SortedDisplayBridge</code> rather than a <code>DisplayBridge</code></li>
+<li>We can also vary the implementation as well by simply adding new ones that can be wrapped by a bridge
+<ul>
+<li>For example, suppose we want to modify the customer view so it now displays products as a tree
+<ul>
+<li>We simply define a new implementation of <code>Display</code> and modify the clent code to create this widget rather than the <code>ListBoxDisplay</code></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TreeDisplay(Display, tk.ttk.Treeview):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A simple Product display using a Treeview to display a tree</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, frame) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">        Create a new TreeDisplay instance</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">        ----------</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">        frame :</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">            Frame to place the display within</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(frame)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.column(<span class="st">"#0"</span>, width<span class="op">=</span><span class="dv">150</span>, minwidth<span class="op">=</span><span class="dv">100</span>, stretch<span class="op">=</span>tk.NO)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.idx <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_lines(<span class="va">self</span>, lines: Sequence[Product]) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> line <span class="kw">in</span> lines:</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>            product_line <span class="op">=</span> <span class="va">self</span>.insert(<span class="st">""</span>, <span class="va">self</span>.idx, text<span class="op">=</span>line.name)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.insert(product_line, tk.END, text<span class="op">=</span><span class="bu">str</span>(line.count))</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.idx <span class="op">+=</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p>The full code can be seen in <a href="./Examples/02-extended-bridge/extended_bridge.py">extended_bridge.py</a></p></li>
+<li><p>The resulting program should look like below,</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./Examples/02-extended-bridge/extended_bridge.png" class="img-fluid figure-img"></p>
+<figcaption>The program has now been updated to display in sorted order and with a tree widget. Since the Bridge Pattern decouples the client interface and the implementation each is modified separately</figcaption>
+</figure>
+</div></li>
+</ul>
+</section>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-</section>
-<section id="questions" class="level2">
-<h2 class="anchored" data-anchor-id="questions">Questions</h2>
+<ol type="1">
+<li>The Bridge pattern keeps the client-facing interface distinct from the implementation interface
+<ul>
+<li>Enables modifying the internal interface or choice of concrete implementation without impacting the client</li>
+<li>Decouples changes to internal systems from the client-facing consumption</li>
+</ul></li>
+<li>The implementation and the bridge can be extended independently with minimal coupling</li>
+<li>Implementation details can be hidden from the client via limiting the exposed interface of the bridge</li>
+</ol>
 
 
 </section>
@@ -1024,6 +1120,15 @@ Implementer1 --|&gt; Implementer
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../III-Structural-Patterns/chapter-12/chapter-12.html" class="pagination-link" aria-label="Chapter 12: The Adaptor Pattern">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter 12: The Adaptor Pattern</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
