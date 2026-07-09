@@ -1,6 +1,5 @@
 # Chapter 13: The Bridge Pattern
 
-
 - [Notes](#notes)
   - [Defining the Bridge and Implementation
     Classes](#defining-the-bridge-and-implementation-classes)
@@ -192,7 +191,7 @@ Implementer1 --|> Implementer
 - Now with the basic structure for our pattern set-up we provide
   concrete implementations
 
-  1.  For the `Listbox`
+  1. For the `Listbox`
 
       ``` python
          class ListBoxDisplay(Display, tk.Listbox):
@@ -216,7 +215,7 @@ Implementer1 --|> Implementer
                      self.insert(tk.END, line.name)
       ```
 
-  2.  For the `Treeview` widget
+  2. For the `Treeview` widget
 
       ``` python
          class TreeviewDisplay(Display, tk.ttk.Treeview):
