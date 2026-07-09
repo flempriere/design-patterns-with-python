@@ -4,7 +4,7 @@ title: "Chapter 13: The Bridge Pattern"
 
 ## Notes
 
-- The bridge pattern appears superficially like that of the adapter pattern
+- The **Bridge Pattern** appears superficially like that of the adapter pattern
   - In that we decouple an interface from a class that implements the interface
   - In the case of the adapter the coupling serves to help us link two classes or interfaces not originally co-designed
 - In the bridge pattern we decouple the interface from the implementation so that we can vary both independently
