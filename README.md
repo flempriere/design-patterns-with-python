@@ -26,6 +26,7 @@ This repository contains notes and code examples from the book, [Python Programm
 ### [III: Structural Patterns](III-Structural-Patterns/iii-structural-patterns.md)
 
 - [Chapter 12: The Adaptor Pattern](III-Structural-Patterns/chapter-12/chapter-12.md)
+- [Chapter 13: The Bridge Pattern](III-Structural-Patterns/chapter-13/chapter-13.md)
 
 ### IV: Behavioural Patterns
 

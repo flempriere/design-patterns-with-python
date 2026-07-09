@@ -1,3 +1,9 @@
+"""
+A basic program that let's you move students between two lists
+
+Used as the basic code that we'll modify to demonstrate the adapter pattern
+"""
+
 import tkinter as tk
 import tkinter.ttk
 

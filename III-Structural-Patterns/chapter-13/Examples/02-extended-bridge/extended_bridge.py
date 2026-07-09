@@ -1,23 +1,8 @@
 """
-A basic example of the Bridge Pattern,
+Demonstrates the advantages of the bridge pattern in refactoring
 
-Here we provide two different views on a common set of data using the bridge
-pattern to provide a common interface
-
-Classes
--------
-
-* Product -- A basic product containing a name and count
-* Bridge -- Abstract client-facing interface for the bridge pattern
-
-  * DisplayBridge -- A concrete bridge implementation wrapping a `Display`
-
-* Display -- Abstract interface for the implementation in the bridge pattern
-
-  * ListBoxDisplay -- A display implemented using a listbox
-  * TreeviewDisplay -- A display implemented using a treeview
-
-* UIBuilder -- A basic class for constructing a new ui
+Here we modify the bridge interface to provide the displays sorted in
+alphabetical order without having to modify the underlying implementations
 """
 
 import abc
@@ -129,6 +114,7 @@ class Display(tk.Widget):
         pass
 
 
+# Deprecated for this specific client in favour of the TreeDisplay
 class ListBoxDisplay(Display, tk.Listbox):
     """
     A simple Product display using a Listbox
@@ -152,7 +138,7 @@ class ListBoxDisplay(Display, tk.Listbox):
 
 class TreeviewDisplay(Display, tk.ttk.Treeview):
     """
-    A simple Product display using a Treeview
+    A simple Product display using a Treeview to display a table
     """
 
     def __init__(self, frame) -> None:
@@ -176,7 +162,32 @@ class TreeviewDisplay(Display, tk.ttk.Treeview):
 
     def add_lines(self, lines: Sequence[Product]) -> None:
         for line in lines:
-            self.insert("", self.idx, text=line.name, values=(line.count,))
+            self.insert("", tk.END, text=line.name, values=(line.count,))
+
+
+class TreeDisplay(Display, tk.ttk.Treeview):
+    """
+    A simple Product display using a Treeview to display a tree
+    """
+
+    def __init__(self, frame) -> None:
+        """
+        Create a new TreeDisplay instance
+
+        Parameters
+        ----------
+        frame :
+            Frame to place the display within
+        """
+        super().__init__(frame)
+        self.column("#0", width=150, minwidth=100, stretch=tk.NO)
+        self.idx = 0
+
+    def add_lines(self, lines: Sequence[Product]) -> None:
+        for line in lines:
+            product_line = self.insert("", self.idx, text=line.name)
+            self.insert(product_line, tk.END, text=str(line.count))
+            self.idx += 1
 
 
 class DisplayBridge(Bridge):
@@ -202,6 +213,34 @@ class DisplayBridge(Bridge):
         self.display.pack()
 
     def add_data(self, products: Sequence[Product]) -> None:
+        self.display.add_lines(products)
+
+
+class SortedDisplayBridge(Bridge):
+    """
+    Concrete implementation of the Bridge connecting it to a display,
+    extended with additional functionality to sort the input alphabetically
+
+    Attributes
+    ----------
+    display
+        the display being bridged
+    """
+
+    def __init__(self, display: Display) -> None:
+        """
+        Create a new `SortedDisplayBridge` instance
+
+        Parameters
+        ----------
+        display : Display
+            the display to bridge
+        """
+        self.display = display
+        self.display.pack()
+
+    def add_data(self, products: Sequence[Product]) -> None:
+        products = sorted(products, key=lambda x: x.name)
         self.display.add_lines(products)
 
 
@@ -235,9 +274,9 @@ class UIBuilder:
         left_label = tk.ttk.Label(left_frame, text="Customer View")
         left_label.pack(fill=tk.X)
 
-        listbox_display = ListBoxDisplay(left_frame)
-        listbox_bridge = DisplayBridge(listbox_display)
-        listbox_bridge.add_data(products)
+        customer_display = TreeDisplay(left_frame)
+        customer_bridge = SortedDisplayBridge(customer_display)
+        customer_bridge.add_data(products)
         left_frame.grid(row=0, column=0, sticky=tk.N + tk.W)
 
         right_frame = tk.ttk.Frame(self.root)
@@ -246,7 +285,7 @@ class UIBuilder:
         right_label.pack(fill=tk.X)
 
         treeview_display = TreeviewDisplay(right_frame)
-        treeview_bridge = DisplayBridge(treeview_display)
+        treeview_bridge = SortedDisplayBridge(treeview_display)
         treeview_bridge.add_data(products)
 
 
