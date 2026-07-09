@@ -23,7 +23,10 @@ This repository contains notes and code examples from the book, [Python Programm
 - [Chapter 9: The Builder Pattern](II-Creational-Patterns/chapter-09/chapter-09.md)
 - [Chapter 10: The Prototype Pattern](II-Creational-Patterns/chapter-10/chapter-10.md)
 
-### III: Structural Patterns
+### [III: Structural Patterns](III-Structural-Patterns/iii-structural-patterns.md)
+
+- [Chapter 12: The Adaptor Pattern](III-Structural-Patterns/chapter-12/chapter-12.md)
+- [Chapter 13: The Bridge Pattern](III-Structural-Patterns/chapter-13/chapter-13.md)
 
 ### IV: Behavioural Patterns
 

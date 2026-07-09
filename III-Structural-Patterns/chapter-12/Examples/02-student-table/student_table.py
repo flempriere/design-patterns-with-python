@@ -1,3 +1,10 @@
+"""
+Demonstrates using the adapter pattern
+
+Here we update the student view to use a table, the table is adapted to have
+the same interface as the listbox
+"""
+
 import random
 import tkinter as tk
 import tkinter.ttk
