@@ -298,6 +298,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#creating-a-gui" id="toc-creating-a-gui" class="nav-link" data-scroll-target="#creating-a-gui">Creating a GUI</a></li>
   <li><a href="#using-doubly-linked-lists" id="toc-using-doubly-linked-lists" class="nav-link" data-scroll-target="#using-doubly-linked-lists">Using Doubly-Linked Lists</a></li>
+  <li><a href="#intent-of-the-composite-pattern" id="toc-intent-of-the-composite-pattern" class="nav-link" data-scroll-target="#intent-of-the-composite-pattern">Intent of the Composite Pattern</a></li>
+  <li><a href="#implementation-issues" id="toc-implementation-issues" class="nav-link" data-scroll-target="#implementation-issues">Implementation Issues</a>
+  <ul>
+  <li><a href="#recursive-calls" id="toc-recursive-calls" class="nav-link" data-scroll-target="#recursive-calls">Recursive Calls</a></li>
+  <li><a href="#ordering-components" id="toc-ordering-components" class="nav-link" data-scroll-target="#ordering-components">Ordering Components</a></li>
+  <li><a href="#caching-results" id="toc-caching-results" class="nav-link" data-scroll-target="#caching-results">Caching Results</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
@@ -753,22 +760,22 @@ ship_mgr --&gt; clerk_2
 <pre class="shell"><code>  CEO 200000
       Vice President (Marketing) 100000
           Manager (Sales) 50000
-          Sales (0) 36667
-          Sales (1) 39993
-          Sales (2) 38315
+              Sales (0) 36667
+              Sales (1) 39993
+              Sales (2) 38315
           Manager (Marketing) 50000
-          Secy 20000
+              Secy 20000
       Vice President (Production) 1000000
           Manager (Production) 40000
-          Manufacturing (0) 29975
-          Manufacturing (1) 34897
-          Manufacturing (2) 32323
-          Manufacturing (3) 32117
+              Manufacturing (0) 29975
+              Manufacturing (1) 34897
+              Manufacturing (2) 32323
+              Manufacturing (3) 32117
           Manager (Shipping) 35000
-          Clerk (0) 29859
-          Clerk (1) 26294
-          Clerk (2) 22393
-          Clerk (3) 28674
+              Clerk (0) 29859
+              Clerk (1) 26294
+              Clerk (2) 22393
+              Clerk (3) 28674
   Enter position to determine cost (q for quit): Manager (Shipping)
   Salary span for Manager (Shipping): 107220
   Enter position to determine cost (q for quit):</code></pre></li>
@@ -1035,13 +1042,115 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p><strong>Tree Structures and the Organisation Hierarchy</strong></p>
-<p>One of the observations one might want to make in the previous examples are that a lot of the client facing code has to differentiate between the root node the tree and the rest of the children. For example when searching for a match we have to check the root node explicitly, then the sub-tree. Additionally when constructing the treeview we also have to explicitly handle the root node, then recurse into our tree. This is a fairly common paradigm, one potential option around it would be to use a structure that has a special root node, that can forward onto the actual root in such a way that the entire tree can be treated the same way</p>
+<p>One of the observations one might want to make in the previous examples are that a lot of the client facing code has to differentiate between the root node of the tree and the rest of the children. For example when searching for a match we have to check the root node explicitly, then the sub-tree. Additionally when constructing the treeview we also have to explicitly handle the root node, then recurse into our tree. This is a fairly common paradigm, one potential option around it would be to use a structure that has a special root node, that can forward onto the actual root in such a way that the entire tree can be treated the same way</p>
 </div>
 </div>
+</section>
+<section id="intent-of-the-composite-pattern" class="level3">
+<h3 class="anchored" data-anchor-id="intent-of-the-composite-pattern">Intent of the Composite Pattern</h3>
+<ul>
+<li>The Composite pattern serves to allow us to construct a tree of related classes via a common interface</li>
+<li>In simple cases where we do not need to distinguish between leaves and internal nodes we can sometimes use a single interface or class to represent both
+<ul>
+<li>For example in our implementation we distinguished between <code>ManagingJobPosition</code> and <code>JobPosition</code></li>
+<li>We might instead just have <em>one</em> type of job position, and let anyone manage
+<ul>
+<li>A managing job position is then denoted by having a non-empty list of subordinates</li>
+</ul></li>
+</ul></li>
+<li>In this case we don’t use exceptions to manage invalid calls on leaf nodes
+<ul>
+<li>leaf nodes can instead be dynamically promoted</li>
+</ul></li>
+<li>In cases where the number of leaves is high, it can be better to differentiate between the two to avoid the memory overhead with managing an empty list for each node</li>
+</ul>
+</section>
+<section id="implementation-issues" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-issues">Implementation Issues</h3>
+<ul>
+<li>The Composite pattern can have some subtle implementation issues</li>
+</ul>
+<section id="recursive-calls" class="level4">
+<h4 class="anchored" data-anchor-id="recursive-calls">Recursive Calls</h4>
+<ul>
+<li>Many times the most obvious way to implement a method on a composite is via a recursive call</li>
+<li>For performance reasons where possible it is generally preferable to convert an explicitly recursive function call to something that utilises a loop
+<ul>
+<li>For example via a stack</li>
+</ul></li>
+<li>Another issue with recursive routines can be ensuring that references to the correct data structures or program state are properly set at each level of the recursion
+<ul>
+<li><p>For the example provided this is managed in two cases</p>
+<ol type="1">
+<li>When printing the hierarchy we have a recursively set <code>indent</code> parameter which controls the indentation</li>
+<li>When parsing the hierarchy into the treeview we pass the parent row as a parameter
+<ul>
+<li>We also always insert a row by appending it, rather than manually maintaining an ordering</li>
+</ul></li>
+</ol></li>
+</ul></li>
+<li>One potential avenue if we need to maintain more complex access to state through a recursive call can be using something like an external class which is used to maintain that state, some options for managing this could be
+<ul>
+<li>A singleton class (See <a href="../../II-Creational-Patterns/chapter-08/chapter-08.html">Chapter 8</a>)</li>
+<li>A static class</li>
+<li>A global or local object</li>
+<li>Class Attributes</li>
+</ul></li>
+</ul>
+</section>
+<section id="ordering-components" class="level4">
+<h4 class="anchored" data-anchor-id="ordering-components">Ordering Components</h4>
+<ul>
+<li>Sometimes ordering can be important when returning results
+<ul>
+<li><p>For example consider the standard different tree traversal orderings</p>
+<ol type="1">
+<li>Pre order</li>
+<li>In order</li>
+<li>Post order</li>
+<li>Level order</li>
+</ol></li>
+<li><p>We might want orderings as well that are more specific to the data</p>
+<ul>
+<li>e.g.&nbsp;alphabetical</li>
+</ul></li>
+</ul></li>
+<li>These orderings as such can be distinct from the actual ordering of the tree
+<ul>
+<li>In these cases we must do additional work to transform the composite ordering into the desired target ordering</li>
+</ul></li>
+</ul>
+</section>
+<section id="caching-results" class="level4">
+<h4 class="anchored" data-anchor-id="caching-results">Caching Results</h4>
+<ul>
+<li>A common technique with expensive function calls is to use <em>memoisation</em> or <em>caching</em>
+<ul>
+<li>This is common for recursive data structures and especially useful in tree structures</li>
+</ul></li>
+<li>As always there is a trade-off, caching may not be worth it if,
+<ul>
+<li>If the underlying data changes frequently to invalidate the cache, or</li>
+<li>The calculation is cheap and fast equivalent to the cost of storing and retrieving the cache</li>
+</ul></li>
+</ul>
+</section>
 </section>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ul>
+<li>The Composite Pattern lets you build a tree of related classes
+<ul>
+<li>The resulting structure combines simple objects and complex objects into one common interface</li>
+</ul></li>
+<li>The client can handle both objects without having to distinguish between either type explicitly</li>
+<li>Composites can allow for flexibility in adding new components through a similar interface</li>
+<li>A disadvantage to be wary of is making a composite overly general
+<ul>
+<li>Can make it difficult to restrict classes or support specific functionality</li>
+</ul></li>
+</ul>
 
 
 </section>
