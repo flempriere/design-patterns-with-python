@@ -6,6 +6,11 @@
     - [Providing an Interface](#providing-an-interface)
   - [Creating a GUI](#creating-a-gui)
   - [Using Doubly-Linked Lists](#using-doubly-linked-lists)
+  - [Intent of the Composite Pattern](#intent-of-the-composite-pattern)
+  - [Implementation Issues](#implementation-issues)
+    - [Recursive Calls](#recursive-calls)
+    - [Ordering Components](#ordering-components)
+    - [Caching Results](#caching-results)
 - [Summary](#summary)
 
 ## Notes
@@ -434,22 +439,22 @@ ship_mgr --> clerk_2
     CEO 200000
         Vice President (Marketing) 100000
             Manager (Sales) 50000
-            Sales (0) 36667
-            Sales (1) 39993
-            Sales (2) 38315
+                Sales (0) 36667
+                Sales (1) 39993
+                Sales (2) 38315
             Manager (Marketing) 50000
-            Secy 20000
+                Secy 20000
         Vice President (Production) 1000000
             Manager (Production) 40000
-            Manufacturing (0) 29975
-            Manufacturing (1) 34897
-            Manufacturing (2) 32323
-            Manufacturing (3) 32117
+                Manufacturing (0) 29975
+                Manufacturing (1) 34897
+                Manufacturing (2) 32323
+                Manufacturing (3) 32117
             Manager (Shipping) 35000
-            Clerk (0) 29859
-            Clerk (1) 26294
-            Clerk (2) 22393
-            Clerk (3) 28674
+                Clerk (0) 29859
+                Clerk (1) 26294
+                Clerk (2) 22393
+                Clerk (3) 28674
     Enter position to determine cost (q for quit): Manager (Shipping)
     Salary span for Manager (Shipping): 107220
     Enter position to determine cost (q for quit):
@@ -726,7 +731,7 @@ ship_mgr --> clerk_2
 >
 > One of the observations one might want to make in the previous
 > examples are that a lot of the client facing code has to differentiate
-> between the root node the tree and the rest of the children. For
+> between the root node of the tree and the rest of the children. For
 > example when searching for a match we have to check the root node
 > explicitly, then the sub-tree. Additionally when constructing the
 > treeview we also have to explicitly handle the root node, then recurse
@@ -735,4 +740,98 @@ ship_mgr --> clerk_2
 > that can forward onto the actual root in such a way that the entire
 > tree can be treated the same way
 
+### Intent of the Composite Pattern
+
+- The Composite pattern serves to allow us to construct a tree of
+  related classes via a common interface
+- In simple cases where we do not need to distinguish between leaves and
+  internal nodes we can sometimes use a single interface or class to
+  represent both
+  - For example in our implementation we distinguished between
+    `ManagingJobPosition` and `JobPosition`
+  - We might instead just have *one* type of job position, and let
+    anyone manage
+    - A managing job position is then denoted by having a non-empty list
+      of subordinates
+- In this case we don’t use exceptions to manage invalid calls on leaf
+  nodes
+  - leaf nodes can instead be dynamically promoted
+- In cases where the number of leaves is high, it can be better to
+  differentiate between the two to avoid the memory overhead with
+  managing an empty list for each node
+
+### Implementation Issues
+
+- The Composite pattern can have some subtle implementation issues
+
+#### Recursive Calls
+
+- Many times the most obvious way to implement a method on a composite
+  is via a recursive call
+- For performance reasons where possible it is generally preferable to
+  convert an explicitly recursive function call to something that
+  utilises a loop
+  - For example via a stack
+- Another issue with recursive routines can be ensuring that references
+  to the correct data structures or program state are properly set at
+  each level of the recursion
+  - For the example provided this is managed in two cases
+
+    1. When printing the hierarchy we have a recursively set `indent`
+        parameter which controls the indentation
+    2. When parsing the hierarchy into the treeview we pass the parent
+        row as a parameter
+        - We also always insert a row by appending it, rather than
+          manually maintaining an ordering
+- One potential avenue if we need to maintain more complex access to
+  state through a recursive call can be using something like an external
+  class which is used to maintain that state, some options for managing
+  this could be
+  - A singleton class (See [Chapter
+    8](../../II-Creational-Patterns/chapter-08/chapter-08.qmd))
+  - A static class
+  - A global or local object
+  - Class Attributes
+
+#### Ordering Components
+
+- Sometimes ordering can be important when returning results
+  - For example consider the standard different tree traversal orderings
+
+    1. Pre order
+    2. In order
+    3. Post order
+    4. Level order
+
+  - We might want orderings as well that are more specific to the data
+
+    - e.g. alphabetical
+- These orderings as such can be distinct from the actual ordering of
+  the tree
+  - In these cases we must do additional work to transform the composite
+    ordering into the desired target ordering
+
+#### Caching Results
+
+- A common technique with expensive function calls is to use
+  *memoisation* or *caching*
+  - This is common for recursive data structures and especially useful
+    in tree structures
+- As always there is a trade-off, caching may not be worth it if,
+  - If the underlying data changes frequently to invalidate the cache,
+    or
+  - The calculation is cheap and fast equivalent to the cost of storing
+    and retrieving the cache
+
 ## Summary
+
+- The Composite Pattern lets you build a tree of related classes
+  - The resulting structure combines simple objects and complex objects
+    into one common interface
+- The client can handle both objects without having to distinguish
+  between either type explicitly
+- Composites can allow for flexibility in adding new components through
+  a similar interface
+- A disadvantage to be wary of is making a composite overly general
+  - Can make it difficult to restrict classes or support specific
+    functionality
