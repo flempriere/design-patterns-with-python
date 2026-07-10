@@ -1,5 +1,5 @@
 ---
-title: "Chapter 15: The Facade Pattern"
+title: "Chapter 15: The Decorator Pattern"
 ---
 
 ## Notes
@@ -166,7 +166,7 @@ class Decorator(tk.ttk.Button):
  - Notice here our `__init__` method is doing simple forwarding from the provided arguments to the internal attributes
    - We can replicate this using a dataclass via
 
-  ```{python}
+   ```{python}
     import dataclasses
 
     @dataclasses.dataclass
@@ -177,7 +177,7 @@ class Decorator(tk.ttk.Button):
 
     employee = Employee("Alice", "Bob", 1)
     print(employee)
-  ```
+   ```
 
   - The dataclass handles defining the `__init__` as well as some other basic methods
     - Like here `__repr__` to provide the string printing
