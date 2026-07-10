@@ -10,7 +10,7 @@
 
 ## Notes
 
-- The bridge pattern appears superficially like that of the adapter
+- The **Bridge Pattern** appears superficially like that of the adapter
   pattern
   - In that we decouple an interface from a class that implements the
     interface
