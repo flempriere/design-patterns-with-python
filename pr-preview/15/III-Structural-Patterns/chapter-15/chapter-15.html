@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 15: The Facade Pattern – Python Programming with Design Patterns: Notes</title>
+<title>Chapter 15: The Decorator Pattern – Python Programming with Design Patterns: Notes</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -111,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
-<meta property="og:title" content="Chapter 15: The Facade Pattern – Python Programming with Design Patterns: Notes">
+<meta property="og:title" content="Chapter 15: The Decorator Pattern – Python Programming with Design Patterns: Notes">
 <meta property="og:image" content="Examples/01-decorated-button/flat.png">
 <meta property="og:site_name" content="Python Programming with Design Patterns: Notes">
 </head>
@@ -148,7 +148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/iii-structural-patterns.html">Part III: Structural Patterns</a></li><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/chapter-15/chapter-15.html">Chapter 15: The Facade Pattern</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/iii-structural-patterns.html">Part III: Structural Patterns</a></li><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/chapter-15/chapter-15.html">Chapter 15: The Decorator Pattern</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -280,7 +280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../III-Structural-Patterns/chapter-15/chapter-15.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Chapter 15: The Facade Pattern</span></a>
+ <span class="menu-text">Chapter 15: The Decorator Pattern</span></a>
   </div>
 </li>
       </ul>
@@ -309,9 +309,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/iii-structural-patterns.html">Part III: Structural Patterns</a></li><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/chapter-15/chapter-15.html">Chapter 15: The Facade Pattern</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/iii-structural-patterns.html">Part III: Structural Patterns</a></li><li class="breadcrumb-item"><a href="../../III-Structural-Patterns/chapter-15/chapter-15.html">Chapter 15: The Decorator Pattern</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Chapter 15: The Facade Pattern</h1>
+<h1 class="title">Chapter 15: The Decorator Pattern</h1>
 </div>
 
 
@@ -464,7 +464,7 @@ ConcreteDecorator --|&gt; Decorator
 <ul>
 <li>You should see that rather than referring to a new function for the decorated result we simply reference <code>f</code> as before</li>
 </ul>
-<div id="33af187c" class="cell" data-execution_count="1">
+<div id="1ee95de2" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> deco(func):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="co"># add an attribute to the function</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>      func.label <span class="op">=</span> <span class="st">"decorated"</span></span>
@@ -480,7 +480,7 @@ ConcreteDecorator --|&gt; Decorator
 </div>
 </div></li>
 <li><p>For a slightly more complex example, consider</p>
-<div id="533ff5b8" class="cell" data-execution_count="2">
+<div id="fd1d2f5c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> trace(func):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">def</span> wrapper(<span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>          <span class="bu">print</span>(<span class="st">"Before function call"</span>)</span>
@@ -527,27 +527,28 @@ After function call</code></pre>
 <li><p>Notice here our <code>__init__</code> method is doing simple forwarding from the provided arguments to the internal attributes</p>
 <ul>
 <li>We can replicate this using a dataclass via</li>
-</ul></li>
 </ul>
-<p>::: {#9eea7427 .cell execution_count=3} ``` {.python .cell-code} import dataclasses</p>
-<pre><code>@dataclasses.dataclass
-class Employee:
-    first_name : str
-    last_name : str
-    employee_number : int = 0
-
-employee = Employee("Alice", "Bob", 1)
-print(employee)</code></pre>
-<pre><code>
-::: {.cell-output .cell-output-stdout}</code></pre>
-<p>Employee(first_name=‘Alice’, last_name=‘Bob’, employee_number=1) ``` ::: :::</p>
-<ul>
-<li>The dataclass handles defining the <code>__init__</code> as well as some other basic methods
+<div id="502e2b49" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a> <span class="im">import</span> dataclasses</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a> <span class="at">@dataclasses.dataclass</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a> <span class="kw">class</span> Employee:</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>     first_name : <span class="bu">str</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>     last_name : <span class="bu">str</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>     employee_number : <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a> employee <span class="op">=</span> Employee(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="dv">1</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a> <span class="bu">print</span>(employee)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Employee(first_name='Alice', last_name='Bob', employee_number=1)</code></pre>
+</div>
+</div></li>
+<li><p>The dataclass handles defining the <code>__init__</code> as well as some other basic methods</p>
 <ul>
 <li>Like here <code>__repr__</code> to provide the string printing</li>
 </ul></li>
-<li>The one small difference, is that dataclass attributes are type-hinted</li>
-<li>Also note that the attributes are declared similar to how we would normally declare a class attribute
+<li><p>The one small difference, is that dataclass attributes are type-hinted</p></li>
+<li><p>Also note that the attributes are declared similar to how we would normally declare a class attribute</p>
 <ul>
 <li>They are still instance attributes</li>
 </ul></li>

@@ -1,4 +1,4 @@
-# Chapter 15: The Facade Pattern
+# Chapter 15: The Decorator Pattern
 
 
 - [Notes](#notes)
@@ -235,30 +235,31 @@ class Decorator(tk.ttk.Button):
 
   - We can replicate this using a dataclass via
 
-::: {.cell execution_count=3} \`\`\` {.python .cell-code} import
-dataclasses
+  ``` python
+   import dataclasses
 
-    @dataclasses.dataclass
-    class Employee:
-        first_name : str
-        last_name : str
-        employee_number : int = 0
+   @dataclasses.dataclass
+   class Employee:
+       first_name : str
+       last_name : str
+       employee_number : int = 0
 
-    employee = Employee("Alice", "Bob", 1)
-    print(employee)
+   employee = Employee("Alice", "Bob", 1)
+   print(employee)
+  ```
 
-
-    ::: {.cell-output .cell-output-stdout}
-
-Employee(first_name=‘Alice’, last_name=‘Bob’, employee_number=1) \`\`\`
-::: :::
+      Employee(first_name='Alice', last_name='Bob', employee_number=1)
 
 - The dataclass handles defining the `__init__` as well as some other
   basic methods
+
   - Like here `__repr__` to provide the string printing
+
 - The one small difference, is that dataclass attributes are type-hinted
+
 - Also note that the attributes are declared similar to how we would
   normally declare a class attribute
+
   - They are still instance attributes
 
 ### Decorators, Adapters, Composites
