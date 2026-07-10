@@ -1,6 +1,5 @@
 # Chapter 15: The Facade Pattern
 
-
 - [Notes](#notes)
   - [Decorating a Button](#decorating-a-button)
   - [Decorators in Python](#decorators-in-python)
@@ -21,9 +20,9 @@
 - Using a class-based approach we might need to implement a subclass for
   each subclass in the existing hierarchies implementing,
 
-  1.  The first behaviour
-  2.  The second behaviour
-  3.  Both behaviours
+  1. The first behaviour
+  2. The second behaviour
+  3. Both behaviours
 
 - This rapidly leads to a large number of additional classes
 
@@ -270,11 +269,11 @@ Employee(first_name=‘Alice’, last_name=‘Bob’, employee_number=1) \`\`\`
 
 - However, the difference here is intent
 
-  1.  An Adapter changes the interface of an existing class to match the
+  1. An Adapter changes the interface of an existing class to match the
       interface of a different class
-  2.  A Composite provides an interface that allows treating complex or
+  2. A Composite provides an interface that allows treating complex or
       simple objects the same
-  3.  The decorator *changes* or *adds* behaviour to an existing class
+  3. The decorator *changes* or *adds* behaviour to an existing class
       *without* changing it’s external facing interface
 
 ## Summary
@@ -287,8 +286,8 @@ Employee(first_name=‘Alice’, last_name=‘Bob’, employee_number=1) \`\`\`
 
 - The Decorator pattern can have downsides
 
-  1.  The decorator and the enclosed component are distinct
+  1. The decorator and the enclosed component are distinct
       - Object type specific tests can fail
-  2.  Overreliance on decorators can spread functionality out into many
+  2. Overreliance on decorators can spread functionality out into many
       small classes and increase the challenge associated with
       maintaining a system
