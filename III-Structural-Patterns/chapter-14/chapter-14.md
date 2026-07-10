@@ -1,6 +1,5 @@
 # Chapter 14: The Composite Pattern
 
-
 - [Notes](#notes)
   - [Implementing a Composite](#implementing-a-composite)
     - [Computing Salaries](#computing-salaries)
@@ -315,6 +314,7 @@ ship_mgr --> clerk_2
                     return found
             return None
     ```
+
 - The code for these classes is provided in the
   [employees.py](Examples/01-org-chart/employees.py) module
 
@@ -709,6 +709,7 @@ ship_mgr --> clerk_2
             self.frame, text="Display Report Chain", command=supervision_chain
         )
       ```
+
   - The full code can be found in
     [supervision_chain.py](Examples/02-report-chain/supervision_chain.py)
     and the correspondingly updated
