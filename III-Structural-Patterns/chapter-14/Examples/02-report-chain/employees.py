@@ -1,4 +1,7 @@
 """
+employees
+---------
+
 Library containing classes to manage an employment hierarchy
 
 Demonstrates the Composite Pattern
