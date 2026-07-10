@@ -53,6 +53,8 @@ Patterns](https://www.amazon.com.au/Python-Programming-Design-Patterns-Cooper/dp
   Pattern](III-Structural-Patterns/chapter-13/chapter-13.qmd)
 - [Chapter 14: The Composite
   Pattern](III-Structural-Patterns/chapter-14/chapter-14.qmd)
+- [Chapter 15: The Decorator
+  Pattern](III-Structural-Patterns/chapter-15/chapter-15.qmd)
 
 ### IV: Behavioural Patterns
 
