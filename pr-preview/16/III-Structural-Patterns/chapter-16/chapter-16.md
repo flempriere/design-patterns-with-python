@@ -1,0 +1,51 @@
+# Chapter 16: The Facade Pattern
+
+
+- [Notes](#notes)
+- [Summary](#summary)
+
+## Notes
+
+- As programs evolve or develop individual subsystem can get complex
+- Often the boundaries between these sub-systems only need to access a
+  reduced or simplified version of this interface
+- The **Facade Pattern** is a design pattern to formalise this concept
+  by using a class or interface to simplify the access to the subsystems
+  - There is typically a tradeoff between flexibility and ease of use
+  - Facades are therefore most useful when the interface between
+    components has started to solidify and is less likely to change
+- A common use case for example is handling database connections
+  - Typically while the interface is being matured the communication to
+    the database might be flexible and use database access primatives
+    like raw SQL queries
+  - Once the access pattern has matured and become consistent we might
+    want to mask the use of database primitives behind a higher level
+    function interface
+
+``` mermaid
+---
+title: "Database Access"
+---
+flowchart LR
+
+table_1["Table 1"]
+table_2["Table 2"]
+database["Database"]
+
+
+table_1 --- database
+table_2 --- database
+
+query@{ shape: stadium, label: "Query" }
+
+query-- queries --> database
+database-- returns --> query
+
+results["Results"]
+
+query --> results
+```
+
+- 
+
+## Summary
