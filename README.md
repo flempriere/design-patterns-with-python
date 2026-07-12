@@ -29,6 +29,7 @@ This repository contains notes and code examples from the book, [Python Programm
 - [Chapter 13: The Bridge Pattern](III-Structural-Patterns/chapter-13/chapter-13.md)
 - [Chapter 14: The Composite Pattern](III-Structural-Patterns/chapter-14/chapter-14.md)
 - [Chapter 15: The Decorator Pattern](III-Structural-Patterns/chapter-15/chapter-15.md)
+- [Chapter 16: The Facade Pattern](III-Structural-Patterns/chapter-16/chapter-16.md)
 
 ### IV: Behavioural Patterns
 
