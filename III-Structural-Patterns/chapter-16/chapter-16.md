@@ -1,6 +1,5 @@
 # Chapter 16: The Facade Pattern
 
-
 - [Notes](#notes)
 - [Summary](#summary)
 
@@ -46,6 +45,6 @@ results["Results"]
 query --> results
 ```
 
-- 
+-
 
 ## Summary
