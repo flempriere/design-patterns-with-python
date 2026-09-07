@@ -157,37 +157,38 @@ Swimmers o-- Swimmer
   - `parse_sex`
 
     ``` python
-      from typing import Literal
+    from typing import Literal
 
-      type Sex = Literal["M"] | Literal["F"] | Literal["U"]
+    type Sex = Literal["M"] | Literal["F"] | Literal["U"]
 
-      def parse_sex(raw_sex: str) -> Sex:
-          """
-          Parse a string into a Sex
 
-          Parameters
-          ----------
-          raw_sex : str
-              string representing the string to be parsed
+    def parse_sex(raw_sex: str) -> Sex:
+        """
+        Parse a string into a Sex
 
-          Returns
-          -------
-          Sex
-              The provided sex
+        Parameters
+        ----------
+        raw_sex : str
+            string representing the string to be parsed
 
-          Raises
-          ------
-          ValueError
-              raised if `sex` could not be converted to a `Sex`
-          """
-          raw_sex = raw_sex.upper()
-          if raw_sex not in ["M", "F", "U"]:
-              raise ValueError(
-                  "invalid sex encountered {sex}, accepted values are 'M', 'F', 'U' and lowercase equivalent"
-              )
-          else:
-              sex: Sex = raw_sex  # ty:ignore[invalid-assignment] previous check ensures, value is M, F or U
-              return sex
+        Returns
+        -------
+        Sex
+            The provided sex
+
+        Raises
+        ------
+        ValueError
+            raised if `sex` could not be converted to a `Sex`
+        """
+        raw_sex = raw_sex.upper()
+        if raw_sex not in ["M", "F", "U"]:
+            raise ValueError(
+                "invalid sex encountered {sex}, accepted values are 'M', 'F', 'U' and lowercase equivalent"
+            )
+        else:
+            sex: Sex = raw_sex  # ty:ignore[invalid-assignment] previous check ensures, value is M, F or U
+            return sex
     ```
 
 - Now we need to update the `Swimmer` class
@@ -273,6 +274,7 @@ Swimmers o-- Swimmer
             swimmers.sort(key=lambda x: x.sex)
             self.fill_list(self.right_list, swimmers)
 
+
         reference_button = tk.ttk.Button(self.root, text="Reference", command=reference)
         reference_button.grid(row=0, column=1)
         ```
@@ -283,16 +285,17 @@ Swimmers o-- Swimmer
         which *is* what we want
 
       ``` python
-        def copy() -> None:
-            """
-            Copy the swimmers list using `sorted`
-            then update the displayed right-hand list
-            """
-            swimmers = sorted(self.swimmers, key=lambda x: x.sex)
-            self.fill_list(self.right_list, swimmers)
+      def copy() -> None:
+          """
+          Copy the swimmers list using `sorted`
+          then update the displayed right-hand list
+          """
+          swimmers = sorted(self.swimmers, key=lambda x: x.sex)
+          self.fill_list(self.right_list, swimmers)
 
-        copy_button = tk.ttk.Button(self.root, text="Copy", command=copy)
-        copy_button.grid(row=1, column=1)
+
+      copy_button = tk.ttk.Button(self.root, text="Copy", command=copy)
+      copy_button.grid(row=1, column=1)
       ```
 
 - The full program can be found in
