@@ -14,7 +14,7 @@ Classes
 import datetime
 from typing import Literal
 
-type Sex = Literal["M"] | Literal["F"] | Literal["U"]
+type Sex = Literal["M", "F", "U"]
 
 
 def parse_time(timecode: str) -> datetime.time:
@@ -258,7 +258,5 @@ def load_swimmers(filename: str, delimiter=",") -> list[Swimmer]:
     """
     # extract swimmers from file, slicing off the initial "idx " substring
     with open(filename, "r") as f:
-        swimmers = [
-            Swimmer.from_string(line, delimiter=delimiter) for line in f.readlines()
-        ]
+        swimmers = [Swimmer.from_string(line, delimiter=delimiter) for line in f]
     return swimmers

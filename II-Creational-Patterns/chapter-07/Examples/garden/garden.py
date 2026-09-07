@@ -69,7 +69,6 @@ class Garden(abc.ABC):
         Plant
             A shade-loving plant
         """
-        pass
 
     @abc.abstractmethod
     def get_centre_plant(self) -> Plant:
@@ -82,7 +81,6 @@ class Garden(abc.ABC):
         Plant
             A centre-loving plant
         """
-        pass
 
     @abc.abstractmethod
     def get_border_plant(self) -> Plant:
@@ -95,7 +93,6 @@ class Garden(abc.ABC):
         Plant
             A border-loving plant
         """
-        pass
 
 
 class VegetableGarden(Garden):
