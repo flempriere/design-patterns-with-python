@@ -2,7 +2,7 @@
 Console-based Application for seeding swim events
 """
 
-from typing import Sequence
+from collections.abc import Sequence
 
 import swim_events
 

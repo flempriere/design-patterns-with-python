@@ -60,21 +60,23 @@ Component "1..*" <--* Composite : Children
     nodes e..g for an employee hierarchy
 
     ``` python
-        class Leaf:
+    class Leaf:
+        def name():
+            pass
 
-            def name():
-                pass
+        def salary():
+            pass
 
-            def salary():
-                pass
 
-        class InternalNode:
-            def subordinates():
-                pass
-            def add(self, employee):
-                pass
-            def get_child(self, name: str):
-                pass
+    class InternalNode:
+        def subordinates():
+            pass
+
+        def add(self, employee):
+            pass
+
+        def get_child(self, name: str):
+            pass
     ```
 
   - However, it is preferable to have one interface
@@ -501,9 +503,7 @@ ship_mgr --> clerk_2
             sales_mgr.add_direct_report(
                 employees.JobPosition(
                     f"Sales ({i})",
-                    salary=decimal.Decimal(
-                        30_000 + random.randint(0, SALARY_MAX_SHIFT)
-                    ),
+                    salary=decimal.Decimal(30_000 + random.randint(0, SALARY_MAX_SHIFT)),
                 )
             )
 
@@ -532,9 +532,7 @@ ship_mgr --> clerk_2
             production_mgr.add_direct_report(
                 employees.JobPosition(
                     f"Manufacturing ({i})",
-                    salary=decimal.Decimal(
-                        25_000 + random.randint(0, SALARY_MAX_SHIFT)
-                    ),
+                    salary=decimal.Decimal(25_000 + random.randint(0, SALARY_MAX_SHIFT)),
                 )
             )
 
@@ -542,9 +540,7 @@ ship_mgr --> clerk_2
             shipping_mgr.add_direct_report(
                 employees.JobPosition(
                     f"Clerk ({i})",
-                    salary=decimal.Decimal(
-                        20_000 + random.randint(0, SALARY_MAX_SHIFT)
-                    ),
+                    salary=decimal.Decimal(20_000 + random.randint(0, SALARY_MAX_SHIFT)),
                 )
             )
 
@@ -621,9 +617,7 @@ ship_mgr --> clerk_2
             if not subordinates:
                 return
             for sub_position in subordinates:
-                new_node = self.tree.insert(
-                    treeview_node, tk.END, text=sub_position.name
-                )
+                new_node = self.tree.insert(treeview_node, tk.END, text=sub_position.name)
                 traverse_org(new_node, sub_position)
 
         root_node = self.tree.insert("", index=tk.END, text=self.org_chart.name)
@@ -651,68 +645,68 @@ ship_mgr --> clerk_2
     - The relevant changes to the `JobPosition` class are
 
       ``` python
-        def __init__(
-            self, name: str, salary: decimal.Decimal, parent: JobPosition | None = None
-        ) -> None:
-            """
-            Create a new `JobPosition` with an associated name and salary
+      def __init__(
+          self, name: str, salary: decimal.Decimal, parent: JobPosition | None = None
+      ) -> None:
+          """
+          Create a new `JobPosition` with an associated name and salary
 
-            Parameters
-            ----------
-            name : str
-                The job title
-            salary : decimal.Decimal
-                Role's salary
-            parent : JobPosition | None, optional
-                Role's direct supervisor if it exists, by default None
-            """
-            self.name = name
-            self.salary = salary
-            self.parent = parent
+          Parameters
+          ----------
+          name : str
+              The job title
+          salary : decimal.Decimal
+              Role's salary
+          parent : JobPosition | None, optional
+              Role's direct supervisor if it exists, by default None
+          """
+          self.name = name
+          self.salary = salary
+          self.parent = parent
 
-        @property
-        def supervisor(self) -> JobPosition | None:
-            """
-            Job Position's direct supervisor
 
-            Returns
-            -------
-            JobPosition | None
-                Immediate supervisor if the position exists, else `None`
-            """
-            return self.parent
+      @property
+      def supervisor(self) -> JobPosition | None:
+          """
+          Job Position's direct supervisor
+
+          Returns
+          -------
+          JobPosition | None
+              Immediate supervisor if the position exists, else `None`
+          """
+          return self.parent
       ```
 
     - We can then provide a button in our UI for the user to query the
       report chain
 
       ``` python
-        def supervision_chain():
-            tree_focus = self.tree.focus()
-            tree_item = self.tree.item(tree_focus)
-            name = tree_item["text"]
+      def supervision_chain():
+          tree_focus = self.tree.focus()
+          tree_item = self.tree.item(tree_focus)
+          name = tree_item["text"]
 
-            if name == self.org_chart.name:
-                tk.messagebox.showinfo(
-                    title="Report Chain", message="No direct supervisor"
-                )
-                return
+          if name == self.org_chart.name:
+              tk.messagebox.showinfo(title="Report Chain", message="No direct supervisor")
+              return
 
-            chain = ""
-            position = self.org_chart.get_child(name)
-            while position:
-                chain += position.name + "\n"
-                position = position.supervisor
-            if chain:
-                tk.messagebox.showinfo(title="Report Chain", message=chain)
-            else:
-                tk.messagebox.showwarning(
-                    title="Position Missing", message="Position not fouund!"
-                )
+          chain = ""
+          position = self.org_chart.get_child(name)
+          while position:
+              chain += position.name + "\n"
+              position = position.supervisor
+          if chain:
+              tk.messagebox.showinfo(title="Report Chain", message=chain)
+          else:
+              tk.messagebox.showwarning(
+                  title="Position Missing", message="Position not fouund!"
+              )
 
-        supervision_button = tk.ttk.Button(
-            self.frame, text="Display Report Chain", command=supervision_chain
-        )
+
+      supervision_button = tk.ttk.Button(
+          self.frame, text="Display Report Chain", command=supervision_chain
+      )
       ```
 
   - The full code can be found in

@@ -46,14 +46,15 @@ print(value)
 ``` python
 class Employee:
     def __init__(self, first_name, last_name, salary):
-        self.id = -1 # placeholder value
+        self.id = -1  # placeholder value
         self.first_name = first_name
         self.last_name = last_name
-        self._salary  = salary
+        self._salary = salary
         self.benefits = 1000
 
     def get_salary(self):
         return self._salary
+
 
 alice = Employee("Alice", "A", 10_000)
 bob = Employee("Bob", "B", 8_000)
@@ -212,12 +213,15 @@ print("Dani's estimated salary is:", dani.get_salary())
 class Speaker:
     def invite_to_talk(self):
         print("Invited to talk...")
+
     def give_talk(self):
         print("Delivered the talk...")
+
 
 class PublicEmployee(Employee, Speaker):
     def __init__(self, first_name, last_name, salary):
         super().__init__(first_name, last_name, salary)
+
 
 emily = PublicEmployee("Emily", "E", 10_000)
 
@@ -253,12 +257,14 @@ print(f"emily got paid ${emily.get_salary()} last month")
 ``` python
 import tkinter
 
-class Rectangle():
+
+class Rectangle:
     def __init__(self, canvas: tkinter.Canvas):
         self.canvas = canvas
 
     def draw(self, x, y, width, height):
-        self.canvas.create_rectangle(x, y, x+w, y+w)
+        self.canvas.create_rectangle(x, y, x + w, y + w)
+
 
 class Square(Rectangle):
     def __init__(self, canvas):
@@ -266,6 +272,7 @@ class Square(Rectangle):
 
     def draw(self, x, y, w):
         super().draw(x, y, w, w)
+
 
 def main():
     root = tkinter.Tk()
@@ -276,6 +283,7 @@ def main():
 
     square = Square(canvas)
     square.draw(200, 50, 60)
+
 
 if __name__ == "__main__":
     main()

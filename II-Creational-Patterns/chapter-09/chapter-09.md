@@ -164,60 +164,60 @@ classDiagram
 
     ``` python
     class MultiChoiceWidget(abc.ABC):
-      """
-      Abstract widget that allows the user to select multiple options from a collection
+        """
+        Abstract widget that allows the user to select multiple options from a collection
 
-      Once instantiated the UI must be constructed via the `make_ui` method.
-      Subclasses should override the `make_ui` and `get_selected` methods.
+        Once instantiated the UI must be constructed via the `make_ui` method.
+        Subclasses should override the `make_ui` and `get_selected` methods.
 
-      Parameters
-      ----------
-      frame
-          parent widget
-      choices : Sequence[str]
-          options that can be selected
-      """
+        Parameters
+        ----------
+        frame
+            parent widget
+        choices : Sequence[str]
+            options that can be selected
+        """
 
-      def __init__(self, frame, choices: Sequence[str]) -> None:
-          """
-          Construct a new MultiChoiceWidget for the given choices
+        def __init__(self, frame, choices: Sequence[str]) -> None:
+            """
+            Construct a new MultiChoiceWidget for the given choices
 
-          Parameters
-          ----------
-          frame :
-              parent widget
+            Parameters
+            ----------
+            frame :
+                parent widget
 
-          choices : Sequence[str]
-              choices to add to this widget
-          """
-          self.choices = choices
-          self.frame = frame
+            choices : Sequence[str]
+                choices to add to this widget
+            """
+            self.choices = choices
+            self.frame = frame
 
-      @abc.abstractmethod
-      def make_ui(self) -> None:
-          """
-          Construct the Widget
-          """
-          pass
+        @abc.abstractmethod
+        def make_ui(self) -> None:
+            """
+            Construct the Widget
+            """
+            pass
 
-      @abc.abstractmethod
-      def get_selected(self) -> Sequence[str]:
-          """
-          Retrieve the currently selected elements
+        @abc.abstractmethod
+        def get_selected(self) -> Sequence[str]:
+            """
+            Retrieve the currently selected elements
 
-          Returns
-          -------
-          Sequence[str]
-              The currently selected choices
-          """
-          pass
+            Returns
+            -------
+            Sequence[str]
+                The currently selected choices
+            """
+            pass
 
-      def clear_all(self) -> None:
-          """
-          Delete the current widget from the screen
-          """
-          for widget in self.frame.winfo_children():
-              widget.destroy()
+        def clear_all(self) -> None:
+            """
+            Delete the current widget from the screen
+            """
+            for widget in self.frame.winfo_children():
+                widget.destroy()
     ```
 
 - We then make two concrete implementations
@@ -385,6 +385,7 @@ classDiagram
         show_button = tk.ttk.Button(self.root, text="Show", command=show_selected)
         show_button.grid(row=1, column=0, columnspan=2)
 
+
     def selection_changed(self, event) -> None:
         """
         Callback function for when the selected securities category has changed
@@ -427,18 +428,19 @@ classDiagram
   - Brings up a message box displaying the selected entities
 
   ``` python
-    def show_selected() -> None:
-        """
-        Display the currently selected options
+  def show_selected() -> None:
+      """
+      Display the currently selected options
 
-        Invokes a Messagebox
-        """
-        securities = self.choice_ui.get_selected()
-        text = "\n".join(securities)
-        tk.messagebox.showinfo(title="Selected securities", message=text)
+      Invokes a Messagebox
+      """
+      securities = self.choice_ui.get_selected()
+      text = "\n".join(securities)
+      tk.messagebox.showinfo(title="Selected securities", message=text)
 
-    show_button = tk.ttk.Button(self.root, text="Show", command=show_selected)
-    show_button.grid(row=1, column=0, columnspan=2)
+
+  show_button = tk.ttk.Button(self.root, text="Show", command=show_selected)
+  show_button.grid(row=1, column=0, columnspan=2)
   ```
 
 - The final program can be seen in

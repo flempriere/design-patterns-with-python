@@ -244,29 +244,30 @@ Implementer1 --|> Implementer
   bridge interface to work with the `Display`
 
   ``` python
-    class DisplayBridge(Bridge):
-        """
-        Concrete implementation of the Bridge connecting it to a display
+  class DisplayBridge(Bridge):
+      """
+      Concrete implementation of the Bridge connecting it to a display
 
-        Attributes
-        ----------
-        display
-            the display being bridged
-        """
-        def __init__(self, display: Display) -> None:
-            """
-            Create a new `DisplayBridge` instance
+      Attributes
+      ----------
+      display
+          the display being bridged
+      """
 
-            Parameters
-            ----------
-            display : Display
-                the display to bridge
-            """
-            self.display = display
-            self.display.pack()
+      def __init__(self, display: Display) -> None:
+          """
+          Create a new `DisplayBridge` instance
 
-        def add_data(self, products: Sequence[Product]) -> None:
-            self.display.add_lines(products)
+          Parameters
+          ----------
+          display : Display
+              the display to bridge
+          """
+          self.display = display
+          self.display.pack()
+
+      def add_data(self, products: Sequence[Product]) -> None:
+          self.display.add_lines(products)
   ```
 
 ### Creating the User Interface
