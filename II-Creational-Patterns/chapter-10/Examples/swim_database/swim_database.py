@@ -6,7 +6,7 @@ in different formats without modifying the original
 
 import tkinter as tk
 import tkinter.ttk
-from typing import Sequence
+from collections.abc import Sequence
 
 import swimmer
 

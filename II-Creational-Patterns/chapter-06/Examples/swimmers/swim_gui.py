@@ -5,7 +5,7 @@ GUI-based application for seeding swim events
 import tkinter as tk
 import tkinter.messagebox
 import tkinter.ttk
-from typing import Iterable
+from collections.abc import Iterable
 
 import swim_events
 
