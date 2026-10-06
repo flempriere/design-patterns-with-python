@@ -1,6 +1,6 @@
 import tkinter as tk
 import tkinter.messagebox
-import tkinter.ttk as ttk
+from tkinter import ttk
 
 # Set up the window
 root = tk.Tk()

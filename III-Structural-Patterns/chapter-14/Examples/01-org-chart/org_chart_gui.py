@@ -52,7 +52,7 @@ class UIBuilder:
         marketing_vp.add_direct_report(marketing_mgr)
 
         SALARY_MAX_SHIFT = 10_000
-        for i in range(0, 3):
+        for i in range(3):
             sales_mgr.add_direct_report(
                 employees.JobPosition(
                     f"Sales ({i})",
@@ -83,7 +83,7 @@ class UIBuilder:
         production_vp.add_direct_report(production_mgr)
         production_vp.add_direct_report(shipping_mgr)
 
-        for i in range(0, 4):
+        for i in range(4):
             production_mgr.add_direct_report(
                 employees.JobPosition(
                     f"Manufacturing ({i})",
@@ -93,7 +93,7 @@ class UIBuilder:
                 )
             )
 
-        for i in range(0, 4):
+        for i in range(4):
             shipping_mgr.add_direct_report(
                 employees.JobPosition(
                     f"Clerk ({i})",

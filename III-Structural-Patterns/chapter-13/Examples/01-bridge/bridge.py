@@ -23,7 +23,7 @@ Classes
 import abc
 import tkinter as tk
 import tkinter.ttk
-from typing import Sequence
+from collections.abc import Sequence
 
 
 class Product:
@@ -94,7 +94,7 @@ def parse_products_from_file(file: str) -> Sequence[Product]:
         Products parsed from the file
     """
     with open(file) as file_stream:
-        products = [Product.from_string(line) for line in file_stream.readlines()]
+        products = [Product.from_string(line) for line in file_stream]
     return products
 
 
@@ -108,7 +108,6 @@ class Bridge(tk.ttk.Frame):
         """
         Add data to a display
         """
-        pass
 
 
 class Display(tk.Widget):
@@ -126,7 +125,6 @@ class Display(tk.Widget):
         lines : Sequence[Product]
             lines to add
         """
-        pass
 
 
 class ListBoxDisplay(Display, tk.Listbox):

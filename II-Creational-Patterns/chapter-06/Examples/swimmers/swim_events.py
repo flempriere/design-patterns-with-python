@@ -24,7 +24,8 @@ Classes
 import abc
 import datetime
 import itertools
-from typing import Sequence, override
+from collections.abc import Sequence
+from typing import override
 
 
 def parse_time(timecode: str) -> datetime.time:
@@ -216,7 +217,6 @@ class Event(abc.ABC):
         Seeding
             The seeding methodology to be used for the event
         """
-        pass
 
 
 class PreliminaryEvent(Event):
@@ -277,7 +277,6 @@ class Seeding(abc.ABC):
         attribute assigned after `seed` is called. A `(heat, lane)` pair
         must be unique
         """
-        pass
 
 
 class StraightSeeding(Seeding):
@@ -424,6 +423,6 @@ def load_swimmers(filename: str, delimiter=" ") -> list[Swimmer]:
     with open(filename, "r") as f:
         swimmers = [
             Swimmer.from_string(line.partition(" ")[2], delimiter=delimiter)
-            for line in f.readlines()
+            for line in f
         ]
     return swimmers

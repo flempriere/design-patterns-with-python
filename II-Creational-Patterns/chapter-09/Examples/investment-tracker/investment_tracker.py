@@ -7,7 +7,8 @@ import abc
 import tkinter as tk
 import tkinter.messagebox
 import tkinter.ttk
-from typing import Sequence, override
+from collections.abc import Sequence
+from typing import override
 
 
 class MultiChoiceWidget(abc.ABC):
@@ -45,7 +46,6 @@ class MultiChoiceWidget(abc.ABC):
         """
         Construct the Widget
         """
-        pass
 
     @abc.abstractmethod
     def get_selected(self) -> Sequence[str]:
@@ -57,7 +57,6 @@ class MultiChoiceWidget(abc.ABC):
         Sequence[str]
             The currently selected choices
         """
-        pass
 
     def clear_all(self) -> None:
         """
