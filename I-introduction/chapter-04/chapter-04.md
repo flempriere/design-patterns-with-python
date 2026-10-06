@@ -175,16 +175,17 @@ flowchart LR
         - `pass` is a placeholder statement that does nothing
 
         ``` python
-         import tkinter as tk
+        import tkinter as tk
 
-         class DButton(tk.Button):
-             def __init__(self, master, **kwargs):
-                 super().__init__(master, **kwargs)
-                 super().config(command=sel)
 
-             # Abstract method
-             def command(self):
-                 pass
+        class DButton(tk.Button):
+            def __init__(self, master, **kwargs):
+                super().__init__(master, **kwargs)
+                super().config(command=sel)
+
+            # Abstract method
+            def command(self):
+                pass
         ```
 
       - Python also provides more formal mechanisms for abstract classes
