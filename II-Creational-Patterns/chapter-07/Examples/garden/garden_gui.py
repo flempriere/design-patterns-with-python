@@ -44,7 +44,6 @@ class DerivedButton(tk.ttk.Button):
         """
         The callback to be executed the button is clicked
         """
-        pass
 
 
 class ShadeButton(DerivedButton):
