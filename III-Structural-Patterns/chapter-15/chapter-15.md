@@ -162,16 +162,18 @@ class Decorator(tk.ttk.Button):
     decorated result we simply reference `f` as before
 
   ``` python
-    def deco(func):
-        # add an attribute to the function
-        func.label = "decorated"
-        return func
+  def deco(func):
+      # add an attribute to the function
+      func.label = "decorated"
+      return func
 
-    @deco
-    def f():
-        pass
 
-    print(f.label)
+  @deco
+  def f():
+      pass
+
+
+  print(f.label)
   ```
 
       decorated
@@ -179,18 +181,21 @@ class Decorator(tk.ttk.Button):
 - For a slightly more complex example, consider
 
   ``` python
-    def trace(func):
-        def wrapper(*args, **kwargs):
-            print("Before function call")
-            func(*args, **kwargs)
-            print("After function call")
-        return wrapper
+  def trace(func):
+      def wrapper(*args, **kwargs):
+          print("Before function call")
+          func(*args, **kwargs)
+          print("After function call")
 
-    @trace
-    def hello_world():
-        print("Hello, World!")
+      return wrapper
 
-    hello_world()
+
+  @trace
+  def hello_world():
+      print("Hello, World!")
+
+
+  hello_world()
   ```
 
       Before function call
@@ -222,11 +227,11 @@ class Decorator(tk.ttk.Button):
   write it as
 
   ``` python
-    class Employee:
-        def __init__(self, first_name, last_name, employee_number = 0):
-            self.first_name = first_name
-            self.last_name = last_name
-            self.employee_number = employee_number
+  class Employee:
+      def __init__(self, first_name, last_name, employee_number=0):
+          self.first_name = first_name
+          self.last_name = last_name
+          self.employee_number = employee_number
   ```
 
 - Notice here our `__init__` method is doing simple forwarding from the
@@ -235,16 +240,18 @@ class Decorator(tk.ttk.Button):
   - We can replicate this using a dataclass via
 
   ``` python
-   import dataclasses
+  import dataclasses
 
-   @dataclasses.dataclass
-   class Employee:
-       first_name : str
-       last_name : str
-       employee_number : int = 0
 
-   employee = Employee("Alice", "Bob", 1)
-   print(employee)
+  @dataclasses.dataclass
+  class Employee:
+      first_name: str
+      last_name: str
+      employee_number: int = 0
+
+
+  employee = Employee("Alice", "Bob", 1)
+  print(employee)
   ```
 
       Employee(first_name='Alice', last_name='Bob', employee_number=1)
