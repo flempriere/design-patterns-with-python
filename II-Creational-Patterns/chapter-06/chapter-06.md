@@ -236,34 +236,36 @@ classDiagram
     string representing a seed time into an actual `datetime.time`
 
     ``` python
-        import datetime
+    import datetime
 
-        def parse_time(timecode: str) -> datetime.time:
-            """Parse a seed timecode to a time
 
-            Parameters
-            ----------
-            timecode : str
-                seed time represented in either `%M:%S.%f` or `%S.%f` ISO format
+    def parse_time(timecode: str) -> datetime.time:
+        """Parse a seed timecode to a time
 
-            Returns
-            -------
-            `datetime.time`
-                time corresponding to the provided time code
+        Parameters
+        ----------
+        timecode : str
+            seed time represented in either `%M:%S.%f` or `%S.%f` ISO format
 
-            Raises
-            ------
-            ValueError
-                Raised if `timecode` is not in a supported format
-            """
-            try:
-                time = datetime.time.strptime(timecode, "%M:%S.%f")
-            except ValueError:
-                time = datetime.time.strptime(timecode, "%S.%f")
-            return time
+        Returns
+        -------
+        `datetime.time`
+            time corresponding to the provided time code
 
-        print("%M:%S.%f type time:", parse_time("30:30.5"))
-        print("%S.%f type time:", parse_time("30.5"))
+        Raises
+        ------
+        ValueError
+            Raised if `timecode` is not in a supported format
+        """
+        try:
+            time = datetime.time.strptime(timecode, "%M:%S.%f")
+        except ValueError:
+            time = datetime.time.strptime(timecode, "%S.%f")
+        return time
+
+
+    print("%M:%S.%f type time:", parse_time("30:30.5"))
+    print("%S.%f type time:", parse_time("30.5"))
     ```
 
         %M:%S.%f type time: 00:30:30.500000

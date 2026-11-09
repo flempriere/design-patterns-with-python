@@ -45,9 +45,11 @@ from tkinter import messagebox
 root = tk.Tk()
 root.geometry("100x300+300+300")
 
+
 # Write a slogan out to a message box
 def display_slogan():
     messagebox.showinfo("Our Message", "Tkinter is easy to use")
+
 
 # create a button to call the message
 slogan = tk.Button(root, text="Hello", command=display_slogan)
@@ -133,6 +135,7 @@ quit_button.pack(side=tk.RIGHT, padx=10)
 ``` python
 import tkinter as tk
 
+
 class DerivedButton(tk.Button):
     def __init__(self, root, **kwargs):
         super().__init__(root, **kwargs)
@@ -150,12 +153,14 @@ class DerivedButton(tk.Button):
 ``` python
 from tkinter import messagebox
 
+
 class OKButton(DerivedButton):
     def __init__(self, root):
         super().__init__(root, text="OK")
 
     def command(self):
         messagebox.showinfo("Our Message", "Tkinter is easy to use")
+
 
 class QuitButton(DerivedButton):
     def __init__(self, root):

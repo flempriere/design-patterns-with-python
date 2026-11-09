@@ -13,7 +13,7 @@ class Square(Rectangle):
     def __init__(self, canvas: tkinter.Canvas):
         super().__init__(canvas)
 
-    def draw(self, x: int | float, y: int | float, width: int | float):  # ty:ignore[invalid-method-override]
+    def draw(self, x: float, y: float, width: float):  # ty:ignore[invalid-method-override]
         super().draw(x, y, width, width)
 
 

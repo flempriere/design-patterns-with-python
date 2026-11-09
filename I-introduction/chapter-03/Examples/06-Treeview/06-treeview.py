@@ -2,7 +2,7 @@ import csv
 import dataclasses
 import tkinter as tk
 import tkinter.ttk
-from typing import Iterator
+from collections.abc import Iterator
 
 
 def generate_csv(file_path) -> Iterator[tuple[str, ...]]:
