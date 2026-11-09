@@ -29,8 +29,6 @@ class EmployeeException(Exception):
     Base Exception for the employees module
     """
 
-    pass
-
 
 class JobPosition:
     """

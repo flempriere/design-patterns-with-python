@@ -19,8 +19,6 @@ class SingletonException(Exception):
     of a singleton
     """
 
-    pass
-
 
 class Singleton:
     """
