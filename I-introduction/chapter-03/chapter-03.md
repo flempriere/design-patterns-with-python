@@ -195,7 +195,8 @@ print("\n".join([str(state) for state in states._states]))
 ``` python
 import tkinter as tk
 
-class UIBuilder():
+
+class UIBuilder:
     def __init__(self, root, states_list):
         self.states = states_list
         self.listbox = tk.Listbox(root, selectmode=tk.SINGLE)
